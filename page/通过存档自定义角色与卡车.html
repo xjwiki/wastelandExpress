@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-cmn-hans">
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<script src="../static/cj/xj.plugins.setting.js?ver=2022-12-16T05:16:20UTC+8"></script>
+
+<meta name="viewport" xj-viewport="{minWidth:400, }" content="width=device-width,initial-scale=1" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.viewport@0.3.2/dist/xj.viewport.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.storage@0.2.2/dist/xj.storage.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.operate@0.6.0/dist/xj.operate.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.js"></script>
+
+<link rel="stylesheet" href="../static/plugin/xj.base/0.4.0/dist/xj.base.min.css" />
+<script src="../static/plugin/xj.base/0.4.0/dist/xj.base.min.js"></script>
+
+<script>document.addEventListener('DOMContentLoaded', function( ){ FastClick.attach(document.body) }, false);</script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+<link id="prism-theme-white" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-material-light.min.css" />
+<link id="prism-theme-black" rel="alternate stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/themes/prism-okaidia.min.css" />
+<script data-manual="prevent prism auto highlighted pre or code" src="https://cdn.jsdelivr.net/npm/prismjs@1.25.0/prism.min.js"></script>
+
+<link rel="stylesheet" href="../static/plugin/xjDemo/0.1.0/dist/xjDemo.min.css" />
+<script src="../static/plugin/xjDemo/0.1.0/dist/xjDemo.min.js"></script>
+
+<title>通过存档自定义角色与卡车</title>
+</head>
+<body>
+
+
+
+<main>
+	
+<h1><a href="../index.html"><i class="fas fa-truck-arrow-right fa-flip-horizontal" style="position:relative;top:2px;"></i><span> 返回首页</span></a> > 通过存档自定义角色与卡车</h1>
+	
+<p>不少玩家都在群里反馈，想要自定义角色或卡车，最起码希望能够在选择角色的时候 Roll 点和选择天赋，但目前游戏尚提供这些功能，因此 XJ 教你一个稍微曲折但确实能实现该功能的做法 —— 那就是直接修改存档，值得一提是，即使未来游戏提供自定义功能了，修改存档也还是很有价值的，例如说你想要某个特定的特质，但又不想 SL 浪费时间…</p>
+
+<hr />
+<h2>存档位置</h2>
+
+<p>
+游戏的存档一般被保存在以下文件夹中：<br />
+<code>C:\Users\用户名\AppData\LocalLow\NeutronStar\WastelandExpress</code><br />
+</p>
+
+<p>如果实在找不到，那么在 <code>C</code> 盘直接搜索 <code>NeutronStar</code> 也行，就是会慢点（几十秒甚至几分钟），在到达目标文件夹后，你就能看到一些 JSON 文件，这些就是存档了，JSON 是一种轻型的数据存储模式，文本都是未经压缩的明文内容，因此修改起来也十分方便，<b>注意：修改存档之前，先复制一份存档到别的位置进行备份，以免修改失败导致烂档！</b>推荐使用 Notepad++ 等文本编辑工具打开这些 JSON 文件，因为有代码高亮，方便进行查看和编辑，但如果实在没有或懒得安装，那直接用系统自带的 TXT 文档编辑器打开也行。</p>
+
+<hr />
+<h2>修改角色</h2>
+
+<p>假设以“冒险家”开局，就是那个孤僻的同性恋还独狼且惹是生非的冒险家，可直接搜索 <code>冒险家</code> 三个字（如果使用了主角模式，那么她的名字会变成 <code>你</code>），在 JSON 文件中搜索将会有两个结果，其中一个是她目前正在你队伍中的信息，另一个则是她的各项属性和装备能力等，以下是各项能力的注释，修改数值之后，保存文件再读取该存档即可：</p>
+
+<textarea class="xjDemo" xjDemo="{onlySource:true, lang:'js', }">
+…
+"Battle": 36,			# 近战能力（此处的数值是受到装备和宠物影响后的结果）
+"Body": 7,				# 身体素质（影响开车疲劳度，是受到装备影响后的结果）
+"Defence": 8,			# 防御力（会受到装备的影响）
+"Attention": 25,		# 注意力（会受到装备的影响）
+"Body2": 9,				# 食量（会受到宠物的影响）
+"Eloquence": 50,		# 口才（会受到装备的影响）
+"Craft": 8,				# 手工（会受到装备的影响）
+"Intelligence": 20,		# 智力
+"Morality": 25,			# 道德
+"Cook": 4,				# 烹饪
+"Farm": 10,				# 种植（会受到装备的影响）
+"Cultivation": 18,		# 养殖（会受到装备的影响）
+"Hunt": 12,				# 狩猎（会受到装备的影响）
+"Fishing": 12,			# 钓鱼（会受到装备的影响）
+"Collect": 10,			# 采集（会受到装备的影响）
+"Charm": 7,				# 魅力（会受到装备的影响）
+"Shoot": 4,				# 每轮射击的弹药数（受枪械装备影响，不建议在此处修改）
+"Accuracy": 145,		# 射击的命中率（受枪械等装备影响，不建议在此处修改）
+"Damage": 4,			# 子弹伤害（受枪械等装备影响，不建议在此处修改）
+"Name": "冒险家",		# 角色的名称，可能引发一些奇怪的问题，不建议修改
+"ImageId": "61",		# 角色的头像，此处尚无法实现外链图，不建议修改
+…
+</textarea>
+
+<p>修改完这个角色的属性能力后，可稍微把文档往上滚动一下，就能看到这个角色的特质代码了，就是那些“孤僻”和“同性恋”和“惹是生非”等特质内容，这部分的代码是这个样的：</p>
+
+<textarea class="xjDemo" xjDemo="{onlySource:true, lang:'js', }">
+…
+"56": {
+	"ID": 56,
+	"Buffid": 7057,
+	"Name": "惹是生非",
+	"Description": "进入酒馆会有概率被赶出来",
+	"Positive": -1,
+	"Group": 19
+},
+"39": {
+	"ID": 39,
+	"Buffid": 7040,
+	"Name": "同性恋",
+	"Description": "只能和同性别寻欢作乐，且可以半价",
+	"Positive": 1,
+	"Group": 11
+}
+…
+</textarea>
+
+<p>如果你不想要“同性恋”这个特质，那么直接把 <code>"39": {…}</code> 这一整段(包括双引号和数字和冒号和后面整个大括号以及括号里的内容)删掉就行，<b>注意：最后一个特质的右侧大括号“<code>}</code>”不能带半角的”<code>,</code>”逗号</b>，如果带了逗号，JSON 文件可能会解析失败，存档可能就无法正常运行了，也就是说如果删除的这个“同性恋”特质是最后一个特质，那么现在“惹是生非”这个特质就变成了最后一个特质，那么“惹是生非”最后的右侧大括号“<code>}</code>”后面就不能带半角的“<code>,</code>”逗号，总之，修改的时候注意保持格式，否则文件可能无法被解析。</p>
+
+<p>如果需要“嗜血”或“赛车手”等特质，在存档中直接搜索，然后把别的角色身上的特质代码复制一份过来，粘贴到冒险家特质的栏位中就行了，之后保存文件，在游戏中读取即可，修改装备也是一样的道理，在特质上方就是装备了，可做出一件传奇装备后，通过复制的方法给所有角色都装备上，但这就有点耍无赖了，有兴趣自行研究吧，这里就不展示了。</p>
+
+<hr />
+<h2>修改卡车</h2>
+
+<p>最后说说卡车的数据，先查看一下你选的卡车的载重量是多少，例如你选择了重型卡车，那么初始载重量就是30000，那么你就直接搜索30000这个数值，找到类似下面的代码：</p>
+
+<textarea class="xjDemo" xjDemo="{onlySource:true, lang:'js', }">
+…
+"_autoMain": {
+	"FightValue": 139,				# 队伍的近战能力
+	"Speed": 70.0,					# 当前速度（这是升级后的速度）
+	"Load": 41000,					# 载重量（受拖车和卡车升级的影响，搜索这个来定位）
+	"AutoTires": [],				# 十个轮子的单独数据
+	"engine": {						# 引擎
+		"EnginePower": 8,			# 马力
+		"EngineBreakDown": false,	# 引擎是否故障
+		"EngineDurable": 0,			# 引擎耐久度？
+		"EngineOverweight": 0,		# 超重
+		"OilConsumptio": 17			# 油耗
+		"_oilConsumptio": 17,		# 油耗？
+	},
+	"Burden": 0,					# ？
+	"_durable": 125,				# ？
+	"Power": 8.0,					# 当前的马力
+	"Comfort": 6,					# 当前舒适度
+	"SumWeight": 36747,				# 当前载重量
+	"_maxDurable": 125,				# 最大耐久度
+	"TirePlus": 50,					# 改造所增加的轮胎耐久度
+	"PeoplePlus": 2,				# 改造所增加的座位量？
+	"PartsNumPlus": 2,				# 改造所增加的座位数量
+	"DamagePlus": 0,				# 伤害增加
+	"_buffEffect": {},				# 受到天气和地形的影响
+	"MaxPeople": 2,					# 初始最大载人数量
+	"Durable": 125,					# 当前的耐久度
+	"MaxDurable": 125				# 最大的耐久度
+}
+…
+</textarea>
+
+<p>XJ 只修改过马力，也就是 <code>"EnginePower": 8,</code> 和 <code>"Power": 8.0,</code>（因为不知道这两项属性究竟有什么区别，所以就一起改了），因为之前的版本有 BUG，XJ 等不及开发团队修复，就自己动手了，总而言之，不懂的数据就自己尝试，存档有备份就行，<b>注意不要一次性修改太多东西，否则出错了你也不知道是哪里的改动不对</b>，那么就先说这么多吧。</p>
+
+<hr />
+
+<p>
+驾驶不规范，丧尸乐开花。<br />
+废土狂飙有风险，请注意交通安全。<br />
+</p>
+
+</main>
+
+
+
+<style>
+body{font-family:Iosevka,Menlo,Consolas,"Hiragino Sans GB","Microsoft YaHei",Monospace;}
+
+main{margin:0 auto;padding:16px;width:1280px;}
+</style>
+
+
+
+</body>
+</html>
+
+

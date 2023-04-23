@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-cmn-hans">
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<script src="../static/cj/xj.plugins.setting.js?ver=2022-12-16T05:16:20UTC+8"></script>
+
+<meta name="viewport" xj-viewport="{minWidth:400, }" content="width=device-width,initial-scale=1" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.viewport@0.3.2/dist/xj.viewport.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.storage@0.2.2/dist/xj.storage.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.operate@0.6.0/dist/xj.operate.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.js"></script>
+
+<link rel="stylesheet" href="../static/plugin/xj.base/0.4.0/dist/xj.base.min.css" />
+<script src="../static/plugin/xj.base/0.4.0/dist/xj.base.min.js"></script>
+
+<script>document.addEventListener('DOMContentLoaded', function( ){ FastClick.attach(document.body) }, false);</script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+<title>角色列表</title>
+</head>
+<body>
+
+
+
+<main>
+	
+	<h1><a href="../index.html"><i class="fas fa-truck-arrow-right fa-flip-horizontal" style="position:relative;top:2px;"></i><span> 返回首页</span></a> > 角色列表</h1>
+	
+	<p>
+		01、派系：-1=无派系 | 0=雷雨城联盟 | 1=联合都市 | 2=商会 | 3=军事区 | 4=首都圈 | 5=恶狼帮。<br />
+		02、口味：1=咸 | 2=甜 | 角色如果食用喜好口味的食物可多 -20 的压力值。<br />
+		03、随机特质：0=无 | 1=有 | 角色是否拥有随机特质。<br />
+		04、初始特质：详情查阅 <a target="_blank" href="./特质列表.html">特质列表.html</a>。<br />
+		05、工人、饲养员、农民：这些角色可用于填补自建城的各种岗位，他们可在酒馆招募到 - 招募劳工。<br />
+	</p>
+	
+	<table id="powerTable" class="powerTable table-hover table-striped">
+		<thead>
+			<tr>
+				<th sorttype="string" style="width:auto;"><span style="width:16px;">头像</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="string" style="width:50px;"><span style="width:16px;">姓名</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">编号</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">战力</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">体质</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">食量</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">防御</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">注意</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">口才</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">手工</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">智力</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">道德</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">耕作</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">烹饪</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">饲养</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">钓鱼</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">采集</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">狩猎</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">魅力</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">性别</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">口味</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:16px;">派系</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<!-- Safari(MacOS) 渲染两个宽度为 16px 的文字，容器却需要 33px 宽度才能放得下，这也可能是虚拟机渲染的问题，所以这里用 white-space:nowrap 禁止换行来解决错误 -->
+				<th sorttype="number" style="width:auto;"><span style="width:32px;white-space:nowrap">招募<br />花费</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:32px;white-space:nowrap">初始<br />特质</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="number" style="width:auto;"><span style="width:32px;white-space:nowrap">随机<br />特质</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+				<th sorttype="string" style="width:auto;"><span style="width:32px;white-space:nowrap">角色<br />备注</span><br /><i class="icon far fa-solid fa-sort"></i></th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	
+</main>
+
+
+
+<style>
+body{font-family:Iosevka,Menlo,Consolas,"Hiragino Sans GB","Microsoft YaHei",Monospace;}
+
+main{margin:0 auto;padding:16px;width:1280px;}
+
+/* IE11- 和 Edge15- 完全不支持 sticky 属性 */
+/* Safari V12.1- 的 sticky 属性值需要添加 -webkit- 前缀 */
+/* Chrome V56~90 和 Edge V16~18，只支持 th 标签实现 sticky 属性值定位 */
+.powerTable{width:1248px;}
+.powerTable thead th{position:-webkit-sticky;position:sticky;top:0;padding-bottom:10px;background-color:#fff;cursor:pointer;}
+.powerTable thead th:before{position:absolute;bottom:-1px;left:0;width:100%;height:3px;background-color:#ccc;content:"";}
+.powerTable thead th:after{position:absolute;top:-1px;left:0;width:100%;height:1px;background-color:#ccc;content:"";}
+.powerTable thead th .icon{margin-left:2px;color:#ccc;}
+.powerTable thead th span{display:inline-block;vertical-align:middle;}
+.powerTable thead th .fa-sort-down, .powerTable thead th .fa-sort-up{color:#39f;}
+.powerTable tbody td{vertical-align:middle;}
+
+/* Firefox 的 table 使用 sticky 会导致边框失踪，可借助 box-shadow 解决 */
+/* 更多信息可参考 : https://bugzilla.mozilla.org/show_bug.cgi?id=1658119 */
+/* 但是最后发现 box-shadow 并不工整，所以使用了伪元素生成边框来解决这个问题 */
+@supports (-moz-appearance:none){
+	.powerTable thead th span:after{position:absolute;
+	top:0;right:-1px;width:1px;height:calc(100% + 1px);background-color:#ccc;content:"";}
+}
+
+/* Edge15- & IE11- 并不支持 sticky 布局，而且伪元素还会制造多余的错误边框，所以这里直接隐藏掉 */
+@supports (-ms-ime-align:auto) and (not (position:sticky)){ 
+	.powerTable thead th:before, .powerTable thead th:after{display:none;} }
+_:-ms-input-placeholder, .powerTable thead th:before, .powerTable thead th:after{display:none;}
+</style>
+
+
+
+<script>
+// 表格排序功能的函数
+var buildPowerTable = function(tableID){
+	
+	// 获取相关的节点元素
+	var ele_table = document.getElementById(tableID);
+	var ele_thead = ele_table.querySelector('thead');
+	var ele_tbody = ele_table.querySelector('tbody');
+	var ele_thead_th = Array.prototype.slice.apply(ele_thead.querySelectorAll('th'));
+	var ele_tbody_tr = Array.prototype.slice.apply(ele_tbody.querySelectorAll('tr'));
+	
+	// 定义排序方法
+	function sortMethod(type, a, b){
+		switch(type){
+			case 'number' : { return a - b }; break;
+			case 'string' : { return a.localeCompare(b) }; break;
+			// 日期排序，IE 无法处理 '2012-12-12' 这种格式的时间，所以得将 '-' 替换成 '/'
+			case 'date' : { return new Date(a.split('-').join('/')).getTime() - 
+			new Date(b.split('-').join('/')).getTime(); }; break;
+		};
+	};
+	
+	// 定义排序操作
+	function sortHandle(type, flag, cellIndex){
+		ele_tbody_tr.sort(function(a, b){return sortMethod(type
+		, a.cells[cellIndex].innerHTML, b.cells[cellIndex].innerHTML) * flag }); // 排序
+		ele_tbody_tr.forEach(function(ele_tr){ ele_tbody.appendChild(ele_tr) }); // 添加
+	};
+	
+	// 实行排序操作
+	ele_thead_th.forEach(function(ele_th){
+		ele_th.addEventListener('click', function(){
+			
+			var sortType = (ele_th.hasAttribute('sortType') ? ele_th.getAttribute('sortType') : 'string');
+			if(ele_th.sortFlag === undefined){ ele_th.sortFlag = 1 };
+			sortHandle(sortType, ele_th.sortFlag, ele_th.cellIndex );
+			ele_th.sortFlag = -ele_th.sortFlag;
+			
+			var ele_upIcon = ele_thead.querySelector('.fa-sort-up');
+			if(ele_upIcon){ ele_upIcon.classList.remove('fa-sort-up') };
+			var ele_downIcon = ele_thead.querySelector('.fa-sort-down');
+			if(ele_downIcon){ ele_downIcon.classList.remove('fa-sort-down') };
+			
+			ele_th.querySelector('.icon').classList.add(
+			ele_th.sortFlag === 1 ? 'fa-sort-up' : 'fa-sort-down');
+			
+		}, false);
+	});
+	
+};
+
+// ————
+
+// 角色标题数据
+var roleHeadData = [
+	{sort:'string', text:'头像', },
+	{sort:'string', text:'姓名', },
+	{sort:'number', text:'编号', },
+	{sort:'number', text:'战力', },
+	{sort:'number', text:'体质', },
+	{sort:'number', text:'食量', },
+	{sort:'number', text:'防御', },
+	{sort:'number', text:'注意', },
+	{sort:'number', text:'口才', },
+	{sort:'number', text:'手工', },
+	{sort:'number', text:'智力', },
+	{sort:'number', text:'道德', },
+	{sort:'number', text:'耕作', },
+	{sort:'number', text:'烹饪', },
+	{sort:'number', text:'饲养', },
+	{sort:'number', text:'钓鱼', },
+	{sort:'number', text:'采集', },
+	{sort:'number', text:'狩猎', },
+	{sort:'number', text:'魅力', },
+	{sort:'number', text:'性别', },
+	{sort:'number', text:'口味', },
+	{sort:'number', text:'派系', },
+	{sort:'number', text:'花费', },
+	{sort:'number', text:'初始特质', },
+	{sort:'number', text:'随机特质', },
+	{sort:'string', text:'角色备注', },
+];
+
+// 角色内容数据
+// 头像地址使用 ID 数值 : '../static/image/avatar/0.png'
+var roleBodyData = [
+	// 姓名			ID		战力	体质	食量	防御	注意	口才	手工	智力	道德	耕作	烹饪	饲养	钓鱼	采集	狩猎	魅力	性别	口味	派系	花费		初始特性		随机特性	备注
+	['信使',		0,		5,		3,		4,		4,		4,		4,		4,		6,		12,		5,		5,		4,		4,		5,		8,		1,		1,		1,		2,		400,		'-1',			1,			'于"风尘丘陵"为教学角色供玩家使用', ],	
+	['司机',		1,		2,		2,		2,		7,		10,		5,		5,		8,		15,		2,		1,		5,		4,		5,		10,		1,		0,		1,		0,		1250,		'81',			0,			'', ],	
+	['泥水匠',		2,		3,		2,		2,		8,		15,		6,		16,		10,		10,		1,		1,		4,		3,		5,		12,		1,		0,		2,		4,		750,		'-1',			1,			'', ],	
+	['文员',		3,		4,		1,		2,		5,		15,		2,		10,		15,		7,		4,		4,		6,		4,		5,		12,		2,		1,		1,		0,		1000,		'-1',			1,			'', ],	
+	['保镖',		4,		7,		3,		4,		15,		5,		8,		4,		8,		9,		3,		3,		5,		4,		5,		6,		2,		0,		1,		3,		1000,		'-1',			1,			'', ],	
+	['修理工',		5,		5,		3,		4,		5,		20,		10,		15,		12,		10,		5,		3,		5,		5,		5,		5,		2,		1,		1,		0,		800,		'-1',			1,			'', ],	
+	['打手',		6,		10,		3,		4,		6,		7,		5,		6,		8,		7,		3,		2,		6,		3,		5,		10,		1,		1,		2,		5,		800,		'-1',			1,			'', ],	
+	['送餐员',		7,		6,		3,		4,		6,		6,		19,		10,		10,		15,		10,		20,		5,		3,		12,		6,		2,		0,		2,		0,		800,		'82',			0,			'', ],	
+	['驾驶员',		8,		7,		2,		2,		6,		20,		12,		8,		15,		25,		6,		4,		4,		4,		6,		5,		2,		0,		2,		4,		1350,		'-1',			1,			'', ],	
+	['装修工',		9,		7,		2,		2,		6,		15,		8,		25,		20,		20,		4,		3,		5,		3,		5,		0,		1,		1,		2,		0,		900,		'-1',			1,			'', ],	
+	['学者',		10,		2,		1,		2,		12,		12,		5,		10,		30,		8,		0,		2,		5,		4,		25,		2,		3,		0,		1,		0,		1800,		'-1',			1,			'', ],	
+	['老兵',		11,		12,		4,		6,		20,		30,		2,		9,		10,		0,		10,		9,		4,		4,		15,		20,		5,		0,		1,		3,		2500,		'-1',			1,			'', ],	
+	['电工',		12,		6,		3,		4,		8,		25,		15,		25,		16,		12,		8,		6,		5,		4,		5,		5,		2,		1,		1,		0,		1350,		'-1',			1,			'', ],	
+	['门卫',		13,		9,		2,		4,		15,		5,		10,		5,		8,		16,		12,		10,		6,		5,		5,		5,		2,		1,		1,		0,		1350,		'-1',			1,			'', ],	
+	['服务员',		14,		7,		3,		4,		5,		8,		30,		4,		18,		20,		15,		18,		4,		3,		5,		8,		3,		1,		1,		4,		1250,		'-1',			1,			'', ],	
+	['技师',		15,		7,		1,		2,		5,		28,		14,		22,		25,		25,		6,		5,		5,		1,		0,		0,		1,		0,		1,		4,		1800,		'-1',			1,			'', ],	
+	['小偷',		16,		7,		2,		2,		0,		22,		20,		18,		6,		5,		3,		1,		4,		4,		5,		22,		2,		0,		2,		5,		1250,		'-1',			1,			'', ],	
+	['知识分子',	17,		4,		2,		2,		0,		11,		5,		12,		35,		5,		0,		0,		5,		5,		5,		11,		4,		0,		1,		1,		2500,		'-1',			1,			'', ],	
+	['佣兵',		18,		10,		5,		6,		15,		15,		8,		10,		10,		10,		14,		10,		10,		4,		4,		15,		4,		1,		1,		3,		2500,		'-1',			1,			'', ],	
+	['机师',		19,		6,		3,		4,		8,		22,		14,		30,		15,		20,		7,		6,		5,		4,		5,		5,		3,		1,		1,		1,		1800,		'-1',			1,			'', ],	
+	['保安',		20,		15,		2,		4,		12,		12,		12,		6,		6,		15,		5,		5,		4,		4,		5,		8,		3,		1,		1,		3,		1800,		'-1',			1,			'', ],	
+	['推销员',		21,		5,		2,		2,		6,		5,		35,		6,		12,		10,		16,		16,		4,		4,		5,		5,		1,		0,		1,		2,		800,		'-1',			1,			'', ],	
+	['小贩',		22,		6,		2,		2,		7,		8,		25,		18,		16,		10,		12,		12,		7,		3,		5,		8,		2,		1,		2,		1,		1250,		'-1',			1,			'', ],	
+	['艺人',		23,		5,		2,		2,		9,		10,		25,		15,		20,		16,		2,		0,		5,		3,		6,		10,		2,		1,		1,		1,		1800,		'-1',			1,			'', ],	
+	['小女孩',		24,		1,		1,		2,		8,		3,		20,		20,		20,		20,		0,		20,		5,		3,		6,		3,		1,		0,		1,		-1,		0,			'79',			0,			'于"没落平原"的科考队任务中暂时加入，在任务最后拯救她则永久入队', ],	
+	['神秘人',		25,		30,		5,		8,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		5,		2200,		'-1',			1,			'',  ],	
+	['考古学家',	26,		2,		2,		2,		5,		15,		5,		25,		20,		15,		18,		17,		4,		4,		20,		0,		3,		1,		1,		1,		1600,		'-1',			1,			'',  ],	
+	['圣母',		27,		1,		2,		2,		0,		5,		3,		8,		20,		30,		0,		5,		4,		4,		6,		5,		1,		0,		1,		1,		600,		'-1',			1,			'',  ],	
+	['杀手',		28,		15,		4,		6,		15,		20,		0,		0,		5,		0,		0,		5,		6,		4,		6,		8,		4,		1,		2,		5,		1800,		'85 9',			1,			'',  ],	
+	['盗贼',		29,		13,		2,		4,		15,		18,		15,		25,		8,		5,		8,		7,		6,		4,		5,		9,		5,		1,		1,		5,		2500,		'85 9',			1,			'',  ],	
+	['神棍',		30,		0,		1,		2,		5,		15,		32,		2,		20,		2,		5,		5,		5,		4,		6,		10,		1,		0,		1,		4,		1000,		'41',			1,			'',  ],	
+	['拾荒者',		31,		8,		4,		6,		2,		16,		1,		25,		5,		12,		2,		2,		10,		3,		28,		12,		2,		1,		1,		3,		1500,		'-1',			1,			'',  ],	
+	['谈判专家',	32,		5,		2,		2,		8,		5,		36,		5,		5,		5,		6,		5,		5,		4,		5,		5,		4,		0,		2,		1,		1250,		'36',			1,			'',  ],	
+	['忍者',		33,		14,		4,		6,		2,		20,		0,		15,		10,		0,		3,		3,		5,		5,		4,		12,		5,		1,		2,		5,		2500,		'-1',			1,			'',  ],	
+	['机械师',		34,		5,		2,		2,		5,		15,		5,		35,		24,		11,		6,		4,		8,		4,		6,		8,		2,		0,		1,		3,		1600,		'-1',			1,			'',  ],	
+	['铁皮',		35,		10,		3,		4,		11,		16,		12,		15,		12,		15,		10,		8,		5,		5,		5,		9,		1,		0,		1,		3,		2000,		'86',			1,			'',  ],	
+	['老战士',		36,		18,		4,		7,		5,		25,		0,		20,		15,		5,		20,		10,		9,		3,		6,		30,		3,		1,		1,		3,		2000,		'-1',			1,			'',  ],	
+	['突击兵',		37,		12,		4,		6,		20,		28,		5,		5,		5,		5,		5,		0,		6,		4,		6,		10,		5,		0,		1,		3,		2000,		'-1',			1,			'',  ],	
+	['狙击手',		38,		2,		2,		2,		5,		40,		8,		8,		12,		5,		8,		8,		4,		3,		5,		18,		4,		1,		2,		3,		2000,		'-1',			1,			'',  ],	
+	['猎人',		39,		11,		1,		2,		3,		30,		0,		25,		1,		0,		15,		13,		15,		4,		5,		40,		6,		0,		1,		4,		3500,		'-1',			1,			'',  ],	
+	['园丁',		40,		0,		1,		2,		0,		5,		0,		0,		0,		8,		30,		28,		4,		18,		16,		10,		1,		1,		1,		2,		1200,		'-1',			1,			'',  ],	
+	['守林人',		41,		5,		1,		2,		5,		20,		0,		8,		5,		3,		18,		12,		6,		4,		5,		24,		3,		0,		1,		4,		1500,		'-1',			1,			'',  ],	
+	['铁匠',		42,		8,		2,		4,		30,		11,		12,		28,		17,		8,		0,		0,		5,		3,		6,		11,		2,		0,		2,		2,		1800,		'-1',			1,			'',  ],	
+	['化学家',		43,		5,		2,		2,		10,		18,		10,		25,		30,		20,		12,		11,		5,		3,		5,		12,		3,		0,		1,		4,		2000,		'-1',			1,			'',  ],	
+	['武术家',		44,		16,		4,		7,		40,		3,		5,		2,		1,		20,		3,		2,		4,		3,		5,		3,		4,		1,		1,		3,		2500,		'8',			1,			'',  ],	
+	['黑道大哥',	45,		16,		4,		7,		25,		15,		25,		0,		8,		0,		0,		0,		5,		5,		5,		5,		5,		1,		1,		4,		1750,		'9',			1,			'',  ],	
+	['程序员',		46,		4,		1,		2,		5,		15,		0,		10,		40,		12,		0,		0,		4,		4,		6,		5,		1,		1,		1,		2,		1000,		'-1',			1,			'',  ],	
+	['飞行员',		47,		7,		2,		2,		8,		18,		10,		12,		12,		12,		2,		0,		5,		3,		6,		14,		2,		0,		1,		4,		1200,		'-1',			1,			'',  ],	
+	['千术师',		48,		5,		2,		2,		5,		22,		25,		0,		25,		0,		0,		13,		5,		4,		4,		5,		4,		0,		1,		2,		1500,		'-1',			1,			'',  ],	
+	['占卜师',		49,		4,		1,		2,		5,		20,		30,		0,		18,		0,		0,		5,		4,		5,		5,		4,		3,		1,		1,		2,		1100,		'-1',			1,			'',  ],	
+	['祭司',		50,		7,		3,		4,		8,		8,		8,		8,		8,		8,		8,		7,		5,		4,		5,		8,		2,		1,		1,		2,		900,		'85',			1,			'',  ],	
+	['杀人魔',		51,		20,		4,		7,		15,		10,		0,		0,		10,		0,		0,		11,		6,		4,		5,		8,		1,		1,		1,		5,		1200,		'80',			0,			'',  ],	
+	['复仇者',		52,		15,		3,		6,		8,		12,		8,		15,		9,		7,		12,		5,		4,		5,		4,		9,		2,		1,		1,		5,		1500,		'-1',			1,			'',  ],	
+	['萨满',		53,		4,		1,		2,		5,		15,		18,		5,		10,		5,		5,		4,		5,		4,		5,		15,		3,		0,		1,		5,		800,		'-1',			1,			'',  ],	
+	['高中生',		54,		15,		3,		6,		15,		15,		12,		12,		12,		12,		10,		20,		4,		5,		4,		8,		4,		0,		1,		-1,		2000,		'-1',			1,			'',  ],	
+	['暴徒',		55,		18,		2,		6,		12,		12,		5,		3,		5,		0,		6,		6,		5,		4,		6,		12,		1,		0,		1,		-1,		0,			'55',			0,			'在"暮色谷地"的废土角斗场<br />花费 1250 零件招募', ],	
+	['角斗士',		56,		18,		2,		6,		15,		12,		5,		3,		5,		0,		5,		5,		6,		5,		5,		12,		1,		0,		1,		-1,		0,			'55',			0,			'在"暮色谷地"的废土角斗场<br />花费 1200 零件招募', ],	
+	['杂技演员',	57,		8,		1,		2,		5,		22,		5,		3,		5,		8,		3,		1,		9,		3,		6,		8,		3,		0,		1,		-1,		0,			'63',			1,			'在"暮色谷地"的废土马戏团<br />花费 950 零件招募', ],	
+	['逃犯',		58,		20,		2,		6,		25,		12,		5,		3,		5,		0,		10,		9,		4,		4,		5,		12,		3,		1,		1,		-1,		0,			'55',			0,			'在"暮色谷地"的废土角斗场<br />花费 1350 零件招募', ],	
+	['驯兽师',		59,		5,		1,		2,		5,		20,		5,		3,		5,		8,		2,		1,		18,		5,		6,		18,		3,		1,		1,		-1,		0,			'62',			1,			'在"暮色谷地"的废土马戏团<br />花费 950 零件招募', ],	
+	['小丑',		60,		1,		1,		2,		1,		1,		50,		1,		1,		1,		1,		1,		4,		1,		1,		1,		7,		1,		1,		-1,		0,			'38 61',		0,			'在"暮色谷地"的废土马戏团<br />花费 50? 零件招募', ],	
+	['快递员',		61,		6,		3,		4,		8,		8,		10,		8,		8,		10,		5,		4,		5,		3,		6,		8,		3,		1,		1,		-1,		0,			'33',			0,			'初始可选角色之一', ],	
+	['行商',		62,		3,		1,		2,		5,		10,		24,		15,		18,		12,		5,		4,		5,		3,		8,		10,		3,		0,		1,		-1,		0,			'37',			0,			'初始可选角色之一', ],	
+	['雇佣兵',		63,		15,		4,		6,		25,		20,		10,		10,		5,		5,		0,		1,		5,		4,		5,		12,		3,		1,		1,		-1,		0,			'9 26',			0,			'初始可选角色之一', ],	
+	['吟游诗人',	64,		1,		2,		2,		1,		15,		20,		12,		27,		16,		5,		4,		8,		5,		6,		15,		5,		1,		2,		-1,		0,			'47 63',		0,			'初始可选角色之一', ],	
+	['冒险家',		65,		15,		4,		6,		20,		18,		2,		12,		18,		2,		0,		15,		10,		5,		15,		20,		2,		0,		2,		-1,		0,			'48 47 56 39',	0, 			'初始可选角色之一', ],	
+	['枪手',		66,		5,		3,		4,		5,		32,		10,		8,		5,		10,		5,		4,		2,		5,		6,		15,		3,		1,		1,		-1,		0,			'59',			0, 			'初始可选角色之一', ],	
+	['奴隶',		67,		1,		4,		2,		6,		4,		8,		6,		10,		10,		18,		17,		6,		5,		5,		4,		2,		1,		2,		-1,		0,			'-1',			1,			'于"没落平原"的原油镇奴隶商人处手中通过战斗解放或花 1000 零件赎买', ],	
+	['囚犯',		68,		10,		2,		4,		12,		5,		8,		4,		8,		9,		3,		3,		5,		4,		5,		5,		2,		1,		2,		-1,		0,			'-1',			1,			'于"没落平原"的神秘广播任务最后阶段可救助，在车辆有空位时自动加入', ],	
+	['实验对象',	69,		0,		1,		2,		5,		5,		0,		20,		35,		12,		0,		1,		5,		18,		18,		12,		2,		1,		2,		-1,		0,			'-1',			1,			'于"没落平原"的天堂岛支线任务中选择释放后，在车辆有空位的自动加入', ],	
+	['不良少女',	70,		15,		3,		6,		15,		15,		12,		12,		12,		0,		10,		9,		5,		4,		5,		15,		4,		0,		2,		5,		1500,		'8',			1,			'',   ],	
+	['歌手',		71,		0,		1,		2,		3,		3,		3,		3,		5,		12,		0,		1,		5,		4,		5,		3,		5,		0,		2,		2,		700,		'63',			1,			'',   ],	
+	['教授',		72,		0,		1,		6,		0,		0,		0,		0,		50,		10,		0,		2,		9,		15,		12,		0,		1,		1,		1,		1,		1000,		'-1',			1,			'',   ],	
+	['酒保',		73,		9,		2,		4,		6,		5,		28,		8,		10,		12,		15,		15,		6,		3,		6,		5,		5,		0,		1,		2,		1750,		'59',			1,			'',   ],	
+	['探险家',		74,		8,		3,		6,		16,		22,		5,		10,		12,		7,		10,		8,		5,		3,		6,		22,		2,		1,		1,		4,		1500,		'74 12',		0,			'',   ],	
+	['摄影师',		75,		3,		1,		2,		2,		25,		1,		15,		5,		10,		25,		15,		9,		4,		5,		19,		2,		1,		2,		1,		1500,		'74 12',		0,			'',   ],	
+	['兽医',		76,		0,		1,		4,		12,		5,		8,		8,		20,		10,		5,		4,		15,		4,		5,		5,		2,		1,		2,		3,		2500,		'62',			1,			'',   ],	
+	['武士',		77,		20,		3,		7,		30,		15,		8,		8,		8,		0,		5,		4,		6,		3,		4,		9,		1,		1,		1,		5,		2000,		'9',			0,			'',   ],	
+	['舞蹈者',		78,		6,		2,		4,		10,		6,		4,		5,		8,		9,		3,		1,		5,		4,		6,		6,		5,		0,		1,		3,		2500,		'63',			1,			'',   ],	
+	['消防员',		79,		5,		5,		2,		50,		2,		4,		2,		4,		10,		3,		1,		5,		4,		5,		2,		1,		1,		2,		4,		1250,		'-1',			1,			'',   ],	
+	['侦探',		80,		0,		2,		2,		5,		35,		25,		0,		25,		0,		0,		1,		6,		4,		6,		18,		1,		0,		2,		1,		1500,		'-1',			1,			'',   ],	
+	['改造人',		81,		10,		2,		0,		20,		16,		12,		15,		12,		10,		10,		8,		5,		5,		5,		9,		1,		1,		1,		-1,		0,			'86',			0,			'',   ],	
+	['变异者',		82,		15,		4,		5,		20,		18,		2,		12,		18,		0,		0,		15,		10,		5,		15,		20,		2,		1,		1,		-1,		0,			'85 8',			0,			'',   ],	
+	['作战单元',	83,		20,		1,		0,		30,		15,		2,		2,		2,		2,		5,		4,		6,		3,		4,		9,		1,		1,		1,		-1,		2000,		'86',			1,			'',   ],	
+	['服务单元',	84,		7,		1,		0,		5,		8,		30,		4,		18,		20,		15,		18,		4,		3,		5,		8,		3,		0,		1,		-1,		2000,		'86',			1,			'',   ],	
+	['工人',		111,	3,		2,		2,		9,		7,		9,		20,		9,		4,		4,		6,		6,		5,		4,		3,		1,		1,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		112,	3,		2,		2,		8,		7,		7,		20,		7,		5,		2,		6,		4,		4,		5,		3,		1,		1,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		113,	3,		2,		2,		7,		5,		7,		19,		7,		6,		3,		8,		5,		3,		3,		2,		1,		1,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		114,	3,		2,		2,		8,		6,		7,		19,		7,		5,		3,		8,		6,		5,		3,		2,		1,		1,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		115,	3,		2,		2,		8,		7,		7,		19,		7,		6,		2,		7,		4,		3,		4,		3,		1,		1,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		116,	3,		2,		2,		7,		7,		7,		20,		7,		4,		3,		7,		6,		4,		4,		1,		1,		1,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		117,	3,		2,		2,		7,		6,		8,		18,		8,		5,		4,		7,		5,		4,		4,		2,		1,		1,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		118,	3,		2,		2,		8,		6,		8,		19,		8,		6,		3,		6,		4,		4,		5,		3,		1,		1,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		119,	3,		2,		2,		7,		6,		7,		19,		7,		6,		2,		7,		5,		4,		4,		3,		1,		1,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		120,	3,		2,		2,		8,		5,		7,		18,		7,		5,		3,		7,		5,		4,		4,		3,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		121,	3,		2,		2,		8,		6,		9,		19,		9,		5,		4,		6,		6,		3,		3,		2,		1,		0,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		122,	3,		2,		2,		8,		6,		9,		19,		9,		4,		3,		8,		5,		4,		4,		3,		1,		0,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		123,	3,		2,		2,		9,		7,		8,		19,		8,		5,		3,		7,		5,		3,		4,		2,		1,		0,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		124,	3,		2,		2,		8,		6,		8,		19,		8,		6,		4,		6,		4,		5,		3,		2,		1,		0,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		125,	3,		2,		2,		8,		6,		7,		18,		7,		5,		3,		7,		6,		4,		4,		2,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		126,	3,		2,		2,		7,		5,		9,		19,		9,		5,		3,		6,		5,		5,		3,		2,		1,		0,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		127,	3,		2,		2,		7,		7,		8,		20,		8,		5,		3,		7,		4,		4,		3,		2,		1,		0,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		128,	3,		2,		2,		9,		5,		8,		19,		8,		4,		3,		7,		6,		3,		3,		3,		1,		0,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		129,	3,		2,		2,		9,		7,		8,		19,		8,		4,		3,		7,		6,		4,		5,		1,		1,		0,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		130,	3,		2,		2,		8,		7,		8,		18,		8,		5,		3,		7,		5,		3,		3,		3,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		131,	3,		2,		2,		9,		7,		9,		20,		9,		4,		4,		6,		6,		5,		4,		3,		1,		1,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		132,	3,		2,		2,		8,		7,		7,		20,		7,		5,		2,		6,		4,		4,		5,		3,		1,		1,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		133,	3,		2,		2,		7,		5,		7,		19,		7,		6,		3,		8,		5,		3,		3,		2,		1,		1,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		134,	3,		2,		2,		8,		6,		7,		19,		7,		5,		3,		8,		6,		5,		3,		2,		1,		1,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		135,	3,		2,		2,		8,		7,		7,		19,		7,		6,		2,		7,		4,		3,		4,		3,		1,		1,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		136,	3,		2,		2,		7,		7,		7,		20,		7,		4,		3,		7,		6,		4,		4,		1,		1,		1,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		137,	3,		2,		2,		7,		6,		8,		18,		8,		5,		4,		7,		5,		4,		4,		2,		1,		1,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		138,	3,		2,		2,		8,		6,		8,		19,		8,		6,		3,		6,		4,		4,		5,		3,		1,		1,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		139,	3,		2,		2,		7,		6,		7,		19,		7,		6,		2,		7,		5,		4,		4,		3,		1,		1,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		140,	3,		2,		2,		8,		5,		7,		18,		7,		5,		3,		7,		5,		4,		4,		3,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		141,	3,		2,		2,		8,		6,		9,		19,		9,		5,		4,		6,		6,		3,		3,		2,		1,		0,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		142,	3,		2,		2,		8,		6,		9,		19,		9,		4,		3,		8,		5,		4,		4,		3,		1,		0,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		143,	3,		2,		2,		9,		7,		8,		19,		8,		5,		3,		7,		5,		3,		4,		2,		1,		0,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		144,	3,		2,		2,		8,		6,		8,		19,		8,		6,		4,		6,		4,		5,		3,		2,		1,		0,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		145,	3,		2,		2,		8,		6,		7,		18,		7,		5,		3,		7,		6,		4,		4,		2,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['工人',		146,	3,		2,		2,		7,		5,		9,		19,		9,		5,		3,		6,		5,		5,		3,		2,		1,		0,		1,		1,		700,		'-1',			1,			'',   ],	
+	['工人',		147,	3,		2,		2,		7,		7,		8,		20,		8,		5,		3,		7,		4,		4,		3,		2,		1,		0,		1,		2,		700,		'-1',			1,			'',   ],	
+	['工人',		148,	3,		2,		2,		9,		5,		8,		19,		8,		4,		3,		7,		6,		3,		3,		3,		1,		0,		1,		3,		700,		'-1',			1,			'',   ],	
+	['工人',		149,	3,		2,		2,		9,		7,		8,		19,		8,		4,		3,		7,		6,		4,		5,		1,		1,		0,		1,		4,		700,		'-1',			1,			'',   ],	
+	['工人',		150,	3,		2,		2,		8,		7,		8,		18,		8,		5,		3,		7,		5,		3,		3,		3,		1,		0,		1,		5,		700,		'-1',			1,			'',   ],	
+	['饲养员',		151,	3,		2,		4,		4,		1,		3,		5,		9,		5,		3,		11,		15,		4,		4,		3,		0,		1,		2,		1,		500,		'-1',			1,			'',   ],	
+	['饲养员',		152,	3,		2,		4,		4,		2,		2,		5,		8,		5,		4,		11,		14,		5,		3,		3,		0,		1,		2,		2,		500,		'-1',			1,			'',   ],	
+	['饲养员',		153,	3,		2,		4,		3,		3,		1,		4,		7,		5,		4,		11,		14,		5,		3,		2,		0,		1,		2,		3,		500,		'-1',			1,			'',   ],	
+	['饲养员',		154,	3,		2,		4,		4,		1,		3,		5,		9,		4,		2,		11,		14,		4,		3,		2,		0,		1,		2,		4,		500,		'-1',			1,			'',   ],	
+	['饲养员',		155,	3,		2,		4,		2,		2,		2,		4,		7,		5,		3,		11,		15,		3,		4,		3,		0,		1,		2,		5,		500,		'-1',			1,			'',   ],	
+	['饲养员',		156,	3,		2,		4,		3,		3,		1,		6,		8,		6,		3,		11,		15,		4,		5,		2,		0,		1,		2,		1,		500,		'-1',			1,			'',   ],	
+	['饲养员',		157,	3,		2,		4,		3,		1,		3,		6,		8,		5,		4,		11,		16,		5,		4,		2,		0,		1,		2,		2,		500,		'-1',			1,			'',   ],	
+	['饲养员',		158,	3,		2,		4,		4,		2,		2,		5,		7,		4,		3,		11,		14,		3,		4,		3,		0,		1,		2,		3,		500,		'-1',			1,			'',   ],	
+	['饲养员',		159,	3,		2,		4,		2,		3,		1,		5,		8,		4,		3,		11,		16,		3,		4,		3,		0,		1,		2,		4,		500,		'-1',			1,			'',   ],	
+	['饲养员',		160,	3,		2,		4,		3,		1,		3,		6,		9,		5,		4,		11,		15,		3,		3,		2,		0,		1,		2,		5,		500,		'-1',			1,			'',   ],	
+	['饲养员',		161,	3,		2,		4,		3,		2,		2,		5,		7,		5,		3,		11,		15,		4,		4,		3,		0,		0,		2,		1,		500,		'-1',			1,			'',   ],	
+	['饲养员',		162,	3,		2,		4,		3,		3,		1,		4,		7,		5,		4,		11,		14,		5,		3,		2,		0,		0,		2,		2,		500,		'-1',			1,			'',   ],	
+	['饲养员',		163,	3,		2,		4,		3,		1,		3,		4,		8,		5,		4,		11,		14,		4,		5,		2,		0,		0,		2,		3,		500,		'-1',			1,			'',   ],	
+	['饲养员',		164,	3,		2,		4,		3,		2,		2,		5,		8,		4,		4,		11,		14,		3,		4,		2,		0,		0,		2,		4,		500,		'-1',			1,			'',   ],	
+	['饲养员',		165,	3,		2,		4,		2,		3,		1,		6,		8,		4,		3,		11,		14,		4,		5,		2,		0,		0,		2,		5,		500,		'-1',			1,			'',   ],	
+	['饲养员',		166,	3,		2,		4,		3,		1,		3,		4,		9,		6,		2,		11,		16,		4,		5,		3,		0,		0,		2,		1,		500,		'-1',			1,			'',   ],	
+	['饲养员',		167,	3,		2,		4,		4,		2,		2,		6,		9,		6,		3,		11,		15,		4,		3,		1,		0,		0,		2,		2,		500,		'-1',			1,			'',   ],	
+	['饲养员',		168,	3,		2,		4,		3,		3,		1,		6,		7,		5,		4,		11,		15,		3,		4,		1,		0,		0,		2,		3,		500,		'-1',			1,			'',   ],	
+	['饲养员',		169,	3,		2,		4,		2,		6,		5,		5,		8,		5,		4,		11,		14,		5,		3,		2,		0,		0,		2,		4,		500,		'-1',			1,			'',   ],	
+	['饲养员',		170,	3,		2,		4,		3,		5,		4,		6,		7,		6,		3,		11,		15,		4,		3,		1,		0,		0,		2,		5,		500,		'-1',			1,			'',   ],	
+	['农民',		171,	3,		3,		4,		2,		6,		3,		5,		7,		10,		11,		5,		7,		7,		8,		2,		0,		1,		1,		1,		400,		'-1',			1,			'',   ],	
+	['农民',		172,	3,		3,		4,		2,		5,		4,		5,		7,		10,		11,		4,		5,		5,		9,		3,		0,		1,		1,		2,		400,		'-1',			1,			'',   ],	
+	['农民',		173,	3,		3,		4,		3,		6,		4,		5,		7,		10,		12,		6,		6,		6,		8,		2,		0,		1,		1,		3,		400,		'-1',			1,			'',   ],	
+	['农民',		174,	3,		3,		4,		2,		6,		3,		6,		7,		10,		12,		4,		5,		5,		8,		2,		0,		1,		1,		4,		400,		'-1',			1,			'',   ],	
+	['农民',		175,	3,		3,		4,		3,		5,		5,		6,		8,		10,		12,		5,		6,		6,		9,		3,		0,		1,		1,		5,		400,		'-1',			1,			'',   ],	
+	['农民',		176,	3,		3,		4,		2,		5,		3,		4,		8,		10,		13,		4,		7,		7,		9,		1,		0,		1,		2,		1,		400,		'-1',			1,			'',   ],	
+	['农民',		177,	3,		3,		4,		2,		6,		4,		4,		8,		10,		11,		6,		7,		7,		8,		1,		0,		1,		2,		2,		400,		'-1',			1,			'',   ],	
+	['农民',		178,	3,		3,		4,		2,		6,		3,		4,		8,		10,		12,		6,		5,		5,		7,		3,		0,		1,		1,		3,		400,		'-1',			1,			'',   ],	
+	['农民',		179,	3,		3,		4,		2,		4,		4,		5,		8,		10,		13,		5,		6,		6,		8,		1,		0,		1,		2,		4,		400,		'-1',			1,			'',   ],	
+	['农民',		180,	3,		3,		4,		3,		5,		3,		4,		8,		10,		11,		5,		6,		6,		8,		3,		0,		1,		2,		5,		400,		'-1',			1,			'',   ],	
+	['农民',		181,	3,		3,		4,		3,		5,		3,		6,		8,		10,		11,		6,		5,		5,		9,		2,		0,		0,		2,		1,		400,		'-1',			1,			'',   ],	
+	['农民',		182,	3,		3,		4,		2,		4,		3,		5,		9,		10,		11,		5,		6,		6,		8,		3,		0,		0,		2,		2,		400,		'-1',			1,			'',   ],	
+	['农民',		183,	3,		3,		4,		3,		4,		4,		5,		8,		10,		12,		5,		6,		6,		7,		3,		0,		0,		2,		3,		400,		'-1',			1,			'',   ],	
+	['农民',		184,	3,		3,		4,		2,		6,		4,		4,		8,		10,		13,		6,		7,		7,		7,		2,		0,		0,		1,		4,		400,		'-1',			1,			'',   ],	
+	['农民',		185,	3,		3,		4,		2,		5,		5,		5,		8,		10,		12,		4,		6,		6,		8,		2,		0,		0,		1,		5,		400,		'-1',			1,			'',   ],	
+	['农民',		186,	3,		3,		4,		4,		4,		5,		5,		7,		10,		11,		6,		6,		6,		9,		3,		0,		0,		1,		1,		400,		'-1',			1,			'',   ],	
+	['农民',		187,	3,		3,		4,		4,		4,		3,		6,		7,		10,		13,		4,		6,		6,		8,		1,		0,		0,		2,		2,		400,		'-1',			1,			'',   ],	
+	['农民',		188,	3,		3,		4,		2,		4,		4,		4,		8,		10,		13,		5,		7,		7,		8,		2,		0,		0,		2,		3,		400,		'-1',			1,			'',   ],	
+	['农民',		189,	3,		3,		4,		2,		4,		4,		5,		8,		10,		12,		4,		7,		7,		8,		3,		0,		0,		1,		4,		400,		'-1',			1,			'',   ],	
+	['农民',		190,	3,		3,		4,		4,		6,		4,		5,		9,		10,		11,		6,		6,		6,		9,		2,		0,		0,		1,		5,		400,		'-1',			1,			'',   ],	
+];
+
+// ————
+
+// 获取相关节点
+var jqi_powerTable = $('#powerTable');
+var jqi_powerTable_thead = jqi_powerTable.find('thead');
+var jqi_powerTable_tbody = jqi_powerTable.find('tbody');
+
+// 生成 thead 内容
+/* var powerTable_thead_node = '';
+powerTable_thead_node += '<tr>';
+roleHeadData.forEach(function(item){
+	powerTable_thead_node += '<th sortType="'+ item.sort +'">' 
+	+ '<span>'+ item.text +'</span><i class="icon far fa-solid fa-sort"></i></th>'
+});
+powerTable_thead_node += '</tr>';
+jqi_powerTable_thead.html(powerTable_thead_node); */
+
+// 生成 tbody 内容
+var powerTable_tbody_node = '';
+roleBodyData.forEach(function(item){
+	powerTable_tbody_node += '<tr><td style="padding:0;"><img alt="'+ item[0] +'" src="../static/image/avatar/'+ item[1] +'.png" /></td>'
+	item.forEach(function(date){ powerTable_tbody_node += '<td>'+ date +'</td>' });
+	powerTable_tbody_node += '</tr>';
+});
+jqi_powerTable_tbody.html(powerTable_tbody_node);
+
+// 传入需要排序功能的表格 #ID
+buildPowerTable('powerTable');
+</script>
+
+
+
+</body>
+</html>
+
+

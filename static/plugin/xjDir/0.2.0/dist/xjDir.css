@@ -1,0 +1,371 @@
+/** xjDir(侧边目录列表) | V0.2.0 | Apache Licence 2.0 | 2018-2021 © XJ.Chen | https://github.com/xjZone/xjDir */
+
+
+
+/* 当侧边目录处于 folded 折叠时，如果移动端点击了侧边目录，或鼠标挪到侧边目录上，或产生了聚焦 */
+/* 则 folded 折叠模式将恢复成默认模式，此时遮罩将出现在全局中，点击遮罩将会恢复为 unfold 模式 */
+.xjDir-masker{position:fixed;top:-128px;right:-128px;bottom:-128px;left:-128px;z-index:4000;background-color:rgba(0,0,0,0.25);}
+
+
+
+/* .xjDir - 部分属性在有引入 xjBase.css 文件时可省略，改用 xjDir.slim.css，审查样式时会更简洁 */
+/* folded 折叠模式下会有个 ::after 伪类生成的遮罩，并且 border 参数不为默认值时边框就会有变化 */
+.xjDir{
+	position:relative;
+	z-index:4004;
+	overflow:auto;
+	max-width:100%;
+	width:224px;
+	border:0px solid #ccc;
+	border-right-width:1px;
+	background-color:#fff;
+	/* xjBase */
+	box-sizing:border-box;
+	-webkit-text-size-adjust:100%;
+	-webkit-tap-highlight-color:transparent;
+	font-family:"-apple-system","Segoe UI","Roboto","Hiragino Sans GB","Microsoft YaHei","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+}
+
+.xjDir *{box-sizing:border-box;}				/* xjBase */
+.xjDir *::before{box-sizing:border-box;}		/* xjBase */
+.xjDir *::after{box-sizing:border-box;}			/* xjBase */
+
+.xjDir.xjDir-border-left{border-right-width:0px;border-left-width:1px;}
+.xjDir.xjDir-border-none{border-right-width:0px;border-left-width:0px;}
+
+
+
+/* ul 得设置 font-size:0，然后在 a 标签中再恢复，否则 IE10 中的 li 会有前导标记，导致渲染出错 */
+/* li 设置为 flex 伸缩盒布局，并允许换行，让 a 和 ul 各自成行，并且创建单独层消除 IE 渲染 BUG */
+.xjDir ul{margin:0;padding:0;list-style:none;font-size:0;line-height:1;}
+.xjDir li{position:relative;display:-ms-flexbox;display:flex;-ms-flex-align:stretch;align-items:stretch;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;word-break:break-all;transform:translateZ(0);}
+
+
+
+/* a 做成伸缩盒，让内容能垂直居中并等高，不用 table 是因为 IE 有伪元素无法用 % 单位定位的 BUG */
+/* li 中如果出现两个 a，那就是出现了超级链接和展开按钮被分开的情况，那么第二个 a 不能伸展宽度 */
+.xjDir li > a{position:relative;overflow:hidden;display:-ms-flexbox;display:flex;-ms-flex-align:stretch;align-items:stretch;-ms-flex:1 1 auto;flex:1 1 auto;color:#333;text-decoration:none;cursor:pointer;transition:background-color 250ms;}
+.xjDir li > a:nth-of-type(2){-ms-flex:0 0 auto;flex:0 0 auto;}
+
+/* hover 之所以得设置 color & text-decoration，是为了清掉框架的设置，例如 xjBase 就有默认设置 */
+/* focus 默认的聚焦阴影外边框会因为 overflow:hidden; 而被裁剪掉，所以这里改为内嵌式的阴影边框 */
+.xj-operate-mouse .xjDir li > a:hover{background-color:#f0f0f0;color:#333;text-decoration:none;}
+.xjDir li > a.xj-focus-ontab:focus{box-shadow:0 0 0 2px rgba(51,153,255,0.75) inset;}
+
+
+
+/* icon 在单独存在时得布满整行，text 设为 wrap 允许换行且子元素通过 display 和 width 布满整行 */
+/* sign 的图标无需用 flex 实现居中，但 IE 无法对 inline 的 flex 子元素设置尺寸，得改为 block; */
+.xjDir .xjDir-icon{position:relative;display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;-ms-flex:0 0 auto;flex:0 0 auto;color:#999;font-style:normal;font-size:inherit;transition:color 250ms;}
+.xjDir .xjDir-icon:only-of-type{-ms-flex:1 1 auto;flex:1 1 auto;}
+
+.xjDir .xjDir-text{position:relative;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex:1 1 auto;flex:1 1 auto;font-style:normal;transition:color 250ms;}
+.xjDir .xjDir-text > *{display:block;-ms-flex:1 1 auto;flex:1 1 auto;width:100%;}
+
+.xjDir .xjDir-sign{position:relative;display:block;-ms-flex:0 0 auto;flex:0 0 auto;color:#999;transition:color 250ms;}
+.xjDir .xjDir-sign::before{position:absolute;top:50%;left:50%;border-radius:2px;background-color:currentColor;content:"";transition:transform 250ms;transform:rotate(45deg);}
+.xjDir .xjDir-sign::after{position:absolute;top:50%;right:50%;border-radius:2px;background-color:currentColor;content:"";transition:transform 250ms;transform:rotate(-45deg);}
+
+
+
+/* 第一层的 text 在没有 icon 的情况下，padding-left 为 12px，这样可以和有 icon 的选项实现对齐 */
+/* 第三级虽然也设置了 sign 箭头的内容，但由于不支持第四级的内容，所以其实并没有什么实际的作用 */
+.xjDir > ul > li > a{min-height:40px;width:40px;font-size:16px;}
+.xjDir > ul > li > a > .xjDir-icon{padding-left:00px;width:40px;}
+.xjDir > ul > li > a > .xjDir-text{padding:8px 0;}
+.xjDir > ul > li > a > .xjDir-text:first-of-type{padding-left:12px;}
+.xjDir > ul > li > a > .xjDir-text:last-of-type{padding-right:12px;}
+.xjDir > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -6px;width:8px;height:2px;}
+.xjDir > ul > li > a > .xjDir-sign::after{margin:-1px -6px 0 0;width:8px;height:2px;}
+
+.xjDir > ul > li > ul > li > a{min-height:32px;width:40px;font-size:14px;}
+.xjDir > ul > li > ul > li > a > .xjDir-icon{padding-left:12px;width:52px;}
+.xjDir > ul > li > ul > li > a > .xjDir-text{padding:6px 0;}
+.xjDir > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:24px;}
+.xjDir > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:24px;}
+.xjDir > ul > li > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -4.5px;width:6px;height:1.5px;}
+.xjDir > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -4.5px 0 0;width:6px;height:1.5px;}
+
+.xjDir > ul > li > ul > li > ul > li > a{min-height:24px;width:40px;font-size:12px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-icon{padding-left:24px;width:64px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-text{padding:4px 0;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:36px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:36px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -3px;width:4px;height:1px;}
+.xjDir > ul > li > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -3px 0 0;width:4px;height:1px;}
+
+
+
+/* 边框做分割线，这样才方便用内联样式进行微调，display:inline-block; 取消 li 原本的 flex 布局 */
+/* 第二级第三级的分割线都往内缩一点，跟 text 的 padding 一致，使用 calc()，但是 IE10 也没问题 */
+.xjDir .xjDir-divide{display:inline-block;height:1px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+
+.xjDir > ul > li.xjDir-divide{margin:1px 00px;width:calc(100% - 00px);}
+.xjDir > ul > li > ul > li.xjDir-divide{margin:1px 12px;width:calc(100% - 24px);}
+.xjDir > ul > li > ul > li > ul > li.xjDir-divide{margin:1px 24px;width:calc(100% - 48px);}
+
+
+
+/* 在 a 后面的 ul 直接隐藏，有 spread 类名时改变 sign 朝向并显示 ul，高度具体细节在 JS 中处理 */
+/* 做动画时先添加类名显示，获取高度后设置 transition:none，高度设为 0，再去掉过渡动画添加高度 */
+.xjDir a + ul{overflow:hidden;display:none;-ms-flex:1 1 auto;flex:1 1 auto;width:100%;}
+
+.xjDir .xjDir-spread > a >.xjDir-sign::before{transform:rotate(-45deg);}
+.xjDir .xjDir-spread > a >.xjDir-sign::after{transform:rotate(45deg);}
+
+.xjDir .xjDir-spread > a + ul{display:block;}
+
+
+
+/* 用 a 设置颜色，因为 .xj-ripple 颜色会受到它的影响，icon 和 text 和 sign 颜色在这里继承就行 */
+/* 之所以加上 !important 是因为后面深浅色调和黑白色的颜色设置会覆盖这里的设置，所以得提升权重 */
+.xjDir .xjDir-active > a{color:#39f!important;}
+.xj-operate-mouse .xjDir .xjDir-active > a:hover{color:#39f!important;}
+
+.xjDir .xjDir-active > a > .xjDir-icon{color:inherit;}
+.xjDir .xjDir-active > a > .xjDir-text{color:inherit;}
+.xjDir .xjDir-active > a > .xjDir-sign{color:inherit;}
+
+
+
+/* loading 时不能再点击，所以 cursor:not-allowed;，此时 icon + text + sign 三部分点击都不响应 */
+.xjDir .xjDir-loading > a{cursor:not-allowed;}
+
+/* loading 时不能再点击，所以 hover 时背景也不能再响应，背景改为 background-color:transparent */
+.xj-operate-mouse .xjDir .xjDir-loading > a:hover{background-color:transparent!important;}
+
+/* loading 时内容变淡，并且由于存在 spin 加载图标，所以 sign 的箭头图标不能再显示了，以免重叠 */
+.xjDir:not(.xjDir-folded) .xjDir-loading > a > i, .xjDir.xjDir-unfold .xjDir-loading > a > i{opacity:0.5;}
+.xjDir:not(.xjDir-folded) .xjDir-loading > a .xjDir-sign, .xjDir.xjDir-unfold .xjDir-loading > a .xjDir-sign{opacity:0;}
+
+/* loading 图标来自 xjButton，覆盖在 sign 箭头上，Safari(IOS12.1?) 得动态添加类名才会转起来？ */
+.xjDir:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-unfold .xjDir-loading > a:last-of-type::after{position:absolute;top:50%;right:18px;left:auto;z-index:40;margin-top:-2px;width:4px;height:4px;border-radius:2px;box-shadow:0px -10px 0px 2px rgba(0,0,0,0.750), -7px -7px 0px 1px rgba(0,0,0,0.625), -10px 0px 0px 0px rgba(0,0,0,0.500), -7px 7px 0px 0px rgba(0,0,0,0.250), 0px 10px 0px 0px rgba(0,0,0,0.250), 7px 7px 0px 0px rgba(0,0,0,0.250), 10px 0px 0px 0px rgba(0,0,0,0.250),7px -7px 0px 0px rgba(0,0,0,0.250);content:"";animation-duration:1000ms;animation-timing-function:steps(8);animation-iteration-count:infinite;}
+.xjDir:not(.xjDir-folded) > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-unfold > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir:not(.xjDir-folded) > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-unfold > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir:not(.xjDir-folded) > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-unfold > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.5);animation-name:xjDir-spin-sm;}
+
+
+
+/* disabled 也是加在 li 上面，使用 href="javascript:void(0)" 确认，folder 可点击，anchor 不可 */
+.xjDir .xjDir-disabled:not(.xjDir-loading){opacity:0.5;}
+.xjDir .xjDir-disabled:not(.xjDir-loading) a:not([href="javascript:void(0)"]){cursor:not-allowed;}
+.xj-operate-mouse .xjDir .xjDir-disabled:not(.xjDir-loading) a:not([href="javascript:void(0)"]):hover{background-color:transparent;}
+
+
+
+/* 折叠的大前提是有 icon 的存在，如果没有 icon 图标，那么折叠后会显示 text 的内容，就很难看了 */
+.xjDir.xjDir-folded:not(.xjDir-unfold){overflow:hidden;width:64px;}
+
+/* 折叠状态下所有 a 后面的 ul 都不展开，即使是有 .xjDir-spread 类名的情况，也要把 ul 给隐藏掉 */
+.xjDir.xjDir-folded:not(.xjDir-unfold) .xjDir-spread > a + ul{display:none;}
+
+/* 第一个 a 的第一个 i 自动伸缩，其他 i 全部隐藏，第二个 a 如果存在，就直接隐藏掉，不需要显示 */
+.xjDir.xjDir-folded:not(.xjDir-unfold) li > a:first-of-type > i:first-of-type{-ms-flex:1 1 auto;flex:1 1 auto;}
+.xjDir.xjDir-folded:not(.xjDir-unfold) li > a:first-of-type > i:not(:first-of-type){display:none;}
+.xjDir.xjDir-folded:not(.xjDir-unfold) li > a:nth-of-type(2){display:none;}
+
+/* 在第一个 a 中生成 loading 图标，上面的 loading 图标是在最后一个 a 上生成，二者所在位置不同 */
+.xjDir.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{position:absolute;top:50%;right:auto;left:30px;z-index:40;margin-top:-2px;width:4px;height:4px;border-radius:2px;box-shadow:0px -10px 0px 2px rgba(0,0,0,0.750), -7px -7px 0px 1px rgba(0,0,0,0.625), -10px 0px 0px 0px rgba(0,0,0,0.500), -7px 7px 0px 0px rgba(0,0,0,0.250), 0px 10px 0px 0px rgba(0,0,0,0.250), 7px 7px 0px 0px rgba(0,0,0,0.250), 10px 0px 0px 0px rgba(0,0,0,0.250),7px -7px 0px 0px rgba(0,0,0,0.250);content:"";animation-duration:1000ms;animation-timing-function:steps(8);animation-iteration-count:infinite;}
+.xjDir.xjDir-folded:not(.xjDir-unfold) > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.5);animation-name:xjDir-spin-sm;}
+
+/* 折叠时进入 loading 状态，此时只能看到由 a 的 ::after 生成的 loading 图标，其他内容都不显示 */
+.xjDir.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a > i{opacity:0;}
+
+/* 折叠时用 .xjDir::after 做个遮罩，折叠时只能点击到遮罩，用于移动端 click 点击后展开侧边目录 */
+.xjDir.xjDir-folded:not(.xjDir-unfold)::after{position:absolute;top:0;left:0;width:100%;height:100%;background-color:transparent;content:"";}
+
+
+
+/* .xjDir-sm */
+.xjDir.xjDir-sm{width:192px;}
+
+.xjDir.xjDir-sm > ul > li > a{min-height:32px;width:32px;font-size:14px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-icon{padding-left:00px;width:32px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-text{padding:4px 0;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-text:first-of-type{padding-left:8px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-text:last-of-type{padding-right:8px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-sign{width:32px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -5px;width:6px;height:2px;}
+.xjDir.xjDir-sm > ul > li > a > .xjDir-sign::after{margin:-1px -5px 0 0;width:6px;height:2px;}
+
+.xjDir.xjDir-sm > ul > li > ul > li > a{min-height:24px;width:32px;font-size:13px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-icon{padding-left:8px;width:40px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-text{padding:3px 0;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:16px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:16px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-sign{width:32px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -3px;width:4px;height:1.5px;}
+.xjDir.xjDir-sm > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -3px 0 0;width:4px;height:1.5px;}
+
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a{min-height:16px;width:32px;font-size:12px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-icon{padding-left:16px;width:56px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-text{padding:2px 0;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:24px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:24px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-sign{width:32px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -1px;width:2px;height:1px;}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -1px 0 0;width:2px;height:1px;}
+
+.xjDir.xjDir-sm > ul > li.xjDir-divide{margin:1px 00px;width:calc(100% - 00px);}
+.xjDir.xjDir-sm > ul > li > ul > li.xjDir-divide{margin:1px 8px;width:calc(100% - 16px);}
+.xjDir.xjDir-sm > ul > li > ul > li > ul > li.xjDir-divide{margin:1px 20px;width:calc(100% - 40px);}
+
+.xjDir.xjDir-sm:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-sm.xjDir-unfold .xjDir-loading > a:last-of-type::after{right:14px;}
+.xjDir.xjDir-sm:not(.xjDir-folded) > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-sm.xjDir-unfold > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir.xjDir-sm:not(.xjDir-folded) > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-sm.xjDir-unfold > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.50);animation-name:xjDir-spin-sm;}
+.xjDir.xjDir-sm:not(.xjDir-folded) > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-sm.xjDir-unfold > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.25);animation-name:xjDir-spin-xs;}
+
+.xjDir.xjDir-sm.xjDir-folded:not(.xjDir-unfold){width:56px;}
+.xjDir.xjDir-sm.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{left:26px;}
+.xjDir.xjDir-sm.xjDir-folded:not(.xjDir-unfold) > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir.xjDir-sm.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.50);animation-name:xjDir-spin-sm;}
+.xjDir.xjDir-sm.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.25);animation-name:xjDir-spin-xs;}
+
+
+
+/* .xjDir-md */ /* 
+.xjDir.xjDir-md{width:224px;}
+
+.xjDir.xjDir-md > ul > li > a{min-height:40px;width:40px;font-size:16px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-icon{padding-left:00px;width:40px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-text{padding:8px 0;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-text:first-of-type{padding-left:12px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-text:last-of-type{padding-right:12px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -6px;width:8px;height:2px;}
+.xjDir.xjDir-md > ul > li > a > .xjDir-sign::after{margin:-1px -6px 0 0;width:8px;height:2px;}
+
+.xjDir.xjDir-md > ul > li > ul > li > a{min-height:32px;width:40px;font-size:14px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-icon{padding-left:12px;width:52px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-text{padding:6px 0;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:24px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:24px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -4.5px;width:6px;height:1.5px;}
+.xjDir.xjDir-md > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -4.5px 0 0;width:6px;height:1.5px;}
+
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a{min-height:24px;width:40px;font-size:12px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-icon{padding-left:24px;width:64px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-text{padding:4px 0;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:36px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:36px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-sign{width:40px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -3px;width:4px;height:1px;}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -3px 0 0;width:4px;height:1px;}
+
+.xjDir.xjDir-md > ul > li.xjDir-divide{margin:1px 00px;width:calc(100% - 00px);}
+.xjDir.xjDir-md > ul > li > ul > li.xjDir-divide{margin:1px 12px;width:calc(100% - 24px);}
+.xjDir.xjDir-md > ul > li > ul > li > ul > li.xjDir-divide{margin:1px 24px;width:calc(100% - 48px);}
+
+.xjDir.xjDir-md:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-md.xjDir-unfold .xjDir-loading > a:last-of-type::after{right:18px;}
+.xjDir.xjDir-md:not(.xjDir-folded) > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-md.xjDir-unfold > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir.xjDir-md:not(.xjDir-folded) > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-md.xjDir-unfold > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir.xjDir-md:not(.xjDir-folded) > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-md.xjDir-unfold > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.5);animation-name:xjDir-spin-sm;}
+
+.xjDir.xjDir-md.xjDir-folded:not(.xjDir-unfold){width:64px;}
+.xjDir.xjDir-md.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{left:30px;}
+.xjDir.xjDir-md.xjDir-folded:not(.xjDir-unfold) > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir.xjDir-md.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+.xjDir.xjDir-md.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.5);animation-name:xjDir-spin-sm;} */
+
+
+
+/* .xjDir-lg */
+.xjDir.xjDir-lg{width:256px;}
+
+.xjDir.xjDir-lg > ul > li > a{min-height:48px;width:48px;font-size:18px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-icon{padding-left:00px;width:48px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-text{padding:12px 0;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-text:first-of-type{padding-left:16px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-text:last-of-type{padding-right:16px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-sign{width:48px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -8px;width:10px;height:2px;}
+.xjDir.xjDir-lg > ul > li > a > .xjDir-sign::after{margin:-1px -8px 0 0;width:10px;height:2px;}
+
+.xjDir.xjDir-lg > ul > li > ul > li > a{min-height:40px;width:48px;font-size:16px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-icon{padding-left:16px;width:64px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-text{padding:10px 0;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:32px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:32px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-sign{width:48px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -6px;width:8px;height:1.5px;}
+.xjDir.xjDir-lg > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -6px 0 0;width:8px;height:1.5px;}
+
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a{min-height:32px;width:48px;font-size:14px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-icon{padding-left:32px;width:80px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-text{padding:8px 0;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-text:first-of-type{padding-left:48px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-text:last-of-type{padding-right:48px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-sign{width:48px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-sign::before{margin:-1px 0 0 -5px;width:6px;height:1px;}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li > a > .xjDir-sign::after{margin:-1px -5px 0 0;width:6px;height:1px;}
+
+.xjDir.xjDir-lg > ul > li.xjDir-divide{margin:1px 00px;width:calc(100% - 00px);}
+.xjDir.xjDir-lg > ul > li > ul > li.xjDir-divide{margin:1px 16px;width:calc(100% - 32px);}
+.xjDir.xjDir-lg > ul > li > ul > li > ul > li.xjDir-divide{margin:1px 32px;width:calc(100% - 64px);}
+
+.xjDir.xjDir-lg:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-lg.xjDir-unfold .xjDir-loading > a:last-of-type::after{right:22px;}
+.xjDir.xjDir-lg:not(.xjDir-folded) > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-lg.xjDir-unfold > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(1.25);animation-name:xjDir-spin-xl;}
+.xjDir.xjDir-lg:not(.xjDir-folded) > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-lg.xjDir-unfold > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir.xjDir-lg:not(.xjDir-folded) > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after, .xjDir.xjDir-lg.xjDir-unfold > ul > li > ul > li > ul > li.xjDir-loading > a:last-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+
+.xjDir.xjDir-lg.xjDir-folded:not(.xjDir-unfold){width:72px;}
+.xjDir.xjDir-lg.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{left:34px;}
+.xjDir.xjDir-lg.xjDir-folded:not(.xjDir-unfold) > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(1.25);animation-name:xjDir-spin-xl;}
+.xjDir.xjDir-lg.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(1.00);animation-name:xjDir-spin-lg;}
+.xjDir.xjDir-lg.xjDir-folded:not(.xjDir-unfold) > ul > li > ul > li > ul > li.xjDir-loading > a:first-of-type::after{transform:rotate(0deg) scale(0.75);animation-name:xjDir-spin-md;}
+
+
+
+/* 深色 */
+.xjBase-dark .xjDir{border-color:#666;background-color:#333;}
+
+.xjBase-dark .xjDir li > a{color:#fff;}
+.xjBase-dark.xj-operate-mouse .xjDir li > a:hover{background-color:#242424;color:#fff;}
+
+.xjBase-dark .xjDir .xjDir-divide{border-bottom-color:#242424;}
+
+.xjBase-dark .xjDir:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjBase-dark .xjDir.xjDir-unfold .xjDir-loading > a:last-of-type::after{box-shadow:0px -10px 0px 2px rgba(255,255,255,0.750), -7px -7px 0px 1px rgba(255,255,255,0.625), -10px 0px 0px 0px rgba(255,255,255,0.500), -7px 7px 0px 0px rgba(255,255,255,0.250), 0px 10px 0px 0px rgba(255,255,255,0.250), 7px 7px 0px 0px rgba(255,255,255,0.250), 10px 0px 0px 0px rgba(255,255,255,0.250),7px -7px 0px 0px rgba(255,255,255,0.250);}
+.xjBase-dark .xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{box-shadow:0px -10px 0px 2px rgba(255,255,255,0.750), -7px -7px 0px 1px rgba(255,255,255,0.625), -10px 0px 0px 0px rgba(255,255,255,0.500), -7px 7px 0px 0px rgba(255,255,255,0.250), 0px 10px 0px 0px rgba(255,255,255,0.250), 7px 7px 0px 0px rgba(255,255,255,0.250), 10px 0px 0px 0px rgba(255,255,255,0.250),7px -7px 0px 0px rgba(255,255,255,0.250);}
+
+
+
+/* 黑色 */
+.xjDir.xjDir-black{border-color:#666;background-color:#333;}
+
+.xjDir.xjDir-black li > a{color:#fff;}
+.xj-operate-mouse .xjDir.xjDir-black li > a:hover{background-color:#242424;color:#fff;}
+
+.xjDir.xjDir-black .xjDir-divide{border-bottom-color:#242424;}
+
+.xjDir.xjDir-black:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-black.xjDir-unfold .xjDir-loading > a:last-of-type::after{box-shadow:0px -10px 0px 2px rgba(255,255,255,0.750), -7px -7px 0px 1px rgba(255,255,255,0.625), -10px 0px 0px 0px rgba(255,255,255,0.500), -7px 7px 0px 0px rgba(255,255,255,0.250), 0px 10px 0px 0px rgba(255,255,255,0.250), 7px 7px 0px 0px rgba(255,255,255,0.250), 10px 0px 0px 0px rgba(255,255,255,0.250),7px -7px 0px 0px rgba(255,255,255,0.250);}
+.xjDir.xjDir-black.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{box-shadow:0px -10px 0px 2px rgba(255,255,255,0.750), -7px -7px 0px 1px rgba(255,255,255,0.625), -10px 0px 0px 0px rgba(255,255,255,0.500), -7px 7px 0px 0px rgba(255,255,255,0.250), 0px 10px 0px 0px rgba(255,255,255,0.250), 7px 7px 0px 0px rgba(255,255,255,0.250), 10px 0px 0px 0px rgba(255,255,255,0.250),7px -7px 0px 0px rgba(255,255,255,0.250);}
+
+
+
+/* 白色 */
+.xjDir.xjDir-white{border-color:#ccc;background-color:#fff;}
+
+.xjDir.xjDir-white li > a{color:#333;}
+.xj-operate-mouse .xjDir.xjDir-white li > a:hover{background-color:#f0f0f0;color:#333;}
+
+.xjDir.xjDir-white .xjDir-divide{border-bottom-color:#f0f0f0;}
+
+.xjDir.xjDir-white:not(.xjDir-folded) .xjDir-loading > a:last-of-type::after, .xjDir.xjDir-white.xjDir-unfold .xjDir-loading > a:last-of-type::after{box-shadow:0px -10px 0px 2px rgba(0,0,0,0.750), -7px -7px 0px 1px rgba(0,0,0,0.625), -10px 0px 0px 0px rgba(0,0,0,0.500), -7px 7px 0px 0px rgba(0,0,0,0.250), 0px 10px 0px 0px rgba(0,0,0,0.250), 7px 7px 0px 0px rgba(0,0,0,0.250), 10px 0px 0px 0px rgba(0,0,0,0.250),7px -7px 0px 0px rgba(0,0,0,0.250);}
+.xjDir-white.xjDir-folded:not(.xjDir-unfold) .xjDir-loading > a:first-of-type::after{box-shadow:0px -10px 0px 2px rgba(0,0,0,0.750), -7px -7px 0px 1px rgba(0,0,0,0.625), -10px 0px 0px 0px rgba(0,0,0,0.500), -7px 7px 0px 0px rgba(0,0,0,0.250), 0px 10px 0px 0px rgba(0,0,0,0.250), 7px 7px 0px 0px rgba(0,0,0,0.250), 10px 0px 0px 0px rgba(0,0,0,0.250),7px -7px 0px 0px rgba(0,0,0,0.250);}
+
+
+
+/* 动画 */
+@keyframes xjDir-spin-xl{ 0%{transform:rotate(0deg) scale(1.25);} 100%{transform:rotate(360deg) scale(1.25);}}
+@keyframes xjDir-spin-lg{ 0%{transform:rotate(0deg) scale(1.00);} 100%{transform:rotate(360deg) scale(1.00);}}
+@keyframes xjDir-spin-md{ 0%{transform:rotate(0deg) scale(0.75);} 100%{transform:rotate(360deg) scale(0.75);}}
+@keyframes xjDir-spin-sm{ 0%{transform:rotate(0deg) scale(0.50);} 100%{transform:rotate(360deg) scale(0.50);}}
+@keyframes xjDir-spin-xs{ 0%{transform:rotate(0deg) scale(0.25);} 100%{transform:rotate(360deg) scale(0.25);}}
+
+

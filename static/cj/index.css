@@ -1,0 +1,117 @@
+/* 设置等宽字体 */
+/* xj.base 默认字体并不是等间距的，但做文档还是等间距字体更好，所以在这里重新设置一次 Iosevka */
+/* 黑白主题的内容还不完善，不少插件有待改进就暂不启用了，把文本打散换行在移动端小屏幕会好看些 */
+
+@font-face{font-family:Iosevka;src:url("../font/iosevka/6.1.2/iosevka-fixed-regular.woff2") format("woff2"), url("../font/iosevka/6.1.2/iosevka-fixed-regular.woff") format("woff");}
+html{font-family:Iosevka, Menlo, Consolas, "Hiragino Sans GB", "Microsoft YaHei", Monospace;}
+html:not([class*="xj-base"]) body{background-color:#f0f0f0;}
+body{word-break:break-all;}
+
+
+
+/* 左边的侧边栏 */
+/* #pub_side - height:4px; 其实可为 0，但完全没高度在审查元素的时候不好定位，所以就稍微给个值 */
+/* #pub_sideWrap - height:100vh; 父容器高度为 4px，所以只能用 vh 单位了，没横向滚动条就没问题 */
+
+#pub_side{position:fixed;top:0;left:0;z-index:40;width:100%;height:4px;background-color:transparent;}
+#pub_sidePack{position:relative;margin:0 auto 0;max-width:1280px;height:4px;background-color:transparent;}
+#pub_sideMask{position:fixed;top:-64px;right:-64px;bottom:-64px;left:-64px;background-color:#000;opacity:0.50;}
+#pub_sideWrap{position:absolute;top:0;left:0;width:240px;height:100vh;background-color:#fff;}
+
+@media(min-width:1024px){
+	#pub_sideMask{display:none;}
+}
+@media(max-width:1023px){
+	#pub_sideMask{display:none;}
+	#pub_sideWrap{display:none;}
+	.pub_sideShow #pub_sideMask{display:block;}
+	.pub_sideShow #pub_sideWrap{display:block;}
+}
+
+@media(min-width: 768px){}
+@media(max-width: 767px){}
+
+@media(min-width: 512px){}
+@media(max-width: 511px){}
+
+
+
+/* 顶部的导航栏 */
+/* #pub_headForm 设置 height:4px;，这样在审查元素时能被看清，又不会占位导致 h1 文本无法被选择 */
+/* pub_headFormIcon 得设置 z-index:20 避免 input 聚焦时被覆盖，设置背景色则是为了覆盖底部文字 */
+
+#pub_head{top:0;left:0;z-index:36;width:100%;height:4px;background-color:transparent;}
+@media(min-width:1024px){ #pub_head{position:absolute;padding-left:256px;} }
+@media(max-width:1023px){ #pub_head{position:fixed;padding-left:0;} }
+
+#pub_headPack{position:relative;margin:0 auto 0;max-width:1024px;height:64px;background-color:#fff;}
+@media(min-width:1024px){ #pub_headPack{box-shadow:0 4px 8px rgba(255, 255, 255, 0.00);} }
+@media(max-width:1023px){ #pub_headPack{box-shadow:0 4px 8px rgba(0,0,0,0.25);} }
+
+#pub_headText{padding-top:12px;padding-bottom:12px;height:64px;font-weight:normal;line-height:40px;}
+@media(min-width: 768px){ #pub_headText{padding-right:32px;padding-left:32px;} }
+@media(max-width: 767px){ #pub_headText{padding-right:16px;padding-left:16px;} }
+@media(min-width: 768px){ #pub_headText small{font-size:16px;} }
+@media(max-width: 767px){ #pub_headText small{font-size:00px;} }
+
+#pub_headForm{position:absolute;top:12px;width:auto;height:4px;}
+@media(min-width: 768px){ #pub_headForm{right:80px;left:32px;} }
+@media(max-width: 767px){ #pub_headForm{right:64px;left:16px;} }
+
+#pub_headFormText{position:absolute;top:0;right:0;}
+@media(min-width: 768px){ #pub_headFormText{width:240px;} }
+@media(min-width: 512px) and (max-width: 767px){ #pub_headFormText{width:140px;} }
+@media(max-width: 511px){ #pub_headFormText{width:40px;} #pub_headFormText:focus{width:100%;} }
+
+#pub_headFormIcon{position:absolute;top:0;right:0;z-index:20;margin:1px;width:38px;height:38px;
+background-color:#fff;color:#999;text-align:center;line-height:38px;cursor:text;}
+#pub_headCode{position:absolute;top:12px;padding:0;width:40px;}
+@media(min-width: 768px){ #pub_headCode{right:32px;} }
+@media(max-width: 767px){ #pub_headCode{right:16px;} }
+
+
+
+/* 中间主体部分 */
+#pub_main{margin:80px auto 16px;max-width:1280px;}
+@media(min-width:1024px){ #pub_main{padding-left:256px;} }
+
+#pub_mainPack{min-height:calc(100vh - 160px);background-color:#ffffff;}
+@media(min-width: 768px){ #pub_mainPack{padding:32px 32px 32px;} }
+@media(max-width: 767px){ #pub_mainPack{padding:32px 16px;} }
+
+#pub_mainPack > section:not(:last-of-type) > hr:last-of-type{margin:32px 0;}
+#pub_mainPack > section:last-of-type > hr:last-of-type{margin:32px 0 0;}
+
+#pub_mainPack h2{font-weight:normal;}
+#pub_mainPack h3{font-weight:normal;}
+#pub_mainPack h4{font-weight:normal;}
+#pub_mainPack h5{font-weight:normal;}
+#pub_mainPack h6{font-weight:normal;}
+
+
+
+/* 最后面的注脚 */
+#pub_foot{position:relative;width:100%;line-height:20px;}
+@media(min-width:1024px){ #pub_foot{padding-left:256px;} }
+
+#pub_footPack{margin:0 auto;max-width:1024px;background-color:#ffffff;}
+@media(min-width: 768px){ #pub_footPack{padding:12px 32px 12px;} }
+@media(max-width: 767px){ #pub_footPack{padding:12px 16px 12px;} }
+@media(max-width: 511px){ #pub_footPack{font-size:12px;} }
+
+
+
+/* 左侧的工具栏 */
+#pub_tool{position:fixed;bottom:0;left:0;z-index:32;width:100%;height:4px;background-color:transparent;}
+#pub_toolPack{position:relative;margin:0 auto;max-width:1280px;height:4px;background-color:transparent;}
+
+#pub_toolSwitchDir{position:absolute;bottom:64px;padding:0;width:40px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
+#pub_toolBackToTop{position:absolute;bottom:12px;padding:0;width:40px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
+
+@media(min-width:1024px){ #pub_toolSwitchDir{display: none;} }
+@media(max-width:1023px){ #pub_toolSwitchDir{display:block;} }
+
+@media(min-width: 768px){ #pub_toolPack button{right: 12px;} }
+@media(max-width: 767px){ #pub_toolPack button{right: 16px;} }
+
+

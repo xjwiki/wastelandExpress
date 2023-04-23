@@ -1,0 +1,620 @@
+/*! xjDemo(案例代码展示) | V0.1.0 | Apache Licence 2.0 | 2020-2022 © XJ.Chen | https://github.com/xjZone/xjDemo/ */
+
+
+
+/* IE9 已经支持 woff，所以 eto 和 svg 等字体也没有再引入的需要，但是优先使用 woff2 的 dataURI */
+/* dataURI 制作 iconfont 就能省去引入字体的一个连接数，IE11- 不支持 woff2 会自动降级使用 woff */
+@font-face{font-family:"xjDemo";src:url("data:application/x-font-woff2;charset=utf-8;base64,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") format("woff2"), url("xjDemo.woff?t=1606422882994") format("woff");}
+.xjDemo-icon{font-family:"xjDemo"!important;font-weight:normal;font-style:normal;font-size:inherit;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.xjDemo-icon-larger::before{content:"\ea60";}
+.xjDemo-icon-larger2::before{content:"\ea61";}
+.xjDemo-icon-layout::before{content:"\ea62";}
+.xjDemo-icon-layout2::before{content:"\ea63";}
+.xjDemo-icon-result::before{content:"\ea64";}
+.xjDemo-icon-result2::before{content:"\ea65";}
+.xjDemo-icon-source::before{content:"\ea66";}
+.xjDemo-icon-source2::before{content:"\ea67";}
+.xjDemo-icon-save::before{content:"\ea68";}
+.xjDemo-icon-copy::before{content:"\ea69";}
+
+
+
+/* .xjDemo-overflow-hidden 类名，用于放大隐藏全局滚动条，Safari(IOS) 得设置尺寸，否则有滚动条 */
+/* .xjDemo-user-select-none 类名，用于 nook button & divide border 拖曳时阻止全局(HTML)的圈选 */
+.xjDemo-overflow-hidden, .xjDemo-overflow-hidden body{overflow:hidden!important;width:100%!important;height:100%!important;}
+.xjDemo-user-select-none{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+
+/* .xjDemo 用于容纳源码但并不需要显示出来，.xjDemo-copy-receptacle 用于复制时容纳被复制的文本 */
+/* .xjDemo-dragging-masker 用于拖曳时布满全屏，以统一 cursor 指针的状态，不会在拖曳位移时改变 */
+.xjDemo{display:none!important;}
+.xjDemo-copy-receptacle{position:fixed!important;opacity:0;}
+.xjDemo-dragging-masker{position:fixed;top:-128px;right:-128px;bottom:-128px;left:-128px;z-index:4000;}
+
+/* Safari 在布局横竖向变化时，总会出现计算出错的情况，具体表现为高度没将 padding 纳入计算范围 */
+/* 继而导致不该出现滚动条时有滚动条，强制渲染也没用，只能是插入临时节点重新渲染，之后再移除掉 */
+.xjDemo-result-rendered{overflow:hidden;width:1px;height:1px;opacity:0!important;}
+.xjDemo-source-rendered{overflow:hidden;width:1px;height:1px;opacity:0!important;}
+
+
+
+/* .xjDemo-style 可让未实例化的 code 具有统一样式，vertical-align:bottom 在有 xj.base 时可省略 */
+/* 只做 inline 设置，block 的设置可用 xjDemo 进行 onlySource 实例化，插件相关样式也不用再重复 */
+code[class*="language-"].xjDemo-style{
+	padding:0 8px;
+	font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;
+	/* xj.base */
+	vertical-align:bottom;
+}
+
+/* .xjDemo-pack 中有部分属性在已经引入 xj.base.css 文件时可以省略，可改用 xjDemo.slim.css 文件 */
+/* 包括注释后的 4 个属性，以及三个通配符所设置的盒模型 box-sizing，去掉可以让审查元素时更简洁 */
+.xjDemo-pack{
+	display:-ms-flexbox;
+	display:flex;
+	-ms-flex-direction:column;
+	flex-direction:column;
+	margin-bottom:16px;
+	min-width:256px;
+	font:16px/1.5 Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;
+	/* xj.base */
+	box-sizing:border-box;
+	word-wrap:break-word;
+	-webkit-text-size-adjust:100%;
+	-webkit-tap-highlight-color:transparent;
+}
+
+html:not([class*="xj-base"]) .xjDemo-pack{color:#333;}
+html[class~="xj-base-black"] .xjDemo-pack{color:#fff;}
+
+html:root .xjDemo-pack.xjDemo-white{color:#333;}
+html:root .xjDemo-pack.xjDemo-black{color:#fff;}
+
+.xjDemo-pack *{box-sizing:border-box;}			/* xj.base */
+.xjDemo-pack *::before{box-sizing:border-box;}	/* xj.base */
+.xjDemo-pack *::after{box-sizing:border-box;}	/* xj.base */
+
+.xjDemo-pack-larger{position:fixed;top:0;right:0;bottom:0;left:0;z-index:4000;margin-bottom:0;}
+
+
+
+/* head 可被隐藏起来或者根本不生成，所在的位置也可以上下变化，radius 也需要跟随所在位置而改变 */
+/* 放大显示时 radius 需要取消掉，如果 result 模块和 source 模块都不在，则 radius 需要布满四角 */
+.xjDemo-head{position:relative;display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;-ms-flex:0 0 auto;flex:0 0 auto;width:100%;height:40px;}
+
+html:not([class*="xj-base"]) .xjDemo-head{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .xjDemo-head{border:1px solid #666;background-color:#333;}
+
+html:root .xjDemo-white .xjDemo-head{border:1px solid #ccc;background-color:#fff;}
+html:root .xjDemo-black .xjDemo-head{border:1px solid #666;background-color:#333;}
+
+.xjDemo-head-hidden .xjDemo-head{display:none;}
+.xjDemo-head-bottom .xjDemo-head{-ms-flex-order:1;order:1;}
+
+
+
+/* 标题过长会自动变成 2 行显示，flex 子项得设置 flex 属性，否则会出错(如 IE 文本无法自动换行) */
+/* 当行高和字体相同且溢出被截断，部分英文字母底部会看不见，微调解决单行问题，但双行还是有 BUG */
+.xjDemo-head-title{display:inline-flex;display:-ms-inline-flexbox;-ms-flex-align:center;align-items:center;-ms-flex:1 1 auto;flex:1 1 auto;padding:0 16px;min-width:94px;height:38px;}
+.xjDemo-head-title-text{display:block;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-ms-flex:1 1 auto;flex:1 1 auto;min-height:20px;max-height:36px;text-overflow:ellipsis;line-height:18px;-webkit-line-clamp:2;}
+
+.xjDemo-head-nowrap .xjDemo-head-title{padding-top:2px;white-space:nowrap;}
+.xjDemo-head-nowrap .xjDemo-head-title-text{display:block;word-wrap:normal;}
+
+/* 按钮较多，占据太多位置，可能导致 title 空间不够，所以按钮尺寸也要参与收缩，shrink 设置为 1 */
+/* 但是测试之后，又发现按钮尺寸过小，不好点击，所以还是不收缩了，确保按钮具有固定 40px 的宽度 */
+.xjDemo-head-other{-ms-flex:0 0 auto;flex:0 0 auto;width:40px;height:38px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+
+html:not([class*="xj-base"]) .xjDemo-head-other{border-left:1px solid #ccc;}
+html[class~="xj-base-black"] .xjDemo-head-other{border-left:1px solid #666;}
+
+html:root .xjDemo-white .xjDemo-head-other{border-left:1px solid #ccc;}
+html:root .xjDemo-black .xjDemo-head-other{border-left:1px solid #666;}
+
+/* info 的从左到右淡入的动画，在 other 按钮彼此之间切换时表现很怪异，所以干脆把动画都取消掉了 */
+/* 当 source 模块和 result 模块都被隐藏时，info 需要贴近到右侧边缘，因为留下 8px 的间隙很怪异 */
+.xjDemo-head-other-info{position:absolute;top:47px;right:8px;z-index:12;display:none;padding:0 16px;height:40px;background-color:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;line-height:40px;cursor:default;pointer-events:none;}
+html:not(.xj-device-touch) .xjDemo-head-other:hover .xjDemo-head-other-info{display:block;}
+.xjDemo-head-bottom .xjDemo-head-other-info{top:auto;bottom:47px;}
+
+.xjDemo-body-result-hidden.xjDemo-body-source-hidden:not(.xjDemo-pack-larger) .xjDemo-head-other-info{top:39px;right:0;}
+.xjDemo-head-bottom.xjDemo-body-result-hidden.xjDemo-body-source-hidden:not(.xjDemo-pack-larger) .xjDemo-head-other-info{top:auto;right:0;bottom:39px;}
+
+/* 由于 ripple 默认 opacity 是 0.375，颜色太浅，所以特别的将 opacity 设为 0.5，让波纹更加显眼 */
+/* 最后一个按钮，需要跟随 head 模块圆角变化而变化，否则 bg 或 ripple 会出现溢出到圆角外的情况 */
+.xjDemo-head-other-icon{height:38px;color:#999;text-align:center;line-height:38px;cursor:pointer;}
+html:not(.xj-ripple-exist) .xjDemo-head-other-icon:active{background-color:#f0f0f0;}
+.xjDemo-head-other-icon .xj-ripple-element{opacity:0.5;}
+
+/* Win7 和 Win10 中的 Firefox，按钮行高都会偏下，行高设置成 1 后用 padding 挤出高度也解决不了 */
+/* 但 MacOS 的 Firefox 却不会，所以用 hack 特殊设置 Firefox22+ && !(MacOS10.6+ && Firefox25+) */
+@supports (-moz-appearance:none) and (not (-moz-osx-font-smoothing:auto)){
+	.xjDemo-head-other-info{line-height:38px;}
+	.xjDemo-head-other-icon::before{display:inline-block;padding-top:12px;vertical-align:top;line-height:1;}
+}
+
+
+
+/* body 也是 flex 布局，根据 4 个类名，决定 result 和 source 模块的布局，以及是否颠倒顺序显示 */
+/* Safari(IOS) 底部的圆角会被背景遮到，这个 BUG 可以使用 transform:translate3d(0,0,0); 来消除 */
+.xjDemo-body{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex:1 1 auto;flex:1 1 auto;width:100%;height:auto;border-width:1px;border-style:solid;border-top-width:0;}
+
+html:not([class*="xj-base"]) .xjDemo-body{border-color:#ccc;background-color:#fff;}
+html[class~="xj-base-black"] .xjDemo-body{border-color:#666;background-color:#333;}
+
+html:root .xjDemo-white .xjDemo-body{border-color:#ccc;background-color:#fff;}
+html:root .xjDemo-black .xjDemo-body{border-color:#666;background-color:#333;}
+
+.xjDemo-body-nowrap .xjDemo-body{-ms-flex-direction:row;flex-direction:row;}
+
+.xjDemo-head-hidden .xjDemo-body{border-top-width:1px;}
+.xjDemo-head-bottom:not(.xjDemo-head-hidden) .xjDemo-body{border-top-width:1px;border-bottom-width:0;}
+
+/* 全屏时得明文设置 height:100%;，否则在 Safari 中，Flex 子项无法自动扩展，这是 Safari 的 bug */
+/* 这个问题在 FlexBus 中似乎没收录，可参考这里：https://stackoverflow.com/questions/33636796/ */
+.xjDemo-pack-larger .xjDemo-body{height:100%;}
+.xjDemo-body-result-hidden.xjDemo-body-source-hidden:not(.xjDemo-pack-larger) .xjDemo-body{display:none;}
+
+.xjDemo-body-invert .xjDemo-body{-ms-flex-direction:column-reverse;flex-direction:column-reverse;}
+.xjDemo-body-invert.xjDemo-body-nowrap .xjDemo-body{-ms-flex-direction:row-reverse;flex-direction:row-reverse;}
+
+/* Safari(IOS) 的 xjDemo-body 会出现 result / source 的背景无法被圆角裁剪，继而导致溢出的问题 */
+/* 可以用 hack + transform:translateZ(0); 修复，可参考 : https://stackoverflow.com/a/64885552 */
+/* @supports (-webkit-overflow-scrolling:touch){
+	.xjDemo-pack:not(.xjDemo-pack-larger) .xjDemo-body{transform:translateZ(0);}
+} */
+
+
+
+/* 由于超出范围的时候得滚动，并且还得实现拖曳能改变尺寸的功能，所以不得不用三重标签嵌套的做法 */
+/* 拖曳修改尺寸时，外部尺寸变化(如全局滚动条的显示和隐藏)将导致内部尺寸动态变化，所以需要伸缩 */
+.xjDemo-body-result{position:relative;-ms-flex:1 1 auto;flex:1 1 auto;min-width:56px;min-height:56px;}
+.xjDemo-body-result-hidden .xjDemo-body-result{display:none;}
+
+.xjDemo-body-nowrap .xjDemo-body-result{width:50%;}
+
+.xjDemo-pack-larger .xjDemo-body-result{height:50%;}
+.xjDemo-pack-larger.xjDemo-body-nowrap .xjDemo-body-result{min-height:100%;}
+
+.xjDemo-body-source-hidden .xjDemo-body-result{min-width:100%;}
+.xjDemo-body-source-hidden.xjDemo-pack-larger .xjDemo-body-result{min-height:100%;}
+
+/* 为 result-wrap 添加 margin:16px;，当内部的元素存在 margin 时，不触发 BFC，外边据就能够折叠 */
+/* 没内容时，就用伪元素创建一个空格，否则 div 有 min-height，但是还会出现 Flex 高度坍塌的 BUG */
+.xjDemo-body-result .xjDemo-body-result-wrap{position:relative;overflow:auto;min-width:100%;min-height:100%;width:100%;height:100%;-webkit-overflow-scrolling:touch;}
+.xjDemo-body-result .xjDemo-body-result-wrap-view{margin:16px;}
+
+.xjDemo-body-result .xjDemo-body-result-wrap-view::before{display:inline-block;overflow:hidden;width:0;vertical-align:top;}
+.xjDemo-body-result .xjDemo-body-result-wrap-view:empty::before{content:" ";}
+
+/* 图标得距离边缘 2px，只能通过多嵌套一层来解决，拖曳无法做到 mask 先行，只能在拖曳时同步尺寸 */
+/* IE 的 :active 选择器有问题，点住后无法让 info 显示出来，所以只能是改用类名控制 info 的显示 */
+.xjDemo-body-result-nook{position:absolute;right:0;bottom:0;-ms-flex:0 0 auto;flex:0 0 auto;width:16px;height:16px;background-color:transparent;cursor:ns-resize;}
+
+.xjDemo-body-result-nook-info{position:absolute;right:8px;bottom:8px;z-index:12;visibility:hidden;padding:0 16px;height:40px;background-color:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;line-height:40px;opacity:0;cursor:default;transition:visibility 250ms, opacity 250ms;pointer-events:none;}
+.xjDemo-body-result-nook:hover .xjDemo-body-result-nook-info, .xjDemo-body-result-nook-dragging .xjDemo-body-result-nook-info{visibility:visible;opacity:1;transition-delay:250ms;}
+
+.xjDemo-body-result-nook-wrap{position:absolute;top:0;left:0;overflow:hidden;width:14px;height:14px;}
+.xjDemo-body-result-nook-wrap-icon{position:absolute;top:-2px;left:8px;width:5px;height:24px;border:1px solid #999;transform:rotate(45deg);}
+
+html:not([class*="xj-base"]) .xjDemo-body-result-nook-wrap-icon{box-shadow:1px 0 0 0 #fff inset, 1px 0 0 0 #fff;}
+html[class~="xj-base-black"] .xjDemo-body-result-nook-wrap-icon{box-shadow:1px 0 0 0 #333 inset, 1px 0 0 0 #333;}
+
+html:root .xjDemo-white .xjDemo-body-result-nook-wrap-icon{box-shadow:1px 0 0 0 #fff inset, 1px 0 0 0 #fff;}
+html:root .xjDemo-black .xjDemo-body-result-nook-wrap-icon{box-shadow:1px 0 0 0 #333 inset, 1px 0 0 0 #333;}
+
+.xjDemo-pack-larger .xjDemo-body-result-nook{display:none;}
+.xjDemo-body-nowrap:not(.xjDemo-body-invert):not(.xjDemo-body-source-hidden) .xjDemo-body-result-nook{display:none;}
+
+@supports (-moz-appearance:none) and (not (-moz-osx-font-smoothing:auto)){ .xjDemo-body-result-nook-info{line-height:38px;} }
+
+
+
+/* divide 分割线模块可以拖曳，以此改变模块的占比，border 必须要有背景色，不然在 IE 中会有 BUG */
+/* z-index 得低于 copy，否则横排会出现覆盖，横排时，height 得设置为 auto 才能实现高度自动拉伸 */
+.xjDemo-body-divide{position:relative;z-index:4;-ms-flex:0 0 auto;flex:0 0 auto;width:100%;height:1px;}
+
+html:not([class*="xj-base"]) .xjDemo-body-divide{background-color:#ccc;}
+html[class~="xj-base-black"] .xjDemo-body-divide{background-color:#666;}
+
+html:root .xjDemo-white .xjDemo-body-divide{background-color:#ccc;}
+html:root .xjDemo-black .xjDemo-body-divide{background-color:#666;}
+
+.xjDemo-body-divide-border{position:absolute;top:-8px;right:16px;bottom:auto;left:0;width:auto;height:17px;background-color:#fff;opacity:0;cursor:row-resize;}
+
+.xjDemo-body-nowrap .xjDemo-body-divide{width:1px;height:auto;}
+.xjDemo-body-nowrap .xjDemo-body-divide-border{top:0;right:auto;bottom:16px;left:-8px;width:17px;height:auto;cursor:col-resize;}
+
+.xjDemo-body-divide-result{position:absolute;top:-48px;left:50%;visibility:hidden;padding:0 16px;height:40px;background-color:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;line-height:40px;opacity:0;cursor:default;transition:visibility 250ms, opacity 250ms;transform:translateX(-50%);pointer-events:none;}
+.xjDemo-body-divide-source{position:absolute;top:8px;left:50%;visibility:hidden;padding:0 16px;height:40px;background-color:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;line-height:40px;opacity:0;cursor:default;transition:visibility 250ms, opacity 250ms;transform:translateX(-50%);pointer-events:none;}
+
+.xjDemo-body-nowrap .xjDemo-body-divide-result{top:50%;right:8px;left:auto;transform:translateY(-50%);}
+.xjDemo-body-nowrap .xjDemo-body-divide-source{top:50%;left:8px;transform:translateY(-50%);}
+
+.xjDemo-body-invert .xjDemo-body-divide-result{top:8px;}
+.xjDemo-body-invert .xjDemo-body-divide-source{top:-48px;}
+
+.xjDemo-body-invert.xjDemo-body-nowrap .xjDemo-body-divide-result{top:50%;right:auto;left:8px;}
+.xjDemo-body-invert.xjDemo-body-nowrap .xjDemo-body-divide-source{top:50%;right:8px;left:auto;}
+
+.xjDemo-body-divide-border:hover ~ .xjDemo-body-divide-result, .xjDemo-body-divide-dragging .xjDemo-body-divide-result{visibility:visible;opacity:1;transition-delay:250ms;}
+.xjDemo-body-divide-border:hover ~ .xjDemo-body-divide-source, .xjDemo-body-divide-dragging .xjDemo-body-divide-source{visibility:visible;opacity:1;transition-delay:250ms;}
+
+.xjDemo-body-result-hidden .xjDemo-body-divide{display:none;}
+.xjDemo-body-source-hidden .xjDemo-body-divide{display:none;}
+
+.xjDemo-body-divide-dragging .xjDemo-body-divide{z-index:12;}
+
+
+
+/* 因为 Prism 的 pre > code 结构要求，以及拖曳改变尺寸的功能，所以不得不用 3 重标签嵌套的做法 */
+/* 拖曳修改尺寸时，外部尺寸变化(如全局滚动条的显示和隐藏)将导致内部尺寸动态变化，所以需要伸缩 */
+.xjDemo-body-source{position:relative;-ms-flex:1 1 auto;flex:1 1 auto;min-width:56px;min-height:56px;}
+.xjDemo-body-source-hidden .xjDemo-body-source{display:none;}
+
+.xjDemo-body-nowrap .xjDemo-body-source{width:50%;}
+
+.xjDemo-pack-larger .xjDemo-body-source{height:50%;}
+.xjDemo-pack-larger.xjDemo-body-nowrap .xjDemo-body-source{min-height:100%;}
+
+.xjDemo-body-result-hidden .xjDemo-body-source{min-width:100%;}
+.xjDemo-body-result-hidden.xjDemo-pack-larger .xjDemo-body-source{min-height:100%;}
+
+.xjDemo-body-nowrap.xjDemo-body-source-saveable.xjDemo-body-source-copyable .xjDemo-body-source{min-width:104px;}
+
+
+
+/* 这里的结构必须和 Prism 保持一致，有些样式不得不重复设置，是因为各种 theme 影响，不得不纠正 */
+/* 不用 xjDemo-body-source-wrap-code 类名，是因为异步时 code 动态生成，导致无法选中，只好妥协 */
+.xjDemo-body .xjDemo-body-source .xjDemo-body-source-wrap{position:relative;display:block;float:none;overflow:auto;margin:0;padding:16px;min-width:100%;min-height:100%;width:100%;height:100%;border:0;text-align:left;white-space:pre;word-spacing:0;word-wrap:normal;word-break:normal;-moz-tab-size:4;tab-size:4;letter-spacing:0;font-size:16px;font-family:inherit;line-height:inherit;-webkit-overflow-scrolling:touch;}
+.xjDemo-body .xjDemo-body-source .xjDemo-body-source-wrap > code{position:static;display:inline;float:none;overflow:visible;margin:0;padding:0;border:0;text-align:inherit;white-space:inherit;word-spacing:inherit;word-wrap:inherit;word-break:inherit;-moz-tab-size:inherit;tab-size:inherit;letter-spacing:inherit;font-size:inherit;font-family:inherit;line-height:inherit;}
+
+/* 没内容时，就用伪元素创建一个空格，否则 pre 有 min-height，但是还会出现 Flex 高度坍塌的 BUG */
+/* 后来发现是 Flex 渲染计算出了问题，一旦重新选择就没问题了，但空格占位符始终是最好的解决方法 */
+.xjDemo-body .xjDemo-body-source .xjDemo-body-source-wrap > code::before{display:inline-block;overflow:hidden;width:0;vertical-align:top;}
+.xjDemo-body .xjDemo-body-source .xjDemo-body-source-wrap > code:empty::before{content:" ";}
+
+
+
+/* 图标得距离边缘 2px，只能通过多嵌套一层来解决，拖曳无法做到 mask 先行，只能在拖曳时同步尺寸 */
+/* IE 的 :active 选择器有问题，点住后无法让 info 显示出来，所以只能是改用类名控制 info 的显示 */
+.xjDemo-body-source-nook{position:absolute;right:0;bottom:0;-ms-flex:0 0 auto;flex:0 0 auto;width:16px;height:16px;background-color:transparent;cursor:ns-resize;}
+
+.xjDemo-body-source-nook-info{position:absolute;right:8px;bottom:8px;z-index:12;visibility:hidden;padding:0 16px;height:40px;background-color:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;line-height:40px;opacity:0;cursor:default;transition:visibility 250ms, opacity 250ms;pointer-events:none;}
+.xjDemo-body-source-nook:hover .xjDemo-body-source-nook-info, .xjDemo-body-source-nook-dragging .xjDemo-body-source-nook-info{visibility:visible;opacity:1;transition-delay:250ms;}
+
+.xjDemo-body-source-nook-wrap{position:absolute;top:0;left:0;overflow:hidden;width:14px;height:14px;}
+.xjDemo-body-source-nook-wrap-icon{position:absolute;top:-2px;left:8px;width:5px;height:24px;border:1px solid #999;transform:rotate(45deg);}
+
+html:not([class*="xj-base"]) .xjDemo-body-source-nook-wrap-icon{box-shadow:1px 0 0 0 #fff inset, 1px 0 0 0 #fff;}
+html[class~="xj-base-black"] .xjDemo-body-source-nook-wrap-icon{box-shadow:1px 0 0 0 #333 inset, 1px 0 0 0 #333;}
+
+html:root .xjDemo-white .xjDemo-body-source-nook-wrap-icon{box-shadow:1px 0 0 0 #fff inset, 1px 0 0 0 #fff;}
+html:root .xjDemo-black .xjDemo-body-source-nook-wrap-icon{box-shadow:1px 0 0 0 #333 inset, 1px 0 0 0 #333;}
+
+.xjDemo-pack-larger .xjDemo-body-source-nook{display:none;}
+.xjDemo-body-nowrap.xjDemo-body-invert:not(.xjDemo-body-result-hidden) .xjDemo-body-source-nook{display:none;}
+
+@supports (-moz-appearance:none) and (not (-moz-osx-font-smoothing:auto)){ .xjDemo-body-source-nook-info{line-height:38px;} }
+
+
+
+/* info 提示如果用 1 个标签实现，在像素比不是整数的情况下，可能圆角矩形和小三角会之间会有虚边 */
+/* 所以将 info 提示的背景和文本拆开来，使用 opacity 实现半透明，小三角往内缩 2 个像素避免虚边 */
+.xjDemo-body-source-exec{position:absolute;top:8px;right:8px;z-index:8;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+.xjDemo-body-source-copyable .xjDemo-body-source-save{right:56px;}
+
+.xjDemo-body-source-exec-info{position:absolute;top:0;right:48px;visibility:hidden;white-space:nowrap;opacity:0;cursor:default;transition:visibility 250ms, opacity 250ms, transform 250ms;transform:translateX(-40px);pointer-events:none;}
+.xjDemo-body-source-exec-tips .xjDemo-body-source-exec-info{visibility:visible;opacity:1;transform:translateX(0);}
+
+.xjDemo-body-source-exec-info-back{position:absolute;width:100%;height:100%;background-color:#000;opacity:0.75;}
+.xjDemo-body-source-exec-done .xjDemo-body-source-exec-info-back{background-color:#0c3;opacity:1;}
+.xjDemo-body-source-exec-fail .xjDemo-body-source-exec-info-back{background-color:#f33;opacity:1;}
+
+.xjDemo-body-source-exec-info-back::before{position:absolute;top:12px;right:-8px;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:10px solid #000;content:"";}
+.xjDemo-body-source-exec-done .xjDemo-body-source-exec-info-back::before{border-left-color:#0c3;}
+.xjDemo-body-source-exec-fail .xjDemo-body-source-exec-info-back::before{border-left-color:#f33;}
+
+.xjDemo-body-source-exec-info-fore{position:relative;padding:0 16px;height:40px;color:#fff;line-height:40px;}
+
+.xjDemo-body-source-exec-icon{width:40px;height:40px;color:#999;text-align:center;line-height:38px;opacity:0.25;cursor:pointer;transition:opacity 250ms;}
+
+html:not([class*="xj-base"]) .xjDemo-body-source-exec-icon{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .xjDemo-body-source-exec-icon{border:1px solid #666;background-color:#333;}
+
+.xjDemo-white .xjDemo-body-source-exec-icon{border:1px solid #ccc;background-color:#fff;}
+.xjDemo-black .xjDemo-body-source-exec-icon{border:1px solid #666;background-color:#333;}
+
+.xjDemo-body-source:hover .xjDemo-body-source-exec-icon{opacity:0.5;}
+.xjDemo-body-source:focus .xjDemo-body-source-exec-icon{opacity:0.5;}
+.xjDemo-body-source:hover .xjDemo-body-source-exec-icon:hover{opacity:1;}
+
+html:not(.xj-ripple-exist)html:not([class*="xj-base"]) .xjDemo-body-source-exec-icon:active{background-color:#f0f0f0;}
+html:not(.xj-ripple-exist)html[class~="xj-base-black"] .xjDemo-body-source-exec-icon:active{background-color:#242424;}
+
+html:not(.xj-ripple-exist):root .xjDemo-white .xjDemo-body-source-exec-icon:active{background-color:#242424;}
+html:not(.xj-ripple-exist):root .xjDemo-black .xjDemo-body-source-exec-icon:active{background-color:#242424;}
+
+.xjDemo-body-source-exec-icon .xj-ripple-element{opacity:0.5;}
+
+@supports (-moz-appearance:none) and (not (-moz-osx-font-smoothing:auto)){
+	.xjDemo-body-source-exec-info-fore{line-height:38px;}
+	.xjDemo-body-source-exec-icon::before{display:inline-block;padding-top:12px;vertical-align:top;line-height:1;}
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+
+/* 尽量使用插件原本的结构，只是在前面限定 .xjDemo-body .xjDemo-body-source 提高权重并固定范围 */
+/* 有些主题的样式权重比较高，需要双重类名才能实现覆盖，固定范围则是避免 xjDemo 的设置波及全局 */
+
+/* coy 主题只能放弃了，设定有冲突，并且如果 display 改为 block 或 inline，则 funky 主题会异常 */
+/* 1.5.0 新增了 coy-without-shadows 主题，保持颜色的基础上取消了奇怪的结构，需要 coy 可用这个 */
+
+/* -ms-user-select:none; - IE10 并不支持 pointer-events:none;，所以伪元素会被选中，这里得禁止 */
+/* 但发现即使 ::before / ::after 设置了 -ms-user-select:none;，也还是无法阻止文本可以被圈选中 */
+
+
+
+/* Autolinker & WebPlatform Docs ------------------------------------------------------------ */
+
+/* 这个设置会影响到两个插件，为 a 标签添加下划线，强调这是一个链接，:hover 则采用默认设置就行 */
+.xjDemo-body .xjDemo-body-source a.token{text-decoration:underline;}
+
+
+
+/* Inline Color ----------------------------------------------------------------------------- */
+
+/* outline 生成了最外层的边框，尺寸变成 14px*14px，但 outline 不占位置，margin 还是得设为 2px */
+.xjDemo-body .xjDemo-body-source span.inline-color-wrapper{margin:2px;width:12px;height:12px;border:1px solid #fff;vertical-align:-2px;}
+
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source span.inline-color-wrapper{outline:1px solid #ccc;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source span.inline-color-wrapper{outline:1px solid #666;}
+
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source span.inline-color-wrapper{outline:1px solid #ccc;}
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source span.inline-color-wrapper{outline:1px solid #666;}
+
+
+
+/* Command Line ----------------------------------------------------------------------------- */
+
+/* 主要是修改边框的颜色，并且调整内外边距的内容，这个设置和 Line Numbers 插件的设置其实很相似 */
+.xjDemo-body .xjDemo-body-source .command-line-prompt{margin-right:16px;}
+.xjDemo-body .xjDemo-body-source .command-line-prompt > span::before{padding-right:16px;}
+
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source .command-line-prompt{border-right-color:#ccc;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source .command-line-prompt{border-right-color:#666;}
+
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source .command-line-prompt{border-right-color:#ccc;}
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source .command-line-prompt{border-right-color:#666;}
+
+
+
+/* Line Numbers ----------------------------------------------------------------------------- */
+
+/* padding-left:64px; - 原本是 3.8em，但是不够工整，所以修改为 64px，这样最大能够容纳五个数值 */
+/* position:static; - .line-numbers-rows 是基于 code 定位的，但 code 是 inline 布局，并不合适 */
+/* 这将导致定位有些许的偏移，当和 line-highlight 插件配合时，偏移就会被明显的明显的显示出来了 */
+/* 所以将 position 还是恢复为 static，然后让 .line-numbers-rows 基于 pre 定位，才能解决这问题 */
+.xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers{padding-left:64px;}
+.xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers > code{position:static;}
+
+/* top:16px;left:0; - 将定位改为基于 pre，所以 top 和 left 的参数也必须重新设置，才能确保定位 */
+/* width:48px; - 原本就是 3em;，但基于 font-size 换算总是很麻烦，所以固定为 16px * 3em = 48px */
+/* background-color:transparent; - coldark-cold / coldark-dark 主题修改了背景色，这里重新纠正 */
+/* cursor:default; - IE10 不支持 pointer-events 属性，伪元素呈现 cursor:text 效果，得重设才行 */
+.xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows{top:16px;left:0;width:48px;background-color:transparent;cursor:default;}
+
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows{border-right-color:#ccc;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows{border-right-color:#666;}
+
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows{border-right-color:#ccc;}
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows{border-right-color:#666;}
+
+/* padding-right:0;border-right:none; - 纠正 cb 主题修改的参数，code 还有 float:left;，得去掉 */
+/* xonokai 主题还会修改 code 的 display 为 block;，如果不纠正为 inline 则行号的定位将有些偏移 */
+.xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows > span{padding-right:0;border-right:none;}
+
+/* padding-right:8px; - 原本是 0.8em，但是不够工整，基于 font-size 换算总是很麻烦，固定为 8px */
+.xjDemo-body .xjDemo-body-source pre[class*="language-"].line-numbers .line-numbers-rows > span::before{padding-right:8px;}
+
+
+
+/* Line Highlight --------------------------------------------------------------------------- */
+
+/* padding-left:48px; - 原本是 3em 的，但插件自己的选择器权重过低无法覆盖，所以只能重设覆盖了 */
+.xjDemo-body .xjDemo-body-source pre[data-line]{padding-left:48px;}
+
+/* margin-top:16px; - 原本是 1em 的，coy 和 prism-shades-of-purple 主题乱改这个属性，需要恢复 */
+/* border:none;box-shadow:none; - twilight 主题有边框，vsc-dark-plus 主题有阴影，都是多余设置 */
+.xjDemo-body .xjDemo-body-source .line-highlight{margin-top:16px;border:none;background-image:linear-gradient(to right, rgba(128, 128, 128, 0.115) 75%, rgba(128, 128, 128, 0));box-shadow:none;}
+
+/* height:auto; - xonokai 主题把 height 设置成了 1em;，结果导致高度异常，这里不得不重新再纠正 */
+/* content:attr(data-start); - prism-shades-of-purple 主题设置了 content:''，这里需要重新恢复 */
+/* cursor:default; - IE10 不支持 pointer-events 属性，伪元素呈现 cursor:text 效果，得重设才行 */
+.xjDemo-body .xjDemo-body-source .line-highlight::before, .xjDemo-body .xjDemo-body-source .line-highlight[data-end]::after{top:4px;left:8px;padding:2px 8px;height:auto;border-radius:0;background-color:rgba(128, 128, 128, 0.395);box-shadow:none;color:#fff;content:attr(data-start);vertical-align:top;text-shadow:none;font-weight:normal;font-style:normal;font-size:12px;font-family:inherit;line-height:12px;cursor:default;}
+
+/* top:auto;bottom:4px;content:attr(data-end); - 原本的设置也是选择器权重过低，不得不重置一回 */
+/* content:none; - 原本也是这样的设置，有 line-numbers 时不显示的，但是权重过低，所以重新设置 */
+.xjDemo-body .xjDemo-body-source .line-highlight[data-end]::after{top:auto;bottom:4px;content:attr(data-end);}
+.xjDemo-body .xjDemo-body-source .line-numbers .line-highlight::before, .xjDemo-body .xjDemo-body-source .line-numbers .line-highlight::after{content:none;}
+
+/* z-index:1; - IE10 不支持 pointer-events 属性，当和 line-numbers 插件配合使用，层级会有问题 */
+/* .line-numbers-rows 会在前面，层级较低，被 .line-numbers 覆盖，所以无法被点击到，得修改才行 */
+/* pointer-events:auto; - 普通元素只支持 auto 和 none，插件错误的将值设置成了 all，不得不纠正 */
+/* cursor:pointer; - IE10 得在 span 重设 cursor 属性，::before 的设置不生效，暂时不知道为什么 */
+.xjDemo-body .xjDemo-body-source pre[id].linkable-line-numbers span.line-numbers-rows{z-index:1;pointer-events:auto;}
+.xjDemo-body .xjDemo-body-source pre[id].linkable-line-numbers span.line-numbers-rows > span{cursor:pointer;}
+.xjDemo-body .xjDemo-body-source pre[id].linkable-line-numbers span.line-numbers-rows > span:hover::before{background-color:rgba(128, 128, 128, 0.115);}
+
+
+
+/* Show Invisibles --------------------------------------------------------------------------- */
+
+/* Iosevka 字体的 CRLF 字符很小，不知以后的版本是否改进，这里将 font-family 的 Iosevka 剔除？ */
+/* 由于 ::before 伪元素使用的是 position:absolute; 定位，所以改用其他字体也不会影响到字符宽度 */
+.xjDemo-body .xjDemo-body-source .token.tab:not(:empty)::before,
+.xjDemo-body .xjDemo-body-source .token.cr::before,
+.xjDemo-body .xjDemo-body-source .token.lf::before,
+.xjDemo-body .xjDemo-body-source .token.space::before{opacity:0.5;}
+
+
+
+/* Toolbar ---------------------------------------------------------------------------------- */
+
+/* opacity:1; - 将 opacity 调整为跟 xjDemo 的按钮相同的透明度，在移动端不聚焦也可以知道有按钮 */
+/* line-height:1; - toolbar 的 line-height 会继承到 1.5 的值，会影响到高度，所以重设为 1 的值 */
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar{top:8px;right:8px;z-index:8;line-height:1;opacity:1;transition:none;}
+.xjDemo-body-source-saveable .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar{right:56px;}
+.xjDemo-body-source-copyable .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar{right:56px;}
+.xjDemo-body-source-saveable.xjDemo-body-source-copyable .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar{right:104px;}
+
+/* .toolbar-item */
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar .toolbar-item{margin-left:8px;vertical-align:top;opacity:0.25;transition:opacity 250ms;}
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar .toolbar-item:first-of-type{margin-left:0;}
+.xjDemo-body .xjDemo-body-source.code-toolbar:hover > .toolbar .toolbar-item{opacity:0.5;}
+.xjDemo-body .xjDemo-body-source.code-toolbar:hover > .toolbar .toolbar-item:hover{opacity:1;}
+
+/* .toolbar-item > * */
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a,
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar span,
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button{position:relative;display:inline-block;overflow:hidden;margin:0;padding:0 8px;min-height:20px;height:auto;border-radius:0;box-shadow:none;vertical-align:top;text-decoration:none;text-transform:none;white-space:nowrap;font-weight:normal;font-style:normal;font-size:12px;font-family:inherit;line-height:18px;-webkit-appearance:none;}
+
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a,
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar span,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar span,
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button{border:1px solid #ccc;background-color:#fff;color:#333;}
+
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a,
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar span,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar span,
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button{border:1px solid #666;background-color:#333;color:#fff;}
+
+/* .toolbar-item > anchor */
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a{cursor:pointer;}
+html:not(.xj-device-touch) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a:hover{text-decoration:underline;}
+
+html:not(.xj-device-touch):not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a:hover{color:#333;}
+html:not(.xj-device-touch)[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a:hover{color:#fff;}
+
+html:not(.xj-device-touch):root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a:hover{color:#333;}
+html:not(.xj-device-touch):root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar a:hover{color:#fff;}
+
+/* .toolbar-item > button */
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button{cursor:pointer;}
+
+html:not(.xj-device-touch):not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:hover{background-color:#f0f0f0;}
+html:not(.xj-device-touch)[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:hover{background-color:#242424;}
+html:not(.xj-device-touch):root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:hover{background-color:#f0f0f0;}
+html:not(.xj-device-touch):root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:hover{background-color:#242424;}
+
+html:not(.xj-device-mouse):not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:active{background-color:#f0f0f0;}
+html:not(.xj-device-mouse)[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:active{background-color:#242424;}
+html:not(.xj-device-mouse):root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:active{background-color:#f0f0f0;}
+html:not(.xj-device-mouse):root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:active{background-color:#242424;}
+
+html:not(.xj-device-touch):not(.xj-ripple-exist):not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:not(.button-active):not(.input-active):active{background-color:#fff;}
+html:not(.xj-device-touch):not(.xj-ripple-exist)[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:not(.button-active):not(.input-active):active{background-color:#333;}
+html:not(.xj-device-touch):not(.xj-ripple-exist):root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:not(.button-active):not(.input-active):active{background-color:#fff;}
+html:not(.xj-device-touch):not(.xj-ripple-exist):root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:not(.button-active):not(.input-active):active{background-color:#333;}
+
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button::-moz-focus-inner{padding:0;border:0;}
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar .xj-focus-ontab:focus{outline:0;box-shadow:0 0 0 2px rgba(51,153,255,0.75);}
+html:not(.xj-focus-exist) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:enabled:focus{outline:0;box-shadow:0 0 0 2px rgba(51,153,255,0.75);}
+
+.xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:disabled{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:disabled{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:disabled{background-color:#3d3d3d;}
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:disabled{background-color:#f5f5f5;}
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source.code-toolbar > .toolbar button:disabled{background-color:#3d3d3d;}
+
+
+
+/* Treeview ----------------------------------------------------------------------------------*/
+
+/* 左侧边框的颜色本来就是 #ccc 而无需调整，只要加上过渡动画，然后在 dark 模式下变成 #666 而已 */
+/* 图标原本为 DataURI 的 svg，现在改为图标字体 : https://github.com/PrismJS/prism/issues/2630 */
+@font-face{font-family:"PrismTreeview";src:url("data:application/font-woff;base64,d09GRgABAAAAAAm8AAsAAAAAElAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZBR0zbY21hcAAAAYAAAACNAAACCvAF7/tnbHlmAAACEAAABU8AAAp0h5P8B2hlYWQAAAdgAAAAMQAAADYaxRV2aGhlYQAAB5QAAAAgAAAAJAfdBEhobXR4AAAHtAAAABYAAAA0NLr//2xvY2EAAAfMAAAAHAAAABwOkhD6bWF4cAAAB+gAAAAfAAAAIAEgAIRuYW1lAAAICAAAAVIAAAKR0Kew33Bvc3QAAAlcAAAAXgAAARc4mj12eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk4WOcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGBxeXXh1m7nhfwNDDHMDQyNQmBEkBwADwA2leJztkckRAjEQA9usWa4NhQAIiBdREdJyXxlMEovGepAErmpVjTz2QwLmQCe2okI5UMizl1ua37FufmXXdmr68Zkm6ZiquTadabfqx54FS1Z6t2HQRc//DE2PvylG09I8GSVInE22EheT+cbVZGNxM0qauBtlTjyM0ieeRj0QL5NNxtuoG7VoGL5EWzTFAAAAeJyVVk1sG0UUntnZndn1z9qu9yfEP4m9za7apI7jtXeaREmaDU6VkEJxm6oSakWbigOHiqpFQNUKUFH/hBSogEPLBVWoqOWAqOBED0UqSAUOvbQcqTjwc+gBIaGgxOGtE2iVgG1W9ux7s2/ezPfN92YXkeXl5VfJYfIaSqJOZCGEs1hPaNTK5e1Kouy5uZJhMt21+7GdTFh5ewTnEmR73Ow2l5DZ3W0KyOTxmXuUfcq+eWB216eEK3FuLh0OnpELEBZ37iXYdbb4vjDVbT5YvICQgOAiN8gIMlEfQj2Jsh1MN4LLdi/OU5jegGm95CPLGMYlI4NhLeR4Rq/P65msfkXPZnXhpJ6ZqBaXTg1UqwNXipP42WL1Dj6iZTN6Xs9AqAJR+HR9vjg5WcR/FKvVYqIaTC8htHydTJEdq7g3I7c97D16rsJNLuXtslcyNEpsVc9oSzv0dFrH3+oDscdvSvQD+vldLVN/Udi59Nucf6u+sGloqDY4KJxTS9rSJ0Eo8fS0FrNuxiB28XchltbvLv7604dzB8dv+UM1iB5CiK5Zo4sm0K72Vplc6c/g1TjpoQ00e+5avymKNxSGn2ehEKu/xxR8/G/r0V6FtcKGv5AVRc4FoTWF5YKB4JxqtA1/PV6OnkDPtIl3FHdBXAybBo1hGjzjOSOGVdyPC3gMO7Y3hj3DJAXMV2MZUbHTFPdnoiqlJEHcv18UwFDFY4wJcVk+JkZpJ8Xivn0iBiMq3mYy3o4jNEeDe7g1F99BVg2ynDxBVTEJWS4poZByCXImRZWeOAk5NZiz/jIkxdcgO4Ws9VlIH2hX+YcnghgKo1hDvxxNN9RRsXSzYmVW73pPS/Ys3arkEsCcrlEIKnOPV1zdLRms5JXtPNUMfGL8lA8/fPU/2fL9+gLeycXpo9Ni2B3fFN4wmbZtbtvCGT+4xsfHof26GS++D8wcva5Ge7du7Y2q3dd8P/pnMqVpqeR6bQwC2na1YUAIo1a+H1srch/G3EuWuFd2CqAQ04CnWeys7WiqjaVQSBQonZ0IVD0xK/8QD/m+nNYFuVyWBe2AGtqyRUknsZJKKVhrKYjLYqT+S0TE0h6FzTFlj1y/GKndqYXJhlR47PJYOBWfCRVfL4ZwMhXKzmRCqQ3/coYF50NbjOCV6ofDdvU0eMhQhXtuqSlyPJVynNStoMFfBiww6exZiQmtRb86ChoMcL8PA9yzhXMSktfg2Iv2oefQC+ilNtEYJqzZhGoHBLZDG0AEm4/CLoOoPdAzVH3wCjENpuIMpsxgHldxkpq8zB3bIV7QBkMl2zLcEm9OwPlEZzY7E5MZJvmOau7I3qe2yCxCoKYHepmEU2krGaWUxsMRqogYY5peSPV29nwlU1kAb1t1B6OC06lCjUaHnQ65NXUD0bj4WCRGkloikj0jUiJF9XKHyATcNzS5bfPOTo2FOwghsbGNuxciVa2AbxuFPiIIYbl+Na2KkmBt7Ru0orHG+SGu4fvJ9njmuluxeHCODmOti1iB63BodJdZZQdiG7bJmrJ36S27IpCAFoFQ7rxrHTyUn7e3BZ4H3oFDrch4hfOaGOiNiEqN8zff5nwOBtOGvQ7bdJtnhO4mXRCKV3FNowuD04AF7xLLIRZh1gq8psi8jbNP+wBMgL9f273xYsGF7Rbo9PA0BYO4hdYlwusfL4Sjsmgo0gLezfn9cDRs4Y76zxYY9/n6mufI/x+7VwFtj8JnlgMfWrqb4EFHcO6z5p8x73zUP+kY+U12rqP3RvH0yEgqnumOt7FRs3LE3zWqhnj9x/nzSmJzIQ61/hdNGva3AHicY2BkYGAA4pUPzzjG89t8ZeBmYQCB25cz9sLo////17MwMDcAuRwMTCBRAILsDfsAAAB4nGNgZGBgbvjfwBDDsuv/fwYGFgYGoAgK4AUAiA4FLnicY2FgYGBh+P+fZReIJg4DAH/HAu0AAAAAAAAAOgB8AM4BRgHaAlQC3gNCA/oEaATYBTp4nGNgZGBg4GWoYOBkAAEmIOYCQgaG/2A+AwAWMAGlAHicdZDNSsNAFIVP+icm4EKx63GjoJD+bISCq0LrukK3JU0nbUr+mE4L3fgGLnwen8IX0Kdw72l6C6Vohrl898y5J8MAuMQXHOy/a+49O/DY7bmCMyjhKvU74Rq5K1wnPwk3yM/CLh7wIuzhCq9McGrn7O7xLuygiQ/hCi7wKVyl/i1cI/8I19F0POEG+UbYxdh5FPZw67y5faMDq2dqulVxmGdRnll3VyZRkMbJdqTn6yQwR8oRjrVZxXmmOn77SB3qTJtD5moz71obqcjkqRrQpJMkV4XJlzq0/sLaotdqRaL7YZ7yin0YaASwrDM+6xRb1hghcmSIymrpO9CEFCClI6FzxKk51uSAOX97/lbHnDRYsdudKnTgo/2Pd0hvVvpP77nChv/vUrWcUNyGCSlpIEmaCQlZoSjPllRC6j4W5VSBHlpc0YnfL18g/QX373i7AAB4nG3OOQqAMBRF0f/iHAdwIYKJ84JSpBBERbdvYefzlqe6ouRNy38lFAKEiBAjQYoMGjkKlKik3nZ/rM25O3d5dzetIbEkHUlPMpCMJBPJTLJ8xbQk9GysyAO6H01OAAA=") format("woff");}
+
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-line{width:24px;text-indent:-4000px;}
+
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name{padding-left:24px;}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name::before{left:4px;width:16px;background-image:none;font-style:normal;font-size:inherit;font-family:"PrismTreeview";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name::before{content:"\ead0";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.dir::before{content:"\ead1";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-bmp::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-eps::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-gif::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-jpe::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-jpg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-jpeg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-png::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-svg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-tiff::before{content:"\ead2";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-cfg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-conf::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-config::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-csv::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-ini::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-log::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-md::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-nfo::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-txt::before{content:"\ead3";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-asp::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-aspx::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-c::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-cc::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-cpp::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-cs::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-css::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-h::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-hh::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-htm::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-html::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-jav::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-java::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-js::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-php::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-rb::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-xml::before{content:"\ead4";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-7z::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-bz::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-bz2::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-gz::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-rar::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-tar::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-tgz::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-zip::before{content:"\ead5";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-aac::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-au::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-cda::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-flac::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mp3::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-oga::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-ogg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-wav::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-wma::before{content:"\ead6";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-avi::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-flv::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mkv::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mov::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mp4::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mpeg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-mpg::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-ogv::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-webm::before{content:"\ead7";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-pdf::before{content:"\ead8";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-xls::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-xlsx::before{content:"\ead9";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-doc::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-docm::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-docx::before{content:"\eada";}
+.xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-pps::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-ppt::before, .xjDemo-body .xjDemo-body-source .token.treeview-part .entry-name.ext-pptx::before{content:"\eadb";}
+
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::before,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::before,
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v::before,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v::before{border-color:#ccc;}
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v-last::before,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v-last::before{border-color:#ccc;}
+html:not([class*="xj-base"]) .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::after,
+html:root .xjDemo-white .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::after{border-color:#ccc;}
+
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::before,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::before,
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v::before,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v::before{border-color:#666;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v-last::before,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source .token.treeview-part .line-v-last::before{border-color:#666;}
+html[class~="xj-base-black"] .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::after,
+html:root .xjDemo-black .xjDemo-body .xjDemo-body-source .token.treeview-part .line-h::after{border-color:#666;}
+
+/* Previewers ------------------------------------------------------------------------------- */
+
+/* 插件所生成预览弹出层是放在 body 标签中的，没法用 .xjDemo-body .xjDemo-body-source 类名限制 */
+/* 设置后会影响到全局，最终还是取消了设置，xjBase-dark 也就没有设置的必要了，白色阴影也有问题 */
+/*
+.prism-previewer::before{top:-4px;right:-4px;bottom:-4px;left:-4px;border:4px solid #fff;border-radius:4px;box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 4px 8px rgba(0, 0, 0, 0.75);}
+.prism-previewer::after{margin:4px 0 0 -8px;border-width:8px;}
+.prism-previewer.flipped::before{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 -4px 8px rgba(0, 0, 0, 0.75);}
+.prism-previewer.flipped::after{margin-bottom:4px;}
+
+.prism-previewer-angle{margin-top:-46px;}
+.prism-previewer-angle::before{border-radius:50%;}
+.prism-previewer-angle::after{margin-top:2px;}
+.prism-previewer-angle circle{stroke:#333;stroke-opacity:0.75;}
+.prism-previewer-angle.flipped{margin-top:0;margin-bottom:-46px;}
+.prism-previewer-angle.flipped::after{margin-bottom:2px;}
+
+.prism-previewer-color{background-image:linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, #fff 25%, #fff 75%, #ccc 75%, #ccc);background-position:0 0, 4px 4px;background-size:8px 8px;}
+
+.prism-previewer-easing{margin-top:-80px;margin-left:-32px;width:64px;height:64px;}
+.prism-previewer-easing svg{width:64px;height:64px;}
+.prism-previewer-easing.flipped{margin-bottom:-80px;}
+
+.prism-previewer-gradient{background-image:linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, #fff 25%, #fff 75%, #ccc 75%, #ccc);background-position: 0 0, 4px 4px;background-size:8px 8px;}
+.prism-previewer-gradient div{top:-4px;right:-4px;bottom:-4px;left:-4px;border:4px solid #fff;border-radius:4px;box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 4px 8px rgba(0, 0, 0, 0.75);}
+.prism-previewer-gradient.flipped div{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 -4px 8px rgba(0, 0, 0, 0.75);}
+
+.prism-previewer-time{margin-top:-46px;}
+.prism-previewer-time::before{border-radius:50%;}
+.prism-previewer-time::after{margin-top:2px;}
+.prism-previewer-time circle{stroke:#333;stroke-opacity:0.75;}
+.prism-previewer-time.flipped{margin-top:0;margin-bottom:-46px;}
+.prism-previewer-time.flipped::after{margin-bottom:2px;}
+
+html[class~="xj-base-black"] .prism-previewer::before{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 4px 8px rgba(255, 255, 255, 0.75);}
+html[class~="xj-base-black"] .prism-previewer.flipped::before{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 -4px 8px rgba(255, 255, 255, 0.75);}
+
+html[class~="xj-base-black"] .prism-previewer-gradient div{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 4px 8px rgba(255, 255, 255, 0.75);}
+html[class~="xj-base-black"] .prism-previewer-gradient.flipped div{box-shadow:0 0 4px rgba(0, 0, 0, 0.25) inset, 0 -4px 8px rgba(255, 255, 255, 0.75);}
+*/
+
+

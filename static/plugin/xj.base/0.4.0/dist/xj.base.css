@@ -1,0 +1,1843 @@
+/** xj.base(CSS 样式基础) | V0.4.0 | Apache Licence 2.0 | 2015-2021 © XJ.Chen | https://github.com/xjZone/xj.base/ */
+
+
+
+/* basis ↓ --------------------------------------------------------------------------------- */
+
+
+
+/* 全局采用 box-sizing:border-box; 模式，这样便于盒模型尺寸计算，这也是大部分框架都会有的设置 */
+/* 虽然选择器可写成 *, *::before, *::after{}，但这样审查 Style 面板时会比较难看，所以就分开了 */
+*{box-sizing:border-box;}
+::before, ::after{box-sizing:border-box;}
+
+
+
+/* Firefox 在低版本中，input[type="range"] 控件存在 ::-moz-focus-outer 伪类，得清掉多余的边框 */
+/* Firefox 的按钮控件在聚焦后存在 ::-moz-focus-inner 伪类，这伪类设置了一些多余的样式，得清掉 */
+::-moz-focus-outer{border:0;}
+::-moz-focus-inner{margin:0;padding:0;border:0;}
+
+
+
+/* @supports not (shape-margin:0){} 是针对 Firefox61-，用 ::-moz-selection 选择器设置选中颜色 */
+/* line-height 的值较小时，选中文本后背景色会重叠导致看不见文本，所以背景色需要半透明避免覆盖 */
+@supports not (shape-margin:0){ html:not([class*="xj-base"]) ::-moz-selection{background-color:hsla(0, 100%, 0%, 0.75);color:#fff;} }
+@supports not (shape-margin:0){ html[class~="xj-base-black"] ::-moz-selection{background-color:hsla(0, 0%, 100%, 0.75);color:#000;} }
+
+html:not([class*="xj-base"]) ::selection{background-color:hsla(0, 100%, 0%, 0.75);color:#fff;}
+html[class~="xj-base-black"] ::selection{background-color:hsla(0, 0%, 100%, 0.75);color:#000;}
+
+
+
+/* ::placeholder 伪元素选择器，由于只对可输入的 input / textarea 生效，所以也不需要再前缀标签 */
+/* Chrome56- 和 MacOS10.0- 和 IOS10.2- 的 ::placeholder 需要前缀，使用 display:grid; 来做判断 */
+/* Firefox50- 的 ::placeholder 需要前缀，目前这种写法会漏掉 Firefox50，但不设置时显示也没问题 */
+/* IE10 - IE18 的 ::placeholder 需要前缀，实际上从 EDGE12+ 开始也能够支持 -webkit-input- 前缀 */
+@supports not (display:grid){ _:-webkit-any(x), html:not([class*="xj-base"]) ::-webkit-input-placeholder{color:#999;opacity:0.75;} }
+@supports not (display:grid){ _:-webkit-any(x), html[class~="xj-base-black"] ::-webkit-input-placeholder{color:#999;opacity:0.75;} }
+
+_:-moz-full-screen-ancestor, html:not([class*="xj-base"]) ::-moz-placeholder{color:#999;opacity:0.75;}
+_:-moz-full-screen-ancestor, html[class~="xj-base-black"] ::-moz-placeholder{color:#999;opacity:0.75;}
+
+_:-ms-lang(x), html:not([class*="xj-base"]) :-ms-input-placeholder{color:#999;opacity:0.75;}
+_:-ms-lang(x), html[class~="xj-base-black"] :-ms-input-placeholder{color:#999;opacity:0.75;}
+
+html:not([class*="xj-base"]) ::placeholder{color:#999;opacity:0.75;}
+html[class~="xj-base-black"] ::placeholder{color:#999;opacity:0.75;}
+
+/* 在 Safari(MacOS & IOS) 中，input 标签的 placeholder 会出现文本位置偏上的情况，无法垂直对齐 */
+/* 根据 StackOverflow 的说法，设置 line-height:normal; 即可，这里用 hack 让它只对 Safari 生效 */
+@supports (-webkit-hyphens:none){
+	input::-webkit-input-placeholder{
+		line-height:normal;
+	}
+}
+
+
+
+/* word-wrap:break-word; - 兼容性比较好，如果用 word-break:break-all;，则文本显示效果就太散了 */
+/* tab-size:4; - 统一制表符宽度，IE79 才开始支持它，Firefox4 - 52 都需要加 -moz- 前缀才能支持 */ 
+/* -webkit-text-size-adjust:100%; - 阻止移动端自动改变字体尺寸，none 有些浏览器不支持，改用 % */
+/* -webkit-tap-highlight-color:transparent; - 消除 tap 点击高亮，这个样式只有移动端浏览器支持 */
+/* font:16px/1.5 "-apple…"; - 16px 为 rem 单位的基准，-apple-system 没双引号时 IE10 可能出错 */
+html{
+	word-wrap:break-word;
+	-moz-tab-size:4;
+	tab-size:4;
+	-webkit-text-size-adjust:100%;
+	-webkit-tap-highlight-color:transparent;
+	font:16px/1.5 "-apple-system", "Segoe UI", "Roboto",
+		"Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", 
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+
+
+/* 让 body 的最小高度为 100% 的四种做法都有缺陷，flex 布局在 IE11- 中有 BUG，只能是动态计算了 */
+/* display:inline-block; width:100%; - 解决 body 的子元素的外边据折叠，继而影响到 body 的问题 */
+/* background-color:#fff; - Firefox72+ 能根据背景色自动切换滚动条颜色，但设置在 html 上则不行 */
+body{display:inline-block;margin:0 00px 0;width:100%;}
+
+html:not([class*="xj-base"]) body{background-color:#fff;color:#333;}
+html[class~="xj-base-black"] body{background-color:#333;color:#fff;}
+
+
+
+/* Content sectioning 的标签在 IE9 都开始支持了，需要设置的只剩 main，因为 IE11+ 才开始支持它 */
+main{display:block;}
+
+
+
+/* block ↓ --------------------------------------------------------------------------------- */
+
+
+
+/* unset 的 font-weight 不该设置为 400，因为 unset 有可能需要继承，所以在这里特别改成 inherit */
+/* 将 h1.unset 改为 .h1-unset，这样浏览器效率更高且权重适中，不会因为 1+10 导致单类名覆盖不了 */
+h1{margin:0 0 16px;font-weight:600;font-size:32px;}
+h2{margin:0 0 16px;font-weight:600;font-size:24px;}
+h3{margin:0 0 16px;font-weight:600;font-size:20px;}
+h4{margin:0 0 16px;font-weight:600;font-size:16px;}
+h5{margin:0 0 16px;font-weight:600;font-size:14px;}
+h6{margin:0 0 16px;font-weight:600;font-size:12px;}
+
+.h1{margin:0 0 16px;font-weight:600;font-size:32px;}
+.h2{margin:0 0 16px;font-weight:600;font-size:24px;}
+.h3{margin:0 0 16px;font-weight:600;font-size:20px;}
+.h4{margin:0 0 16px;font-weight:600;font-size:16px;}
+.h5{margin:0 0 16px;font-weight:600;font-size:14px;}
+.h6{margin:0 0 16px;font-weight:600;font-size:12px;}
+
+.h1-unset{margin:0;font-weight:inherit;font-size:inherit;}
+.h2-unset{margin:0;font-weight:inherit;font-size:inherit;}
+.h3-unset{margin:0;font-weight:inherit;font-size:inherit;}
+.h4-unset{margin:0;font-weight:inherit;font-size:inherit;}
+.h5-unset{margin:0;font-weight:inherit;font-size:inherit;}
+.h6-unset{margin:0;font-weight:inherit;font-size:inherit;}
+
+
+
+/* li 标签除了 display，也就没有其他属性需要定义了，而 unset 并会不修改 display，所以无需设置 */
+/* 模拟 ol 在 Firefox 中有数值错误的问题，Chrome & Safari 计数位置总为 inside，所以不推荐使用 */
+ol{margin:0 0 16px;padding:0 0 0 32px;list-style-position:outside;list-style-type:decimal-leading-zero;}
+.ol{margin:0 0 16px;padding:0 0 0 32px;list-style-position:outside;list-style-type:decimal-leading-zero;}
+ol ol, ol .ol, .ol ol, .ol .ol{margin-bottom:0;} 
+ol ul, ol .ul, .ol ul, .ol .ul{margin-bottom:0;}
+.ol-unset{margin:0;padding:0;list-style:none;}
+
+ul{margin:0 0 16px;padding:0 0 0 32px;list-style-position:outside;list-style-type:disc;}
+.ul{margin:0 0 16px;padding:0 0 0 32px;list-style-position:outside;list-style-type:disc;}
+ul ul, ul .ul, .ul ul, .ul .ul{margin-bottom:0;}
+ul ol, ul .ol, .ul ol, .ul .ol{margin-bottom:0;}
+.ul-unset{margin:0;padding:0;list-style:none;}
+
+li{display:list-item;}
+.li{display:list-item;}
+.li-unset{}
+.ol-unset > li{}
+.ol-unset > .li{}
+.ul-unset > li{}
+.ul-unset > .li{}
+
+
+
+/* dt 标签除了 display，也就没有其他属性需要定义了，而 unset 并会不修改 display，所以无需设置 */
+/* dd 标签最经常需要的做的就是清掉 margin-left，此时就可以使用 .dd-unset 的类名来做到这一点了 */
+dl{margin:0 0 16px;}
+.dl{margin:0 0 16px;}
+.dl-unset{margin:0;}
+
+dt{}
+.dt{}
+.dt-unset{}
+.dl-unset > dt{}
+.dl-unset > .dt{}
+
+dd{margin:0 0 0 32px;}
+.dd{margin:0 0 0 32px;}
+.dd-unset{margin:0;}
+.dl-unset > dd{margin:0;}
+.dl-unset > .dd{margin:0;}
+
+
+
+/* figcaption 标签类似 li 和 dt，除了 display 并没有其他样式了，所以并不需要设置 unset 的内容 */
+/* img 时常和 figure 配合着使用，但是 img 有它自己的 img-unset，在后面的 Media 模块会再提到的 */
+figure{margin:0 0 16px;}
+.figure{margin:0 0 16px;}
+.figure-unset{margin:0;}
+
+figcaption{}
+.figcaption{}
+.figcaption-unset{}
+.figure-unset > figcaption{}
+.figure-unset > .figcaption{}
+
+
+
+/* 规则 .p-lead{font-size:125%;} 是多余的，如果需要可用 p:first-of-type{font-size:125%;} 设置 */
+/* 或者是使用 xj.tool 插件来实现，也就是 <p class="fs20"></p>，不需要在这里添加额外的样式扩展 */
+p{margin:0 0 16px;}
+.p{margin:0 0 16px;}
+.p-unset{margin:0;}
+
+
+
+/* overflow:hidden; - hr 可通过 ::before 或 ::after 伪类内嵌文字，如果不打算这样则统一 hidden */
+/* 发现边框 rgba 的 0,0,0,0.2 设置不是很好用，恢复成用固定值，rgba 只用在 focus 的 box-shadow */
+hr{overflow:hidden;margin:16px 0;height:0;border:0;}
+html:not([class*="xj-base"]) hr{border-top:1px solid #ccc;}
+html[class~="xj-base-black"] hr{border-top:1px solid #666;}
+
+.hr{overflow:hidden;margin:16px 0;height:0;border:0;}
+html:not([class*="xj-base"]) .hr{border-top:1px solid #ccc;}
+html[class~="xj-base-black"] .hr{border-top:1px solid #666;}
+
+.hr-unset{overflow:visible;margin:0;width:auto;height:auto;}
+
+
+
+/* address - 默认样式就是 display:block; + font-style:italic;，所以这里也就继续维持原样就行了 */
+/* body 中放这个标签，表示该文档所有者的联系信息，而在 article 内则表示该文章所有者的联系信息 */
+address{margin:0 0 16px;font-style:italic;}
+html:not([class*="xj-base"]) address{color:#666;}
+html[class~="xj-base-black"] address{color:#ccc;}
+
+.address{margin:0 0 16px;font-style:italic;}
+html:not([class*="xj-base"]) .address{color:#666;}
+html[class~="xj-base-black"] .address{color:#ccc;}
+
+.address-unset{margin:0;font-style:inherit;}
+html:not([class*="xj-base"]) .address-unset{color:inherit;}
+html[class~="xj-base-black"] .address-unset{color:inherit;}
+
+
+
+/* blockquote - 默认的 blockquote 仅有水平方向的 margin，在排版中不明显，所以为它加上了左边框 */
+/* 可以用 small 放作者，small 中用 cite 放内容的出处，旧的边框包裹模式写法可以参考 0.4.0 - 24 */
+blockquote{margin:0 0 16px;padding:0 0 0 16px;}
+html:not([class*="xj-base"]) blockquote{border-left:4px solid #ccc;color:#666;}
+html[class~="xj-base-black"] blockquote{border-left:4px solid #666;color:#ccc;}
+
+.blockquote{margin:0 0 16px;padding:0 0 0 16px;}
+html:not([class*="xj-base"]) .blockquote{border-left:4px solid #ccc;color:#666;}
+html[class~="xj-base-black"] .blockquote{border-left:4px solid #666;color:#ccc;}
+
+.blockquote-unset{margin:0;padding:0;}
+html:not([class*="xj-base"]) .blockquote-unset{border-left:0;color:inherit;}
+html[class~="xj-base-black"] .blockquote-unset{border-left:0;color:inherit;}
+
+
+
+/* pre - 设置了 scrollable 的 max-height:256px;，这个高度大约可以容纳 10 行文本而不出现滚动条 */
+/* 第 11 行文字将会显示一半，这样用户就能通过最后一行的半截文字，来发现这个容器原来是可滚动的 */
+pre{margin:0 0 16px;white-space:pre;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+.pre{margin:0 0 16px;white-space:pre;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+
+.pre-bordered{padding:16px;}
+.pre-scrollable{overflow:auto;max-height:256px;}
+@supports (-webkit-overflow-scrolling:touch){ .pre-scrollable{-webkit-overflow-scrolling:touch;} }
+
+html:not([class*="xj-base"]) .pre-bordered{border:1px solid #ccc;background-color:#fafafa;}
+html[class~="xj-base-black"] .pre-bordered{border:1px solid #666;background-color:#2e2e2e;}
+
+.pre-unset{margin:0;white-space:inherit;font-family:inherit;}
+
+
+
+/* inline ↓ -------------------------------------------------------------------------------- */
+
+
+
+/* a 标签的 :visited 伪类，因为链接情况比较复杂，可能会影响到其他内容，还是交给开发者自主设置 */
+/* a 标签默认有个 :active 伪类设置了颜色，但是为 a 标签设置 color，则这个伪类颜色就不会生效了 */
+/* 没有 href 属性将自动变成不可聚焦的元素，并且 color 和 cursor 和 text-decoration 都会被去掉 */
+/* background-color:transparent; - IE10 中标签被点击有半透明的黑色背景，可用 transparent 覆盖 */
+a{background-color:transparent;text-decoration:none;cursor:pointer;color:#39f;}
+.a{background-color:transparent;text-decoration:none;cursor:pointer;color:#39f;}
+
+.xj-operate-mouse a:hover{text-decoration:underline;color:#4af;}
+.xj-operate-mouse .a:hover{text-decoration:underline;color:#4af;}
+
+a:not([href]){cursor:auto;color:inherit;}
+.a:not([href]){cursor:auto;color:inherit;}
+
+.xj-operate-mouse a:not([href]):hover{text-decoration:inherit;color:inherit;}
+.xj-operate-mouse .a:not([href]):hover{text-decoration:inherit;color:inherit;}
+
+/* a-unset 继续保持 cursor:pointer 属性，因为 a 设置 a-unset 往往只是为了消除下划线和变色而已 */
+/* 但是当没有 href 属性，并且设置了 a-unset，则 cursor:pointer 属性也都没有了，跟 span 一样了 */
+.a-unset{
+	cursor:pointer;
+	color:inherit;
+}
+
+.xj-operate-mouse .a-unset:hover{
+	text-decoration:inherit;
+	color:inherit;
+}
+
+.a-unset:not([href]){
+	cursor:auto;
+	color:inherit;
+}
+
+.xj-operate-mouse .a-unset:not([href]):hover{
+	text-decoration:inherit;
+	color:inherit;
+}
+
+
+
+/* 之所以用 text-decoration 生成下划线，是因为用 border-bottom 则多行文本就只有最后一行有效果 */
+/* text-decoration 虽然在 Chrome 中效果并不好，有些时候那些 … 会粘连在一起，但也比缺失了要强 */
+/* text-decoration 复合属性的四个值分别是 line style color width，但是 IE18- 都不支持复合属性 */
+/* text-decoration 复合属性不写 color，是因为这种情况下它默认会使用文本颜色，所以自动匹配就行 */
+/* text-decoration 复合属性在 Safari 12.1(MacOS) 中还得加 -webkit- 才支持，所以冗余却不能删除 */
+/* text-decoration-skip-ink 默认值是 auto，将导致装饰线跳过文字的顶部或底部，设为 none 来避免 */
+/* 因为缩写可能很短，万一没装饰线那就没意义了，所以这里不能用 text-decoration-skip-ink 默认值 */
+/* 浏览器默认样式也只在有 title 属性时才显示，没 title 属性就没有特殊样式，所以选择器也这样写 */
+abbr[title]{
+	cursor:help;
+	border-bottom:0;
+	text-decoration:underline;
+	-webkit-text-decoration:underline dotted;
+	-webkit-text-decoration-skip-ink:none;
+	text-decoration:underline dotted;
+	text-decoration-skip-ink:none;
+}
+
+.abbr[title]{
+	cursor:help;
+	border-bottom:0;
+	text-decoration:underline;
+	-webkit-text-decoration:underline dotted;
+	-webkit-text-decoration-skip-ink:none;
+	text-decoration:underline dotted;
+	text-decoration-skip-ink:none;
+}
+
+.abbr-unset[title]{
+	cursor:auto;
+	border-bottom:0;
+	text-decoration:inherit;
+	-webkit-text-decoration:inherit;
+	-webkit-text-decoration-skip-ink:inherit;
+	text-decoration:inherit;
+	text-decoration-skip-ink:inherit;
+}
+
+
+
+/* display 为 inline 或 inline-block 的标签，如果设置了跟所在行不同的字体，就有可能会行高异常 */
+/* 具体表现为，在部分浏览器中，这类标签与普通文字并排时高度异常，BootstrapV4 也是存在这种问题 */
+/* 如 <p>p<span>span</span></p>，p.height==24px，而 <p>p<code>code</code></p>，p.height==25px */
+/* 解决办法是把设置了特殊字体的标签的 font-size 改小，例如 Bootstrap 的 code，font-size:87.5% */
+/* 要么就是修改 vertical-align 属性，只要不为默认的 baseline 即可，所以在这里修改为了 bottom; */
+/* 虽然这样可能导致文本混排时 baseline 无法对齐，但本来使用的字体就不同，所以这点还是可接受的 */
+/* 后来发现使用，Iosevka 字体和其他字体混排，即使不设置 vertical-align:bottom，行高也不会异常 */
+/* 不过还是需要继续保留 vertical-align，因为除非项目提供，否则一般环境都不会有 Iosevka 字体的 */
+code{padding:0 8px;color:#f39;vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;} 
+html:not([class*="xj-base"]) code{background-color:#f0f0f0;}
+html[class~="xj-base-black"] code{background-color:#242424;}
+
+.code{padding:0 8px;color:#f39;vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+html:not([class*="xj-base"]) .code{background-color:#f0f0f0;}
+html[class~="xj-base-black"] .code{background-color:#242424;}
+
+.code-unset{padding:0;color:inherit;vertical-align:baseline;font-family:inherit;}
+html:not([class*="xj-base"]) .code-unset{background-color:transparent;}
+html[class~="xj-base-black"] .code-unset{background-color:transparent;}
+
+pre code{padding:0;color:inherit;vertical-align:baseline;font-family:inherit;}
+html:not([class*="xj-base"]) pre code{background-color:transparent;}
+html[class~="xj-base-black"] pre code{background-color:transparent;}
+
+pre .code{padding:0;color:inherit;vertical-align:baseline;font-family:inherit;}
+html:not([class*="xj-base"]) pre .code{background-color:transparent;}
+html[class~="xj-base-black"] pre .code{background-color:transparent;}
+
+.pre code{padding:0;color:inherit;vertical-align:baseline;font-family:inherit;}
+html:not([class*="xj-base"]) .pre code{background-color:transparent;}
+html[class~="xj-base-black"] .pre code{background-color:transparent;}
+
+.pre .code{padding:0;color:inherit;vertical-align:baseline;font-family:inherit;}
+html:not([class*="xj-base"]) .pre .code{background-color:transparent;}
+html[class~="xj-base-black"] .pre .code{background-color:transparent;}
+
+
+
+/* 不打算为 inline 的标签设置 display，但又想模拟按键的视觉效果，所以改用相对定位和行高的做法 */
+/* 用 position:relative + top:-2px 提升按钮位置，这样 box-shadow 生成的按键厚度就不会伸到行外 */
+/* display:inline 不能设置 height 和垂直方向的 padding，但是高度其实可以用 line-height 来代替 */
+/* 跟 code 标签一样的道理，为了 kbd 标签所在行的行高不异常，所以设置了 vertical-align:bottom; */
+/* 此外就是，发现有部分环境下还可能出现标签相互嵌套的情况，所以当嵌套的时候，就要去掉特殊样式 */
+/* 下面这种设置，在使用 Iosevka 字体时会卡得刚刚好，但如果使用其他字体，可能会存在 1px 的偏差 */
+/* 但是无所谓了，其他字体不比 Iosevka，在尺寸细节上无法完全自适应，所以有偏差也很正常，不纠结 */
+/* 当标签中的文本内容过长，可能会被截断成多段，导致无法封闭，可用 box-decoration-break 来解决 */
+kbd{position:relative;top:-2px;padding:0 8px;vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;line-height:22px;}
+html:not([class*="xj-base"]) kbd{border:1px solid #ccc;background-color:#fff;box-shadow:0 2px 0 #ccc;}
+html[class~="xj-base-black"] kbd{border:1px solid #666;background-color:#333;box-shadow:0 2px 0 #666;}
+
+.kbd{position:relative;top:-2px;padding:0 8px;vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;line-height:22px;}
+html:not([class*="xj-base"]) .kbd{border:1px solid #ccc;background-color:#fff;box-shadow:0 2px 0 #ccc;}
+html[class~="xj-base-black"] .kbd{border:1px solid #666;background-color:#333;box-shadow:0 2px 0 #666;}
+
+.kbd-unset{position:static;top:auto;padding:0;vertical-align:baseline;font-family:inherit;line-height:inherit;}
+html:not([class*="xj-base"]) .kbd-unset{border:0;background-color:transparent;box-shadow:none;}
+html[class~="xj-base-black"] .kbd-unset{border:0;background-color:transparent;box-shadow:none;}
+
+kbd kbd{position:static;top:auto;padding:0;vertical-align:baseline;font-family:inherit;line-height:inherit;}
+html:not([class*="xj-base"]) kbd kbd{border:0;background-color:transparent;box-shadow:none;}
+html[class~="xj-base-black"] kbd kbd{border:0;background-color:transparent;box-shadow:none;}
+
+kbd .kbd{position:static;top:auto;padding:0;vertical-align:baseline;font-family:inherit;line-height:inherit;}
+html:not([class*="xj-base"]) kbd .kbd{border:0;background-color:transparent;box-shadow:none;}
+html[class~="xj-base-black"] kbd .kbd{border:0;background-color:transparent;box-shadow:none;}
+
+.kbd kbd{position:static;top:auto;padding:0;vertical-align:baseline;font-family:inherit;line-height:inherit;}
+html:not([class*="xj-base"]) .kbd kbd{border:0;background-color:transparent;box-shadow:none;}
+html[class~="xj-base-black"] .kbd kbd{border:0;background-color:transparent;box-shadow:none;}
+
+.kbd .kbd{position:static;top:auto;padding:0;vertical-align:baseline;font-family:inherit;line-height:inherit;}
+html:not([class*="xj-base"]) .kbd .kbd{border:0;background-color:transparent;box-shadow:none;}
+html[class~="xj-base-black"] .kbd .kbd{border:0;background-color:transparent;box-shadow:none;}
+
+
+
+/* sup 和 sub 不再使用 vertical-align 的 super 和 sub 修改位置，而改用 position:relative 定位 */
+/* 这是因为旧的写法会导致文本所在行的高度异常，line-height:0 是为了避免产生高度影响到所在的行 */
+/* small 默认的 smaller 值就相当于 83.33% 或 66.67%，big 默认的 large 值就相当于 120% 或 150% */
+/* 修改为 75% / 125%，默认转换为 12px / 20px，HTML5 虽然不再推荐使用 big 标签，但还是有价值的 */
+sup{position:relative;top:-8px;padding:0 2px;vertical-align:baseline;font-size:75%;line-height:0;}
+.sup{position:relative;top:-8px;padding:0 2px;vertical-align:baseline;font-size:75%;line-height:0;}
+.sup-unset{position:static;top:0;padding:0;vertical-align:baseline;font-size:inherit;line-height:inherit;}
+
+sub{position:relative;bottom:-4px;padding:0 2px;vertical-align:baseline;font-size:75%;line-height:0;}
+.sub{position:relative;bottom:-4px;padding:0 2px;vertical-align:baseline;font-size:75%;line-height:0;}
+.sub-unset{position:static;bottom:0;padding:0;vertical-align:baseline;font-size:inherit;line-height:inherit;}
+
+small{font-size:75%;}
+.small{font-size:75%;}
+.small-unset{font-size:inherit;}
+
+big{font-size:125%;}
+.big{font-size:125%;}
+.big-unset{font-size:inherit;}
+
+
+
+/* i 标签和 b 标签是表象，如果你纯粹只是为了得到文本倾斜或文本加粗的样式，那么就应该用 i 和 b */
+/* em 标签和 strong 标签是表意，如果你是为了在语义上实现强调或者着重，那么应该用 em 和 strong */
+/* font-weight 的 bolder 值能在当前文本的基础上进一步加粗，而 bold 值则总是只有一个加粗的维度 */
+/* font-style 的 italic 值是使用当前字体的倾斜体，而 oblique 值则是在浏览器将字体渲染为倾斜体 */
+i{font-style:italic;}
+.i{font-style:italic;}
+.i-unset{font-style:inherit;}
+
+b{font-weight:bolder;}
+.b{font-weight:bolder;}
+.b-unset{font-weight:inherit;}
+
+em{font-style:italic;}
+.em{font-style:italic;}
+.em-unset{font-style:inherit;}
+
+strong{font-weight:bolder;}
+.strong{font-weight:bolder;}
+.strong-unset{font-weight:inherit;}
+
+
+
+/* u 标签和 ins 标签会为标签中的文本添加下划线，s 标签和 del 标签则会为标签中的文本添加删除线 */
+/* 虽然这两对标签在样式的层面上表现很相似，但实际上在用途上是完全不同的，需要区分具体环境使用 */
+/* u 标签时常被用在 "标记拼写错误" 的文本之上，ins 标签的用途，则是标明 "新添加到文档" 的文本 */
+/* s 标签时常被用在 "标记不再准确" 的文本之上，del 标签的用途，则是标明 "从文档中删除" 的文本 */
+u{text-decoration:underline;}
+.u{text-decoration:underline;}
+.u-unset{text-decoration:inherit;}
+
+s{text-decoration:line-through;}
+.s{text-decoration:line-through;}
+.s-unset{text-decoration:inherit;}
+
+ins{text-decoration:underline;}
+.ins{text-decoration:underline;}
+.ins-unset{text-decoration:inherit;}
+
+del{text-decoration:line-through;}
+.del{text-decoration:line-through;}
+.del-unset{text-decoration:inherit;}
+
+
+
+/* var 用于放置代码的变量名或数学表达式，文本会呈现倾斜样式，它经常与 code 标签配合着一起使用 */
+var{vertical-align:bottom;font-style:italic;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+.var{vertical-align:bottom;font-style:italic;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+.var-unset{vertical-align:baseline;font-style:inherit;font-family:inherit;}
+
+/* samp 用于表示计算机的输出，这个标签经常与 kbd 标签以各种组合嵌套，表示各种形式的输入或输出 */
+samp{vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+.samp{vertical-align:bottom;font-family:Iosevka,Menlo,Consolas,"Liberation Mono","Courier New","Hiragino Sans GB","Microsoft YaHei",monospace;}
+.samp-unset{vertical-align:baseline;font-family:inherit;}
+
+/* dfn 标签用于表示语句定义，自带倾斜样式，也可以配合 title 属性，但不像 abbr，并没有特殊效果 */
+dfn{font-style:italic;}
+.dfn{font-style:italic;}
+.dfn-unset{font-style:inherit;}
+
+/* cite 用于定义书籍电影等作品的标题(人名不属于作品的标题)，cite 标签中的文本将会呈现倾斜样式 */
+cite{font-style:italic;}
+.cite{font-style:italic;}
+.cite-unset{font-style:inherit;}
+
+
+
+/* Safari, Chrome, Firefox 都自带 color:black，调整一下，该标签时常被用于高亮搜索结果的关键词 */
+mark{padding:0 8px;background-color:#ff3;color:#333;}
+.mark{padding:0 8px;background-color:#ff3;color:#333;}
+.mark-unset{padding:0;background-color:transparent;color:inherit;}
+
+/* q 的两个 content 属性值其实是变量来的，所以不能加引号，并且 q 左右的引号会随着语言自动变化 */
+q::before{content:open-quote;}
+q::after{content:close-quote;}
+
+.q::before{content:open-quote;}
+.q::after{content:close-quote;}
+
+.q-unset::before{content:"";}
+.q-unset::after{content:"";}
+
+
+
+/* inline 元素中，code 和 mark 都设置了 color，但作为 a 标签的直接子元素时，颜色保持和 a 一致 */
+/* 不这么设置，如果 a 标签的内容都是 code 或 mark，那么蓝色就显示不出来，也就很难看出是个链接 */
+a > code{color:inherit;}
+a > mark{color:inherit;}
+
+
+
+/* Media ------------------------------------------------------------------------------------ */
+
+
+
+/* img - 默认的 vertical-align:baseline; 会导致图片底下出现空白间隙，但是改值为 middle 就行了 */
+/* border-style:none 是 normalize.css 的写法，可去掉在 IE10 之中，a 标签里的 img 存在的外边框 */
+img{overflow:hidden;display:inline-block;border:0;vertical-align:middle;}
+.img{overflow:hidden;display:inline-block;border:0;vertical-align:middle;}
+.img-unset{overflow:visible;border:0;vertical-align:baseline;}
+.img-responsive{max-width:100%;height:auto;}
+
+.img-bordered{padding:4px;max-width:100%;height:auto;}
+html:not([class*="xj-base"]) .img-bordered{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .img-bordered{border:1px solid #666;background-color:#333;}
+
+
+
+/* canvas - 在 IE11- 中跟 svg 标签一样，responsive 自适应响应存在 bug，所以得用 xjRespondisve */
+/* 得同时声明 width 属性和 height 属性，且 border-box 盒模型下 padding 和 border 要设在父元素 */
+canvas{overflow:hidden;display:inline-block;vertical-align:middle;}
+.canvas{overflow:hidden;display:inline-block;vertical-align:middle;}
+.canvas-unset{overflow:visible;vertical-align:baseline;}
+.canvas-responsive{max-width:100%;height:auto;}
+
+.canvas-bordered{overflow:hidden;display:inline-block;padding:4px;max-width:100%;height:auto;vertical-align:middle;}
+html:not([class*="xj-base"]) .canvas-bordered{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .canvas-bordered{border:1px solid #666;background-color:#333;}
+
+.canvas-bordered > canvas{max-width:100%;height:auto;}
+
+
+
+/* svg - overflow:hidden 是必要的，没有但 svg 标签设置了 viewBox 属性，在 IE10 中尺寸可能异常 */
+/* svg 在 box-sizing:border-box; 盒模型下不合适添加 padding 和 border，所以使用父元素进行包裹 */
+svg{overflow:hidden;display:inline-block;vertical-align:middle;}
+.svg{overflow:hidden;display:inline-block;vertical-align:middle;}
+.svg-unset{overflow:visible;vertical-align:baseline;}
+.svg-responsive{max-width:100%;height:auto;}
+
+.svg-bordered{overflow:hidden;display:inline-block;padding:4px;max-width:100%;height:auto;vertical-align:middle;}
+html:not([class*="xj-base"]) .svg-bordered{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .svg-bordered{border:1px solid #666;background-color:#333;}
+
+.svg-bordered > svg{max-width:100%;height:auto;}
+
+
+
+/* iframe - 与 object 和 embed 标签相比，就是多了 border 的设置，在 embedded 状态下就没有边框 */
+iframe{display:inline-block;vertical-align:middle;}
+html:not([class*="xj-base"]) iframe{border:1px solid #ccc;}
+html[class~="xj-base-black"] iframe{border:1px solid #666;}
+
+.iframe{display:inline-block;vertical-align:middle;}
+html:not([class*="xj-base"]) .iframe{border:1px solid #ccc;}
+html[class~="xj-base-black"] .iframe{border:1px solid #666;}
+
+.iframe-unset{vertical-align:baseline;}
+.iframe-responsive{width:100%;}
+
+.iframe-embedded{position:relative;overflow:hidden;display:inline-block;padding-top:56.25%;width:100%;vertical-align:middle;}
+.iframe-embedded > iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+
+
+/* embed - 表现特性和 object 一致，所以样式也一样，但 embed 是单标签，用 src 而不是 data 属性 */
+embed{display:inline-block;vertical-align:middle;}
+.embed{display:inline-block;vertical-align:middle;}
+.embed-unset{vertical-align:baseline;}
+.embed-responsive{width:100%;}
+
+.embed-embedded{position:relative;overflow:hidden;display:inline-block;padding-top:56.25%;width:100%;vertical-align:middle;}
+.embed-embedded > embed{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+
+
+/* object - 背景还是不加 background-color:#000;，可能会影响到标签的显示结果，需要就用内联设置 */
+object{display:inline-block;vertical-align:middle;}
+.object{display:inline-block;vertical-align:middle;}
+.object-unset{vertical-align:baseline;}
+.object-responsive{width:100%;}
+
+.object-embedded{position:relative;overflow:hidden;display:inline-block;padding-top:56.25%;width:100%;vertical-align:middle;}
+.object-embedded > object{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+
+
+/* video - 这里参考 Bootstrap V4 的 embed-responsive 工具类，配合内联 calc() 函数动态计算比例 */
+/* 要在 div.video-embedded 上设置 style="padding-top: calc(100% / width * height)" 内联样式值 */
+/* Chrome63 的 video 标签的 controls 部分存在蓝色，用 shadow-dom 的伪元素选择器和 filter 去掉 */
+/* video 标签的背景和文字都不像 audio 标签那样需要重新调整，所以用 grayscale 去掉多于色调即可 */
+video{display:inline-block;vertical-align:middle;}
+.video{display:inline-block;vertical-align:middle;}
+.video-unset{vertical-align:baseline;}
+.video-responsive{width:100%;height:auto;}
+
+.video-embedded{position:relative;overflow:hidden;display:inline-block;padding-top:56.25%;width:100%;background-color:#000;vertical-align:middle;}
+.video-embedded > video{position:absolute;top:0;left:0;width:100%;height:100%;}
+
+.video-embedded > video::-webkit-media-controls-enclosure{-webkit-filter:grayscale(1);filter:grayscale(1);}
+
+
+
+/* audio - 使用 transform 属性会导致在 Chrome78 中，点击右侧的 ... 会有 BUG，然后导致页面崩溃 */
+/* 这里用了新的居中模式，居中参考了这个页面： https://juejin.im/post/5a5ca65a6fb9a01ca3254537 */
+/* 设置 audio::-webkit-media-controls 的 filter 会导致下载菜单错位，只能改为设置 enclosure 了 */
+/* Safari 的 audio 标签的背景色太浅，在 dark 模式下，会出现看不清的情况，所以用 hack 特殊设置 */
+audio{display:inline-block;vertical-align:middle;}
+.audio{display:inline-block;vertical-align:middle;}
+.audio-unset{vertical-align:baseline;}
+.audio-responsive{width:100%;}
+
+.audio-embedded{position:relative;overflow:hidden;display:inline-block;width:100%;height:40px;border:4px solid #000;background-color:#000;vertical-align:middle;}
+.audio-embedded > audio{position:absolute;top:0;bottom:0;margin:auto;width:100%;}
+
+.audio-embedded > audio::-webkit-media-controls-current-time-display, .audio-embedded > audio::-webkit-media-controls-time-remaining-display{text-shadow:none;opacity:1;}
+.audio-embedded > audio::-webkit-media-controls-enclosure{-webkit-filter:grayscale(1) invert(1);filter:grayscale(1) invert(1);}
+
+@supports (-webkit-hyphens:none){
+	audio{border-radius:8px;background-color:#000;}
+	.audio{border-radius:8px;background-color:#000;}
+}
+
+
+
+/* Table ------------------------------------------------------------------------------------ */
+
+
+
+/* table - 尽量将相关属性做成 inherit;，这样既可以在 tr，也可以在更上层的 thead 或 tbody 设置 */
+/* 这里不和 dl 那样使用 > 直接子元素选择器，是因为层级太多会很复杂，其他功能放到 xjTable 实现 */
+/* IE10 中的 th 存在 text-align:center;，但是 Firefox 和 Chrome 中则没有，所以统一成 inherit; */
+/* 考虑到代码量，所以其他颜色的 .active 和尺寸的内容就不在这设置了，以后用 xjTable 进行补全的 */
+
+table{display:table;margin-bottom:16px;border-spacing:0;border-collapse:collapse;text-align:left;}
+html:not([class*="xj-base"]) table{border-color:#ccc;background-color:#fff;}
+html[class~="xj-base-black"] table{border-color:#666;background-color:#333;}
+
+caption{display:table-caption;padding:8px 0;text-align:inherit;}
+colgroup{display:table-column-group;}
+col{display:table-column;}
+
+thead{display:table-header-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:600;}
+tbody{display:table-row-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:normal;}
+tfoot{display:table-footer-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:normal;}
+
+tr{display:table-row;padding:0px;border-width:0px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+th{display:table-cell;padding:8px;border-width:1px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+td{display:table-cell;padding:8px;border-width:1px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+
+/* ------------------------------------------ */
+
+.table{display:table;margin-bottom:16px;border-spacing:0;border-collapse:collapse;text-align:left;}
+html:not([class*="xj-base"]) .table{border-color:#ccc;background-color:#fff;}
+html[class~="xj-base-black"] .table{border-color:#666;background-color:#333;}
+
+.caption{display:table-caption;padding:8px 0;text-align:inherit;}
+.colgroup{display:table-column-group;}
+.col{display:table-column;}
+
+.thead{display:table-header-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:600;}
+.tbody{display:table-row-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:normal;}
+.tfoot{display:table-footer-group;border-color:inherit;vertical-align:top;text-align:inherit;font-weight:normal;}
+
+.tr{display:table-row;padding:0px;border-width:0px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+.th{display:table-cell;padding:8px;border-width:1px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+.td{display:table-cell;padding:8px;border-width:1px;border-style:solid;border-color:inherit;vertical-align:inherit;text-align:inherit;font-weight:inherit;}
+
+
+
+/* striped 和 hover 这两个类名不能颠倒位置，否则会因为权重的问题，导致 hover 的样式不会生效的 */
+/* striped 只针对 tbody 中的 tr 生效，如果 thead 中的 tr 想加深颜色，可用 .tr-active 类名实现 */
+
+html:not([class*="xj-base"]) .tr-active{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .th-active{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .td-active{background-color:#f5f5f5;}
+
+html:not([class*="xj-base"]) .table-striped tbody tr:nth-of-type(odd){background-color:#fafafa;}
+html:not([class*="xj-base"]) .table-striped tbody .tr:nth-of-type(odd){background-color:#fafafa;}
+html:not([class*="xj-base"]) .table-striped .tbody tr:nth-of-type(odd){background-color:#fafafa;}
+html:not([class*="xj-base"]) .table-striped .tbody .tr:nth-of-type(odd){background-color:#fafafa;}
+
+html:not([class*="xj-base"]) .table-striped tbody tr.tr-active{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .table-striped tbody .tr.tr-active{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .table-striped .tbody tr.tr-active{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .table-striped .tbody .tr.tr-active{background-color:#f5f5f5;}
+
+html:not([class*="xj-base"]).xj-operate-mouse .table-hover tbody tr:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]).xj-operate-mouse .table-hover tbody .tr:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]).xj-operate-mouse .table-hover .tbody tr:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]).xj-operate-mouse .table-hover .tbody .tr:hover{background-color:#f0f0f0;}
+
+/* ------------------------------------------ */
+
+html[class~="xj-base-black"] .tr-active{background-color:#292929;}
+html[class~="xj-base-black"] .th-active{background-color:#292929;}
+html[class~="xj-base-black"] .td-active{background-color:#292929;}
+
+html[class~="xj-base-black"] .table-striped tbody tr:nth-of-type(odd){background-color:#2e2e2e;}
+html[class~="xj-base-black"] .table-striped tbody .tr:nth-of-type(odd){background-color:#2e2e2e;}
+html[class~="xj-base-black"] .table-striped .tbody tr:nth-of-type(odd){background-color:#2e2e2e;}
+html[class~="xj-base-black"] .table-striped .tbody .tr:nth-of-type(odd){background-color:#2e2e2e;}
+
+html[class~="xj-base-black"] .table-striped tbody tr.tr-active{background-color:#292929;}
+html[class~="xj-base-black"] .table-striped tbody .tr.tr-active{background-color:#292929;}
+html[class~="xj-base-black"] .table-striped .tbody tr.tr-active{background-color:#292929;}
+html[class~="xj-base-black"] .table-striped .tbody .tr.tr-active{background-color:#292929;}
+
+html[class~="xj-base-black"].xj-operate-mouse .table-hover tbody tr:hover{background-color:#242424;}
+html[class~="xj-base-black"].xj-operate-mouse .table-hover tbody .tr:hover{background-color:#242424;}
+html[class~="xj-base-black"].xj-operate-mouse .table-hover .tbody tr:hover{background-color:#242424;}
+html[class~="xj-base-black"].xj-operate-mouse .table-hover .tbody .tr:hover{background-color:#242424;}
+
+
+
+/* 当 borderless / bordered-x / bordered-y 和 scrollable 配合使用的时候，类名都得放到父标签去 */
+/* 很难让容器的上下边框也自适应，而且在移动端滚动不占体积，双下边框会显得很难看，所以只能这样 */
+
+.table-borderless th{border:0;}
+.table-borderless td{border:0;}
+.table-bordered-x th{border-right:0;border-left:0;}
+.table-bordered-x td{border-right:0;border-left:0;}
+.table-bordered-y th{border-top:0;border-bottom:0;}
+.table-bordered-y td{border-top:0;border-bottom:0;}
+
+.table-borderless .th{border:0;}
+.table-borderless .td{border:0;}
+.table-bordered-x .th{border-right:0;border-left:0;}
+.table-bordered-x .td{border-right:0;border-left:0;}
+.table-bordered-y .th{border-top:0;border-bottom:0;}
+.table-bordered-y .td{border-top:0;border-bottom:0;}
+
+.table-scrollable{overflow-x:auto;margin-bottom:16px;}
+
+html:not([class*="xj-base"]) .table-scrollable{background-color:#ccc;}
+html[class~="xj-base-black"] .table-scrollable{background-color:#666;}
+
+@supports (-webkit-overflow-scrolling:touch){ .table-scrollable{-webkit-overflow-scrolling:touch;} }
+
+html:not([class*="xj-base"]) .table-scrollable:not(.table-borderless):not(.table-bordered-x){border-right:1px solid #ccc;border-left:1px solid #ccc;}
+html[class~="xj-base-black"] .table-scrollable:not(.table-borderless):not(.table-bordered-x){border-right:1px solid #666;border-left:1px solid #666;}
+
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) th:first-child{border-left:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) th:last-child{border-right:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) td:first-child{border-left:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) td:last-child{border-right:0;}
+.table-scrollable > table{margin-bottom:0;}
+
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) .th:first-child{border-left:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) .th:last-child{border-right:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) .td:first-child{border-left:0;}
+.table-scrollable:not(.table-borderless):not(.table-bordered-x) .td:last-child{border-right:0;}
+.table-scrollable > .table{margin-bottom:0;}
+
+
+
+/* unset 放在最后面，以便提升权重，避免嵌套的时候需要覆盖，但因为权重过低而导致覆盖失败的情况 */
+/* caption, thead, th, td 单独设置 unset 则 table 的 width:100% 和 margin:0 0 16px 样式会保留 */
+
+.table-unset{margin-bottom:0;width:auto;}
+
+.caption-unset{padding:0;}
+.thead-unset{font-weight:inherit;}
+.th-unset{padding:0;border:0;}
+.td-unset{padding:0;border:0;}
+
+.table-unset caption{padding:0;}
+.table-unset thead{font-weight:inherit;}
+.table-unset th{padding:0;border:0;}
+.table-unset td{padding:0;border:0;}
+
+.table-unset .caption{padding:0;}
+.table-unset .thead{font-weight:inherit;}
+.table-unset .th{padding:0;border:0;}
+.table-unset .td{padding:0;border:0;}
+
+
+
+/* form - container ------------------------------------------------------------------------- */
+
+
+
+/* form - 不添加 margin-bottom:16px;，因为容器中往往存在 padding-bottom，存在下边据会造成重复 */
+form{}
+.form{}
+.form-unset{}
+
+
+
+/* label 标签需要承载各种表单控件，默认的 inline 布局并不合适，所以改成了 inline-block 的布局 */
+/* 这样就能设置尺寸和边距了，由于是纯文本，不能设置 vertical-align:middle，否则不好与文本混排 */
+label{display:inline-block;cursor:default;}
+.label{display:inline-block;cursor:default;}
+.label-unset{cursor:auto;}
+
+
+
+/* 在 IE10 中，存在 legend 子标签时，border-radius 会无效，干脆设置成单个输入或输入组普通容器 */
+/* 与 form 标签一样，fieldset 标签用来做容器，就不好设置 margin-bottom 了，会造成下边据的重复 */
+/* 并且 fieldset 标签会自动触发 BFC，导致它的 margin 就不会折叠，这也是 margin 不能设置的原因 */
+/* min-width:0; - 在 Firefox 和 Chrome 中有 min-inline-size:min-content;，重设为 min-width:0; */
+fieldset{margin:0;padding:0;min-width:0;border:0;}
+.fieldset{margin:0;padding:0;min-width:0;border:0;}
+.fieldset-unset{}
+
+
+
+/* fieldset 已被设置为普通容器，所以与 fieldset 搭配的 legend，也被重新设置普通文本以显示标题 */
+/* display:block; - 在 IE10 中，legend 标签的 display 样式，默认为 inline，所以得修改成 block */
+/* width:100%; - IE10 必须要有设置才能自动换行，Bootstrap 说不换行是 white-space:nowrap; 导致 */
+/* 但实际上测试发现在 IE10 中 white-space 默认就是 normal，所以这个问题实际上不知由什么导致的 */
+/* color:inherit; - 在 IE10 中，legend 标签的 color 样式并不会被自动继承，所以统一为 inherit; */
+/* IE10/11/18, FF49/72, CR63/78, SF12, OP67 Android07-WX-UC-FF-CR, ISO12-WX-UC-FF-CR 测试通过 */
+legend{display:block;margin-bottom:16px;padding:0;width:100%;color:inherit;font-size:24px;}
+.legend{display:block;margin-bottom:16px;padding:0;width:100%;color:inherit;font-size:24px;}
+.legend-unset{margin-bottom:0;font-size:inherit;}
+.fieldset-unset > legend{margin-bottom:0;font-size:inherit;}
+.fieldset-unset > .legend{margin-bottom:0;font-size:inherit;}
+
+
+
+/* form - button ---------------------------------------------------------------------------- */
+
+
+
+/* 不做 input 的按钮设置，是因为它无法嵌套，非要用 input 做按钮，可用 button 类名的形式来实现 */
+/* position:relative; - 由于 xj.ripple 和 button-group 都有相对定位的需要，所以在这里直接设置 */
+/* overflow:hidden; - IE10/11 的 overflow 本来就是 hidden，xj.ripple 也需要这样设置，所以统一 */
+/* margin:0; - 在 Firefox 和 Safari 中默认存在 margin，所以将其去掉，但 FF49 和 SF12 都没有？ */
+/* vertical-align:middle; - xs(24px) 状态下将导致所在行高为 26px，所以到时得另外修改为 bottom */
+/* text-decoration:none; - 防止使用 button 类名生成按钮时候，标签自带文本装饰线，影响视觉效果 */
+/* text-transform:none; - 在 Firefox 中该属性存在继承，但测试发现 FF49 已经不再有这个默认值了 */
+/* white-space:nowrap; - 在 Firefox 中存在 white-space:inhert; 默认值，所以恢复为可换行的情况 */
+/* line-height:1; - 这样能确保即使用 <br /> 标签在按钮产生 new line，按钮的高度也不会发生变化 */
+/* -webkit-appearance:none;- 在 Safari 中不设置会有 box-shaodw / border-radius 无法重置的情况 */
+
+button{position:relative;z-index:4;overflow:hidden;display:-ms-inline-flexbox;display:inline-flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;text-align:center;text-decoration:none;text-transform:none;white-space:nowrap;font-weight:normal;font-style:normal;font-size:16px;font-family:inherit;line-height:1;cursor:pointer;-webkit-appearance:none;}
+.button{position:relative;z-index:4;overflow:hidden;display:-ms-inline-flexbox;display:inline-flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;text-align:center;text-decoration:none;text-transform:none;white-space:nowrap;font-weight:normal;font-style:normal;font-size:16px;font-family:inherit;line-height:1;cursor:pointer;-webkit-appearance:none;}
+
+html:not([class*="xj-base"]) button{border:1px solid #ccc;background-color:#fff;color:#666;}
+html:not([class*="xj-base"]) .button{border:1px solid #ccc;background-color:#fff;color:#666;}
+
+html[class~="xj-base-black"] button{border:1px solid #666;background-color:#333;color:#ccc;}
+html[class~="xj-base-black"] .button{border:1px solid #666;background-color:#333;color:#ccc;}
+
+/* ------------------------------------------ */
+
+/* button 唯一的 extSet 类名只有这 .button-active，用于改变层级和背景色以模拟按钮被选中的状态 */
+/* 前缀 .xj-operate-exist:root 是为了提升选择器的特指度，否则特指度会低于上方那些伪元素选择器 */
+/* 非触屏的情况下面对有效按钮，在悬停时改变边框颜色，背景色就不变，因为灰色背景配合波纹不好看 */
+/* 之所以将 hover 限定为非触屏才生效，是因为不想在移动端出现点击按钮后，一直保持 hover 的状态 */
+/* 由于项目已经引入了 xj.ripple，按钮点击的时候会自带波纹效果，所以不再需要设置点击的背景色了 */
+/* 选择器前缀 .xj-operate-exist 只是为了提升这些选择器的特指度，其实这里使用 html:root 也行的 */
+/* 提升 z-index 层级，当 focus 聚焦时 box-shadow 生成的外边框就不会出现因为层级过低而被覆盖掉 */
+/* 这对于普通按钮可能没什么意义，但是当组成 button-group 按钮队列的时候，靠得太近就会出现覆盖 */
+/* input 标签由于无法嵌套，所以也无法实现 xj.ripple 的波纹，不得不专门为 input 设置交互背景色 */
+/* 前缀 .xj-operate-exist 只是为了提升选择器特指度，这里用 html:root 也行，并且在禁用时不响应 */
+
+.xj-operate-exist:root button.button-active{z-index:12;}
+.xj-operate-exist:root .button.button-active{z-index:12;}
+
+.xj-operate-mouse button:not([disabled]):hover{z-index:8;}
+.xj-operate-mouse .button:not([disabled]):hover{z-index:8;}
+
+.xj-operate-exist button:not([disabled]):active{z-index:12;}
+.xj-operate-exist .button:not([disabled]):active{z-index:12;}
+
+.xj-operate-exist button:not([disabled]):focus{z-index:16;}
+.xj-operate-exist .button:not([disabled]):focus{z-index:16;}
+
+html:not([class*="xj-base"]).xj-operate-exist:root button.button-active{background-color:#f0f0f0;}
+html:not([class*="xj-base"]).xj-operate-exist:root .button.button-active{background-color:#f0f0f0;}
+
+html[class~="xj-base-black"].xj-operate-exist:root button.button-active{background-color:#242424;}
+html[class~="xj-base-black"].xj-operate-exist:root .button.button-active{background-color:#242424;}
+
+html:not([class*="xj-base"]).xj-operate-mouse button:not([disabled]):hover{border:1px solid #e6e6e6;}
+html:not([class*="xj-base"]).xj-operate-mouse .button:not([disabled]):hover{border:1px solid #e6e6e6;}
+
+html[class~="xj-base-black"].xj-operate-mouse button:not([disabled]):hover{border:1px solid #4c4c4c;}
+html[class~="xj-base-black"].xj-operate-mouse .button:not([disabled]):hover{border:1px solid #4c4c4c;}
+
+html:not([class*="xj-base"]).xj-operate-exist input:not([disabled]).button:active{background-color:#f0f0f0;}
+html[class~="xj-base-black"].xj-operate-exist input:not([disabled]).button:active{background-color:#242424;}
+
+html:not([class*="xj-base"]).xj-operate-exist input:not([disabled]).button.button-active:active{background-color:#ffffff;}
+html[class~="xj-base-black"].xj-operate-exist input:not([disabled]).button.button-active:active{background-color:#333333;}
+
+/* ------------------------------------------ */
+
+/* disabled 属性添加在普通标签上无法触发 :disabled 伪类选择器，所以 .button 改为用 [disabled] */
+/* 伪类选择器 :disabled 和属性选择器 [disabled] 的权重都是 10，虽然写法不一样，但结果是一样的 */
+
+button[disabled]{opacity:0.5;cursor:not-allowed;}
+.button[disabled]{opacity:0.5;cursor:not-allowed;}
+
+html:not([class*="xj-base"]) button[disabled]{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .button[disabled]{background-color:#f5f5f5;}
+
+html[class~="xj-base-black"] button[disabled]{background-color:#292929;}
+html[class~="xj-base-black"] .button[disabled]{background-color:#292929;}
+
+/* ------------------------------------------ */
+
+/* 追加 .button-unset 的类名，跟 .button-active 类名一样，如果不这样写选择器 input 权重就不够 */
+/* 恢复高度/内边距/圆角，固化 font-size 后才好看，vertical-align 设置为 bottom 才好和文本混排 */
+button.button-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+.button.button-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+/* ------------------------------------------ */
+
+/* a 标签的 hover 状态，存在着 color 和 text-decoration 的变化，所以还得解决这个 hover 的问题 */
+/* html:not([class*="xj-base"]) .button 权重高于 .xj-operate-mouse a:hover，无需设置 color 了 */
+.xj-operate-mouse a.button:hover{text-decoration:none;}
+.xj-operate-mouse .a.button:hover{text-decoration:none;}
+
+/* ------------------------------------------ */
+
+/* IE10 - Edge18，input 设置 inline-flex 会导致换行，所以这里用 hack 将 IE 和 EDGE 进行了恢复 */
+/* 在其他浏览器中审查元素就不会出现多余的选择器干扰了，普通元素模拟按钮也能实现文本的垂直居中 */
+_:-ms-lang(x), input.button{display:inline-block;}
+
+
+
+/* form - text ------------------------------------------------------------------------------ */
+
+
+
+/* margin:0; - 在 Firefox 和 Safari 中默认存在 margin，所以将其去掉，但 FF49 和 SF12 都没有了 */
+/* vertical-align:middle; - 为了能居中对齐的文本，只能这样设置了，当 xs(24px) 时才改为 bottom */
+/* text-transform:none; - 在 Firefox 中该属性存在继承，所以将其去掉，但 FF49 中已经是 none 了 */
+/* font-size:16px;font-family:inherit; - input 的这两个属性都不会自动继承，所以需要特别的设置 */
+/* line-height:1; - 将改为和 font-size 一致，确保不会影响到输入框高度的设置，继而导致高度异常 */
+/* -webkit-appearance:none;- 在 Safari 中不设置会有 box-shaodw / border-radius 无法重置的情况 */
+
+input[type="text"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="text"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="text"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="text"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="email"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="email"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="email"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="email"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="tel"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="tel"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="tel"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="tel"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="url"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="url"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="url"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="url"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="number"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="number"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="number"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="number"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="search"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="search"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="search"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="search"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="password"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="password"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="password"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="password"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="date"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="date"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="date"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="date"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="time"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="time"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="time"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="time"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="week"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="week"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="week"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="week"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="month"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="month"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="month"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="month"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="datetime-local"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="datetime-local"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="datetime-local"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="datetime-local"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+input[type="color"]{position:relative;z-index:4;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1;-webkit-appearance:none;}
+html:not([class*="xj-base"]) input[type="color"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] input[type="color"]{border:1px solid #666;background-color:#333;color:#ccc;}
+input[type="color"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;}
+
+/* ------------------------------------------ */
+
+/* 如果使用 display:inline-flex 配合 align-items:center 实现垂直居中，将无法实现 ... 缩略效果 */
+/* 但是文本超长又很常见，所以只好改为使用 line-height 来实现垂直居中，毕竟 input 不用考虑换行 */
+/* word-wrap:normal; - word-wrap:break-word; 的存在会导致 IE10 中的换行，所以这里要特别的恢复 */
+
+.input{position:relative;z-index:4;
+	overflow:hidden;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;text-decoration:none;
+	text-transform:none;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;font-size:16px;
+	font-family:inherit;line-height:38px;-webkit-appearance:none;}
+
+html:not([class*="xj-base"]) .input{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] .input{border:1px solid #666;background-color:#333;color:#ccc;}
+
+.input.input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:14px;line-height:22px;}
+
+/* ------------------------------------------ */
+
+/* IE10/11/18 的输入框控件存在 X 按钮，margin 不能用 rem 做单位，否则无效，且 cursor 设置无效 */
+/* IE 的 ::-ms-value 伪元素可用于 input 标签和 select 标签，IE18 中的它存在着边距，需要清空掉 */
+
+input::-ms-clear{
+	margin:0 0 0 12px;width:16px;height:16px;color:transparent;background-repeat:no-repeat;background-position:center;
+	background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M14 2h-3L8 6 5 2H2l4.5 6L2 14h3l3-4 3 4h3L9.5 8z'/%3E%3C/svg%3E");}
+
+input.input-plain::-ms-clear{display:none;}
+
+input::-ms-value{margin:0;padding:0;}
+
+/* ------------------------------------------ */
+
+/* Safari 中，当 input 标签存在 list 属性时，会显示出小三角按钮，这里使用背景图片统一按钮样式 */
+/* Safari 中的三角按钮，默认情况下总是显示，改为只在 hover / focus 才显示，这样效果会更加统一 */
+
+input::-webkit-list-button{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;
+	color:transparent;opacity:0;cursor:pointer;background-repeat:no-repeat;background-position:center;pointer-events:none;-webkit-appearance:none;
+	background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+
+input:enabled:read-write:-webkit-any(:hover,:focus)::-webkit-list-button{opacity:1;pointer-events:auto;}
+
+/* ------------------------------------------ */
+
+/* Chrome 的那些非时间控件的输入框，list 属性的设置会显示小三角，但这只是个提示图标，点击无效 */
+/* edgeChromium 该按钮总会显示，改成 hover / focus 才显示，:-webkit-any 选择器是 :is 的旧写法 */
+
+input::-webkit-calendar-picker-indicator{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;
+	color:transparent;opacity:0;cursor:pointer;background-repeat:no-repeat;background-position:center;pointer-events:none;-webkit-appearance:none;
+	background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+
+input:enabled:read-write:-webkit-any(:hover,:focus)::-webkit-calendar-picker-indicator{opacity:1;pointer-events:auto;}
+
+/* ------------------------------------------ */
+
+/* Safari 和 Chrome 的数字和时间存在 spin 按钮，难用又难看，直接去掉，Safari 得加 !important; */
+/* 之所以 spin 按钮难以设置，是因为它只有一个类名，却要控制上下两个按钮，所以样式就很不好控制 */
+input::-webkit-inner-spin-button{display:none!important;}
+
+/* ------------------------------------------ */
+
+/* ::-webkit-outer-spin-button 是已经被废弃的选择器，目前基本没有浏览器支持，直接设为 none 了 */
+/* Firefox 无法设置 spin 按钮，所以改为 textfield，隐藏该按钮，这并不影响移动端弹出数字小键盘 */
+input[type="number"]::-webkit-outer-spin-button{display:none;}
+_:-moz-locale-dir(ltr), input[type="number"]{-moz-appearance:textfield;}
+
+/* ------------------------------------------ */
+
+/* webkit 和 blink 内核都可以修改 cancel 按钮，这里用背景图片统一显示，并顺便解决垂直居中问题 */
+/* Safari 默认会显示出 cancel 按钮，这里和 Chrome 一样，统一成只有 hover / focus 时才显示出来 */
+input[type="search"]::-webkit-search-cancel-button{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;cursor:pointer;pointer-events:none;-webkit-appearance:none;
+	opacity:0;color:transparent;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M14 2h-3L8 6 5 2H2l4.5 6L2 14h3l3-4 3 4h3L9.5 8z'/%3E%3C/svg%3E") no-repeat center;}
+input[type="search"]:enabled:read-write:-webkit-any(:hover,:focus)::-webkit-search-cancel-button{opacity:1;pointer-events:auto;}
+input[type="search"].input-plain::-webkit-search-cancel-button{display:none!important;}
+
+/* ::-webkit-search-results-button 用于控制放大镜图标按钮，只存在于 Safari 上，为了统一取消掉 */
+/* Safari 存在两个 decoration 的伪类元素，有 results 属性时就会显示，为了统一，所以全部隐藏掉 */
+input[type="search"]::-webkit-search-decoration{display:none;}
+input[type="search"]::-webkit-search-results-button{display:none;}
+input[type="search"]::-webkit-search-results-decoration{display:none;}
+
+/* ------------------------------------------ */
+
+/* IE10/11/18 的 password 在为空时，聚焦之后输入，会显示出眼睛的 icon，进行调整样式和删除控制 */
+/* 本来常规 icon 都是 16*16 尺寸，但内容为 14*14，但这里 14*14 显得太小，所以特别调整为 16*16 */
+input[type="password"]::-ms-reveal{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M8 5.5a5 5 0 0 1 5 5h3a8 8 0 0 0-16 0h3c0-2.76 2.24-5 5-5z'/%3E%3Ccircle fill='%23999' cx='8' cy='10.5' r='3'/%3E%3C/svg%3E");
+	margin:0px 0px 0px 12px;width:16px;height:16px;cursor:pointer;background-color:transparent;background-repeat:no-repeat;background-position:center;color:transparent;cursor:pointer;}
+input[type="password"].input-plain::-ms-reveal{display:none;}
+
+/* Safari 的大写锁定和自动填充图标，由于是内联 !important，所以之后 unset 也得使用 !important */
+/* 图标颜色都是由 background-color 控制，所以需要设置为 #999，align-self:center; 才能垂直居中 */
+input[type="password"]::-webkit-caps-lock-indicator{align-self:center;margin:0 0 0 8px;background-color:#999;}
+input[type="password"]::-webkit-credentials-auto-fill-button{align-self:center;margin:0 0 0 8px;background-color:#999;}
+input[type="password"].input-plain::-webkit-caps-lock-indicator{display:none!important;}
+input[type="password"].input-plain::-webkit-credentials-auto-fill-button{display:none!important;}
+
+/* ------------------------------------------ */
+
+/* 最新版的 Chrome 将时间控件尾部的小三角图标换成了日历和时钟图标，所以这里重新设置这两个图标 */
+/* 实际上 datetime 控件已经被废弃，所以设置无效，而 time 控件图标是时钟，所以单独挑出来再设置 */
+input:-webkit-any([type="date"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-calendar-picker-indicator{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;color:transparent;opacity:1;cursor:pointer;pointer-events:auto;-webkit-appearance:none;
+	background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M12 3V2h-2v1H6V2H4v1H2v11h12V3h-2zm.5 9.5h-9V5h9v7.5z'/%3E%3C/svg%3E") no-repeat center;}
+input:-webkit-any([type="time"])::-webkit-calendar-picker-indicator{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;color:transparent;opacity:1;cursor:pointer;pointer-events:auto;-webkit-appearance:none;
+	background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M9 5H7.5v3.5l3.5 2V9L9 7.75V5z'/%3E%3Cpath fill='%23999' d='M8 2a6 6 0 0 0 0 12A6 6 0 0 0 8 2zm0 10.5c-2.481 0-4.5-2.019-4.5-4.5S5.519 3.5 8 3.5s4.5 2.019 4.5 4.5-2.019 4.5-4.5 4.5z'/%3E%3C/svg%3E") no-repeat center;}
+
+/* 在旧版的 Chrome 有这个按钮用于清除结果，新版 Chrome 被去掉了，设置为悬停或聚焦操作时才显示 */
+/* 不在 .input-unset 时清掉这个按钮，是因为部分浏览器中，没有这按钮删除会很麻烦，所以不能去了 */
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-clear-button{
+	display:inline-block;align-self:center;margin:0 0 0 12px;padding:0;width:16px;height:16px;color:transparent;opacity:0;cursor:pointer;pointer-events:none;-webkit-appearance:none;
+	background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M14 2h-3L8 6 5 2H2l4.5 6L2 14h3l3-4 3 4h3L9.5 8z'/%3E%3C/svg%3E") no-repeat center;}
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"]):enabled:read-write:-webkit-any(:hover,
+:focus)::-webkit-clear-button{opacity:1;pointer-events:auto;}
+
+/* fields-wrapper 作为容纳结果值容器，它自带 padding 设置，所以需要将其清除掉，以免影响到尺寸 */
+/* 年份和小时的选项在最前面，有 padding-left 会影响到左侧文本的对齐，所以得挑出来，清掉左边距 */
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-datetime-edit-fields-wrapper{padding: 0;}
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-datetime-edit-year-field{padding-left:0;}
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-datetime-edit-hour-field{padding-left:0;}
+
+/* Safari(IOS) 和 Android 的 blink 内核系浏览器中，六个时间控件里面都只有下面这个伪类容器而已 */
+/* 它的存在导致控件文本无法被垂直居中，所以需要特别的挑出来设置内外边距实现文本对齐和垂直居中 */
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"])::-webkit-date-and-time-value{margin:0;padding:11px 0;height:38px;font-size:inherit;line-height:inherit;}
+input:-webkit-any([type="date"],[type="time"],[type="week"],[type="month"],[type="datetime-local"]).input-unset::-webkit-date-and-time-value{padding:4px 0;height:22px;}
+
+
+
+/* form - color ----------------------------------------------------------------------------- */
+
+/* 只有 IE10+ 支持 -ms-flow-from:none，IE12 开始支持 @supports(){}，IE14 开始支持 cursor:grab */
+/* 尝试了一下 input[type="color"]::-ms-value{} 的写法，但并不生效，该控件内部 IE 还是没法控制 */
+@supports (-ms-flow-from:none) and (cursor:grab){
+	input[type="color"]{padding:8px;width:40px;cursor:pointer;}
+	input[type="color"].input-unset{padding:2px 4px;width:24px;}
+}
+
+
+
+/* Firefox29 开始支持 color 控件，该控件类似 button，存在多余的 ::-moz-focus-inner 伪类选择器 */
+/* ::-moz-color-swatch{} 和 ::-webkit-color-swatch{} 类似，都是控制该控件内部色块的伪类选择器 */
+@supports (-moz-appearance:none) and (box-sizing:content-box){
+	input[type="color"]{padding:8px;width:40px;cursor:pointer;}
+	input[type="color"].input-unset{padding:4px;width:24px;}
+}
+
+input[type="color"]::-moz-color-swatch{margin:0;padding:0;}
+input[type="color"]::-moz-color-swatch-wrapper{margin:0;padding:0;}
+
+html:not([class*="xj-base"]) input[type="color"]::-moz-color-swatch{border:1px solid #ccc;}
+html[class~="xj-base-black"] input[type="color"]::-moz-color-swatch{border:1px solid #666;}
+
+
+
+/* 针对 webkit & blink 设置，block-size:auto 是 Safari12.1(MacOS) 和 Safari12.2(IOS) 开始支持 */
+/* text-align:match-parent 是 Safari 不支持但 Chrome16 开始支持的写法，专门针对 webkit 的内核 */
+@supports (not (-ms-overflow-style:none)) and (not (-moz-outline-radius:0)){
+	@supports (block-size:auto) or (text-align:match-parent){
+		input[type="color"]{padding:8px;width:40px;cursor:pointer;}
+		input[type="color"].input-unset{padding:4px;width:24px;}
+	}
+}
+
+input[type="color"]::-webkit-color-swatch{margin:0;padding:0;}
+input[type="color"]::-webkit-color-swatch-wrapper{margin:0;padding:0;}
+
+html:not([class*="xj-base"]) input[type="color"]::-webkit-color-swatch{border:1px solid #ccc;}
+html[class~="xj-base-black"] input[type="color"]::-webkit-color-swatch{border:1px solid #666;}
+
+
+
+/* form - hidden ---------------------------------------------------------------------------- */
+
+
+
+/* hidden 默认都有 display:none!important; 的设置，这里再次设置，是为了避免通配符选择器的误操 */
+/* 测试发现，浏览器自带 !important 的样式不会被通配符选择器的样式覆盖了，所以该设置也没必要了 */
+input[type="hidden"]{}
+
+
+
+/* form - image ----------------------------------------------------------------------------- */
+
+
+
+/* image 在 Safari(IOS) 上默认存在圆角，所以需要清除掉，其他的样式基本和 img 一样，没什么区别 */
+/* 其实 type="image" 使用 .img 的类名也是可以的，但考虑到类名的特定性，所以这里还是重新写一遍 */
+input[type="image"]{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0;padding:0;
+	border:0;border-radius:0;vertical-align:middle;cursor:pointer;-webkit-appearance:none;}
+input[type="image"].input-unset{overflow:visible;border:0;vertical-align:bottom;}
+input[type="image"].input-responsive{max-width:100%;height:auto;}
+
+input[type="image"].input-bordered{padding:4px;max-width:100%;height:auto;}
+html:not([class*="xj-base"]) input[type="image"].input-bordered{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] input[type="image"].input-bordered{border:1px solid #666;background-color:#333;}
+
+
+
+/* form - ◉＆☑ ---------------------------------------------------------------------------- */
+
+
+
+/* 圆点和钩子都可以用纯粹的 CSS 生成，但是移动端的钩子在旋转后会出现毛边，所以统一用 svg 背景 */
+/* 将背景加在伪元素上，主要是为了方便做透明度动画(虽然后来动画取消了)，并且增大按钮点击的范围 */
+input[type="radio"]{   position:relative;z-index:4;display:inline-block;margin:8px;padding:0;width:24px;height:24px;border-radius:50%;background-repeat:no-repeat;background-position:center;vertical-align:middle;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;}
+input[type="checkbox"]{position:relative;z-index:4;display:inline-block;margin:8px;padding:0;width:24px;height:24px;border-radius:0px;background-repeat:no-repeat;background-position:center;vertical-align:middle;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;}
+
+input[type="radio"]:checked{   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle fill='%23999' cx='8' cy='8' r='6'      /%3E%3C/svg%3E");}
+input[type="checkbox"]:checked{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath   fill='%23999' d='M2 6v4l4 4 8-8V2l-8 8'/%3E%3C/svg%3E");}
+
+input[type="radio"]::before{   position:absolute;top:50%;left:50%;width:40px;height:40px;background-color:transparent;content:'';transform:translate(-50%,-50%);}
+input[type="checkbox"]::before{position:absolute;top:50%;left:50%;width:40px;height:40px;background-color:transparent;content:'';transform:translate(-50%,-50%);}
+
+input[type="radio"].input-unset{   margin:0;vertical-align:bottom;}
+input[type="checkbox"].input-unset{margin:0;vertical-align:bottom;}
+
+input[type="radio"].input-unset::before{   width:24px;height:24px;}
+input[type="checkbox"].input-unset::before{width:24px;height:24px;}
+
+html:not([class*="xj-base"]) input[type="radio"]{   border:1px solid #ccc;background-color:#fff;}
+html:not([class*="xj-base"]) input[type="checkbox"]{border:1px solid #ccc;background-color:#fff;}
+
+html[class~="xj-base-black"] input[type="radio"]{   border:1px solid #666;background-color:#333;}
+html[class~="xj-base-black"] input[type="checkbox"]{border:1px solid #666;background-color:#333;}
+
+/* ------------------------------------------ */
+
+/* 针对 IE18-，IE 没法使用 before 伪元素，但是它有 ::-ms-check 伪元素，所以也可以实现类似效果 */
+/* 在 IE11 中 input 的外边框设置无效，只好将边框加在 ::-ms-check 上，且当选中时就显示背景图标 */
+_:-ms-lang(x), input[type="radio"]::-ms-check{   border-radius:50%;background-color:transparent;color:transparent;}
+_:-ms-lang(x), input[type="checkbox"]::-ms-check{border-radius:0px;background-color:transparent;color:transparent;}
+
+_:-ms-lang(x), html:not([class*="xj-base"]) input[type="radio"]::-ms-check{   border:1px solid #ccc;}
+_:-ms-lang(x), html:not([class*="xj-base"]) input[type="checkbox"]::-ms-check{border:1px solid #ccc;}
+
+_:-ms-lang(x), html[class~="xj-base-black"] input[type="radio"]::-ms-check{   border:1px solid #666;}
+_:-ms-lang(x), html[class~="xj-base-black"] input[type="checkbox"]::-ms-check{border:1px solid #666;}
+
+_:-ms-lang(x), input[type="radio"]{   border:0;}
+_:-ms-lang(x), input[type="checkbox"]{border:0;}
+
+/* ------------------------------------------ */
+
+/* Firefox54 才支持将 radio 和 checkbox 的 -moz-appearance 设置为 none，所以将 FF53- 另外设置 */
+/* 针对火狐，不支持 clip-path:inset(0 0 0 0) 就是 FF53-，无法设置 border，只能用 outline 外框 */
+/* color/background 设置无效，outline 无法渐变，通过 opacity 来实现目标灰度，FF53/54 测试通过 */
+/* opacity 修改灰度的做法会导致聚焦时 box-shadow 变淡，所以这种做法还是作罢，低版本火狐不理会 */
+@supports (-moz-appearance:none) and (not (clip-path:inset(0 0 0 0))){
+	
+	input[type="radio"]{   outline-offset:-2px;-moz-outline-radius:50%;}
+	input[type="checkbox"]{outline-offset:-2px;-moz-outline-radius:0px;}
+	
+	html:not([class*="xj-base"]) input[type="radio"]{   outline:2px solid #ccc!important;}
+	html:not([class*="xj-base"]) input[type="checkbox"]{outline:2px solid #ccc!important;}
+	
+	html[class~="xj-base-black"] input[type="radio"]{   outline:2px solid #666!important;}
+	html[class~="xj-base-black"] input[type="checkbox"]{outline:2px solid #666!important;}
+	
+}
+
+
+
+/* form - file ------------------------------------------------------------------------------ */
+
+
+
+/* IE：IE、Firefox 和 Chrome 的 file 控件区别都很大，这里干脆用 hack 进行区分设置，还更加简单 */
+/* 使用包裹，就得考虑 tab 键切换焦点时的情况，不同版本的 Firefox 其实高度也不同，用边框也不行 */
+/* .input-file-label{} - 按钮会随着语言变化尺寸，所以其实根本没法遮掉按钮，这种包裹也没什么用 */
+/* unset 必须缩小 font-size，否则按钮中的文本会因为空间不够而无法垂直居中，其他没什么要设置的 */
+/* ::-ms-value 的 height = 22px，不影响居中，也能避免拖动导致左侧外边框两个圆角被白色背景遮盖 */
+/* ::-ms-browse 设置 cursor:pointer; 无效，还不能用 rem 做单位，否则 padding 和 radius 也无效 */
+_:-ms-lang(x), input[type="file"]{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0;padding:0;height:40px;border-radius:0;vertical-align:middle;text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:22px;}
+_:-ms-lang(x), input[type="file"]::-ms-browse{margin:0;padding:0 12px 2px 12px;border-width:0px;border-color:transparent;border-radius:0;background-color:transparent;color:inherit;font-size:inherit;font-family:inherit;line-height:inherit;}
+_:-ms-lang(x), input[type="file"]::-ms-value{margin:0;padding:0 12px 0 12px;height:22px;border:0;border-radius:0;background-color:transparent;color:inherit;font-size:inherit;font-family:inherit;line-height:inherit;}
+
+_:-ms-lang(x), input[type="file"].input-unset{height:24px;vertical-align:bottom;font-size:12px;}
+_:-ms-lang(x), input[type="file"].input-unset::-ms-browse{padding:0px 8px 0px 8px;}
+_:-ms-lang(x), input[type="file"].input-unset::-ms-value{padding:0 8px;}
+
+_:-ms-lang(x), html:not([class*="xj-base"]) input[type="file"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+_:-ms-lang(x), html:not([class*="xj-base"]) input[type="file"]::-ms-browse{border-left:1px solid #ccc;}
+
+_:-ms-lang(x), html[class~="xj-base-black"] input[type="file"]{border:1px solid #666;background-color:#333;color:#ccc;}
+_:-ms-lang(x), html[class~="xj-base-black"] input[type="file"]::-ms-browse{border-left:1px solid #666;}
+
+/* ------------------------------------------ */
+
+/* Chrome：与 IE 不同的是按钮位于左侧，也不能用 float:right; 定位到右侧去，否则文本会排版异常 */
+/* 跟 IE 不同的是只能设置按钮，文本无法控制，所以无法完全自定义它的样式，只能勉强做到工整而已 */
+/* 为了增加按钮和文本间的距离，使用 text-indent 负值，然后再使用 padding 将右侧恢复，实现统一 */
+/* ::-webkit-file-upload-button 必须设置 font-size 属性，否则在 Safari(IOS) 该属性默认为 12px */
+/* ::-webkit-file-upload-button 按钮的 outline 必须清掉，否则聚焦后之会存在外边框，就很难看了 */
+/* 新版的 Chrome，上传按钮变得可用 margin 设置和文本的距离了，但是之前 text-indent 也不能删除 */
+_:-webkit-any(x), input[type="file"]{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0;padding:0 12px 0 0;height:40px;border-radius:0;vertical-align:middle;text-decoration:none;text-indent:-8px;text-transform:none;font-size:16px;font-family:inherit;line-height:38px;cursor:pointer;-webkit-appearance:none;}
+_:-webkit-any(x), input[type="file"]::-webkit-file-upload-button{display:inline-block;margin:0 0;margin-right:12px;padding:1px 12px 1px 20px;height:38px;outline:0;border:0;border-radius:0;background-color:transparent;color:inherit;vertical-align:bottom;font-size:inherit;line-height:inherit;cursor:inherit;-webkit-appearance:none;}
+
+_:-webkit-any(x), input[type="file"].input-unset{padding:0 8px 0 0;height:24px;vertical-align:bottom;text-indent:-4px;font-size:14px;line-height:22px;}
+_:-webkit-any(x), input[type="file"].input-unset::-webkit-file-upload-button{margin-right:8px;padding:0 8px 0 12px;height:22px;}
+
+_:-webkit-any(x), html:not([class*="xj-base"]) input[type="file"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+_:-webkit-any(x), html:not([class*="xj-base"]) input[type="file"]::-webkit-file-upload-button{border-right:1px solid #ccc;}
+
+_:-webkit-any(x), html[class~="xj-base-black"] input[type="file"]{border:1px solid #666;background-color:#333;color:#ccc;}
+_:-webkit-any(x), html[class~="xj-base-black"] input[type="file"]::-webkit-file-upload-button{border-right:1px solid #666;}
+
+/* ------------------------------------------ */
+
+/* -moz-appearance:none 不起作用，cursor 无法被内部按钮继承，line-height 用于实现内容垂直居中 */
+/* block-size 用于定义侧轴尺寸，ff49(PC) 和 FF66(Android) 默认为 inhert，才导致了按钮高度异常 */
+/* 在 MacOS 的 Firefox 中，如果将 font-size 设为 16px，按钮显示会异常，具体表现为自带背景直角 */
+/* Android.Firefox 的按钮和文字在 active 的内容还有背景和边框，但是根本去不掉，也只能随它去了 */
+/* Firefox82+ 开始支持 ::file-selector-button 伪元素，所以从这个版本开始，file 按钮开始可控了 */
+/* 但这个按钮不会继承字体和颜色，所以还得特别设置，并且这个按钮也不支持 before / after 伪元素 */
+_:-moz-locale-dir(ltr), input[type="file"]{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0;padding:0 12px;height:40px;border-radius:0;vertical-align:middle;text-decoration:none;text-transform:none;font-size:14px;font-family:inherit;line-height:38px;cursor:pointer;block-size:auto;}
+_:-moz-locale-dir(ltr), input[type="file"]::file-selector-button{overflow:hidden;display:inline-block;margin:0 12px 0 0;padding:0 12px;height:38px;border:0;background-color:transparent;color:inherit;vertical-align:bottom;text-indent:0;letter-spacing:0;font-size:inherit;font-family:inherit;cursor:pointer;}
+
+_:-moz-locale-dir(ltr), input[type="file"].input-unset{padding:0 8px;height:24px;vertical-align:bottom;font-size:12px;line-height:22px;}
+_:-moz-locale-dir(ltr), input[type="file"].input-unset::file-selector-button{margin:0px 8px 0px 0px;padding:0 8px;height:22px;}
+
+_:-moz-locale-dir(ltr), html:not([class*="xj-base"]) input[type="file"]{border:1px solid #ccc;background-color:#fff;color:#666;}
+_:-moz-locale-dir(ltr), html:not([class*="xj-base"]) input[type="file"]::file-selector-button{border-right:1px solid #ccc;}
+
+_:-moz-locale-dir(ltr), html[class~="xj-base-black"] input[type="file"]{border:1px solid #666;background-color:#333;color:#ccc;}
+_:-moz-locale-dir(ltr), html[class~="xj-base-black"] input[type="file"]::file-selector-button{border-right:1px solid #666;}
+
+@supports selector(input[type="file"]::file-selector-button){
+	_:-moz-locale-dir(ltr), input[type="file"]{padding-left:0;font-size:16px;}
+	_:-moz-locale-dir(ltr), input[type="file"].input-unset{padding-left:0;font-size:14px;}
+}
+
+
+
+/* form - range ----------------------------------------------------------------------------- */
+
+
+
+/* color 改变的是刻度尺的颜色，但是一旦设置了 -webkit-appearance:none; 属性，刻度尺就不显示了 */
+/* 但 -webkit-appearance:none; 又必须设置，否则子伪类元素的样式不生效，thumb 就无法实现圆角了 */
+input[type="range"]{position:relative;z-index:4;display:inline-block;vertical-align:middle;margin:8px 0;padding:0;height:24px;
+	color:#999;border:0;border-radius:0;background-color:transparent;-webkit-appearance:none;}
+input[type="range"].input-unset{margin:0;vertical-align:bottom;}
+
+/* ------------------------------------------ */
+
+/* thumb 的 -webkit-appearance:none; 必须设置，否则在 Chrome 中，thumb 按钮的样式就无法被重置 */
+/* IE80(edgeChromium) 默认有 progress，划过的位置有颜色，但设置后就消失了，也没有伪类可以控制 */
+input[type="range"]::-webkit-slider-runnable-track{display:block;width:auto;height:12px;border:0;border-radius:0 0;}
+input[type="range"]::-webkit-slider-thumb{position:relative;top:-6px;display:block;width:24px;height:24px;border-radius:0;cursor:pointer;-webkit-appearance:none;}
+
+html:not([class*="xj-base"]) input[type="range"]::-webkit-slider-runnable-track{background-color:#fff;box-shadow:0 0 0 1px #ccc inset;}
+html:not([class*="xj-base"]) input[type="range"]::-webkit-slider-thumb{border:1px solid #ccc;background-color:#fff;}
+
+html[class~="xj-base-black"] input[type="range"]::-webkit-slider-runnable-track{background-color:#333;box-shadow:0 0 0 1px #666 inset;}
+html[class~="xj-base-black"] input[type="range"]::-webkit-slider-thumb{border:1px solid #666;background-color:#333;}
+
+html:not([class*="xj-base"]) input[type="range"]:enabled::-webkit-slider-thumb:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]) input[type="range"]:enabled::-webkit-slider-thumb:active{background-color:#ffffff;}
+
+html[class~="xj-base-black"] input[type="range"]:enabled::-webkit-slider-thumb:hover{background-color:#242424;}
+html[class~="xj-base-black"] input[type="range"]:enabled::-webkit-slider-thumb:active{background-color:#333333;}
+
+/* ------------------------------------------ */
+
+/* webkit 和 moz 的伪元素选择器规则类似，但是选择器不能合并，否则会无效化，所以最后只能拆分开 */
+/* moz 多了伪类 progress，划过的位置能设置不同的颜色，webkit 就设置不了，所以轨道只有一个颜色 */
+input[type="range"]::-moz-range-track{height:12px;border:0;border-radius:0;}
+input[type="range"]::-moz-range-progress{height:12px;border:0;border-radius:0px;}
+input[type="range"]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:0;}
+
+html:not([class*="xj-base"]) input[type="range"]::-moz-range-track{   background-color:#ffffff;box-shadow:0 0 0 1px #ccc inset;}
+html:not([class*="xj-base"]) input[type="range"]::-moz-range-progress{background-color:#f0f0f0;box-shadow:0 0 0 1px #ccc inset;}
+html:not([class*="xj-base"]) input[type="range"]::-moz-range-thumb{   background-color:#ffffff;box-shadow:0 0 0 1px #ccc inset;}
+
+html[class~="xj-base-black"] input[type="range"]::-moz-range-track{   background-color:#333333;box-shadow:0 0 0 1px #666 inset;}
+html[class~="xj-base-black"] input[type="range"]::-moz-range-progress{background-color:#242424;box-shadow:0 0 0 1px #666 inset;}
+html[class~="xj-base-black"] input[type="range"]::-moz-range-thumb{   background-color:#333333;box-shadow:0 0 0 1px #666 inset;}
+
+html:not([class*="xj-base"]) input[type="range"]:enabled::-moz-range-thumb:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]) input[type="range"]:enabled::-moz-range-thumb:active{background-color:#ffffff;}
+
+html[class~="xj-base-black"] input[type="range"]:enabled::-moz-range-thumb:hover{background-color:#242424;}
+html[class~="xj-base-black"] input[type="range"]:enabled::-moz-range-thumb:active{background-color:#333333;}
+
+/* ------------------------------------------ */
+
+/* IE 存在刻度，但 color 设置为 transparent 就能去除，IE 还有当前值提示既 toolTip，但也去掉了 */
+/* IE18 会对 -webkit- 生效，导致 active 时有 box-shadow，但效果又会被 hidden，只好再设为 none */
+input[type="range"]::-ms-track{height:12px;border:0;border-radius:0;background-color:transparent;color:transparent;}
+input[type="range"]::-ms-ticks-before, input[type="range"]::-ms-ticks-after, 
+input[type="range"]::-ms-tooltip{display:none;}
+
+input[type="range"]::-ms-fill-lower{height:12px;border:0;border-radius:0;}
+input[type="range"]::-ms-thumb{width:24px;height:24px;border:0;border-radius:0;}
+input[type="range"]::-ms-fill-upper{height:12px;border:0;border-radius:0;}
+
+html:not([class*="xj-base"]) input[type="range"]::-ms-fill-lower{background-color:#f0f0f0;box-shadow:0 0 0 1px #ccc inset;}
+html:not([class*="xj-base"]) input[type="range"]::-ms-thumb{     background-color:#ffffff;box-shadow:0 0 0 1px #ccc inset;}
+html:not([class*="xj-base"]) input[type="range"]::-ms-fill-upper{background-color:#ffffff;box-shadow:0 0 0 1px #ccc inset;}
+
+html[class~="xj-base-black"] input[type="range"]::-ms-fill-lower{background-color:#242424;box-shadow:0 0 0 1px #666 inset;}
+html[class~="xj-base-black"] input[type="range"]::-ms-thumb{     background-color:#333333;box-shadow:0 0 0 1px #666 inset;}
+html[class~="xj-base-black"] input[type="range"]::-ms-fill-upper{background-color:#333333;box-shadow:0 0 0 1px #666 inset;}
+
+html:not([class*="xj-base"]) input[type="range"]:enabled::-ms-thumb:hover{background-color:#f0f0f0;}
+html:not([class*="xj-base"]) input[type="range"]:enabled::-ms-thumb:active{background-color:#ffffff;}
+
+html[class~="xj-base-black"] input[type="range"]:enabled::-ms-thumb:hover{background-color:#242424;}
+html[class~="xj-base-black"] input[type="range"]:enabled::-ms-thumb:active{background-color:#333333;}
+
+
+
+/* form - state ----------------------------------------------------------------------------- */
+
+
+
+/* 提升 z-index 层级，当 focus 聚焦时 box-shadow 生成的外边框就不会出现因为层级过低而被覆盖掉 */
+input:not([disabled]):focus{z-index:16;}
+.input:not([disabled]):focus{z-index:16;}
+
+/* ------------------------------------------ */
+
+/* :read-only 伪类选择器需要 IE13+ 才支持，为了解决兼容，只能用 [readOnly] 属性选择器来匹配了 */
+input[readOnly]{cursor:default;}
+.input[readOnly]{cursor:default;}
+
+html:not([class*="xj-base"]) input[readOnly]{background-color:#fafafa;}
+html:not([class*="xj-base"]) .input[readOnly]{background-color:#fafafa;}
+
+html[class~="xj-base-black"] input[readOnly]{background-color:#2e2e2e;}
+html[class~="xj-base-black"] .input[readOnly]{background-color:#2e2e2e;}
+
+/* ------------------------------------------ */
+
+/* 跟 button 一样的设置 disabled 的内容，面对普通元素用 [disabled] 属性选择器而不是 :disabled */
+input[disabled]{opacity:0.5;cursor:not-allowed;}
+.input[disabled]{opacity:0.5;cursor:not-allowed;}
+
+html:not([class*="xj-base"]) input[disabled]{background-color:#f5f5f5;}
+html:not([class*="xj-base"]) .input[disabled]{background-color:#f5f5f5;}
+
+html[class~="xj-base-black"] input[disabled]{background-color:#292929;}
+html[class~="xj-base-black"] .input[disabled]{background-color:#292929;}
+
+
+
+/* form - select ---------------------------------------------------------------------------- */
+
+
+
+/* select 设置 appearance:none;，可隐藏掉右侧小三角按钮，不设置会导致 Safari 中存在圆角和阴影 */
+/* select 设置 line-height:1，在 Chrome 中将导致文字的下端被截断掉，显示不完整，所以改为 24px */
+/* optgroup 和 option 在单行的 select 中是不显示的，但 padding 和 margin 会影响宽度，需要清掉 */
+/* optgroup 和 option 的 font-weight 和 cursor 设置影响弹出层内容，但部分浏览器无效，不理会了 */
+/* Firefox 的 optgroup 标签存在背景色需要重置，但在 FF72 中只能用 colorName，其他类型值不生效 */
+/* 不能使用 optgroup option 这种写法来提高选择器的权重，因为 option 标签不一定就位于 optgroup */
+select{position:relative;z-index:4;display:inline-block;margin:0;padding:0 40px 0 12px;height:40px;border-radius:0;vertical-align:middle;cursor:pointer;text-decoration:none;text-transform:none;white-space:nowrap;word-wrap:normal;font-weight:normal;
+	font-style:normal;font-size:16px;font-family:inherit;line-height:24px;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-repeat:no-repeat;background-position:right 12px center;
+	background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+select.select-unset{padding:0 32px 0 8px;height:24px;background-position:right 8px center;vertical-align:bottom;font-size:14px;line-height:22px;}
+
+html:not([class*="xj-base"]) select{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] select{border:1px solid #666;background-color:#333;color:#ccc;}
+
+select optgroup{margin:0;padding:0;color:inherit;}
+
+html:not([class*="xj-base"]) select optgroup{background-color:white;}
+html[class~="xj-base-black"] select optgroup{background-color:black;}
+
+select option{margin:0;padding:0;color:inherit;}
+
+html:not([class*="xj-base"]) select option{background-color:#fff;}
+html[class~="xj-base-black"] select option{background-color:#333;}
+
+select:not([disabled]):focus{z-index:16;}
+
+/* 为了审查元素时选择器的简洁性，所以 disabled 就不合并了，:disabled 选择器的写法会有继承现象 */
+/* 例如 optgroup 被禁用时 option 也会被禁用，opacity:0.5 就会覆盖，所以改用 [disabled] 的写法 */
+select[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) select[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] select[disabled]{background-color:#292929;}
+
+select optgroup[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) select optgroup[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] select optgroup[disabled]{background-color:#292929;}
+select[disabled] optgroup{cursor:not-allowed;}
+
+select option[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) select option[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] select option[disabled]{background-color:#292929;}
+select optgroup[disabled] option{cursor:not-allowed;}
+select[disabled] option{cursor:not-allowed;}
+
+/* IOS 和 Android 浏览器(Firefox 除外)，即使有 size 或 multiple 属性，select 会以单行形式展现 */
+/* 此时可以添加背景图标，但是由于没有针对 Android 上 blink 内核浏览器的 hack，所以只能借助 JS */
+.xjBaseSingleLineSelect select[size]{padding:0 40px 0 12px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+.xjBaseSingleLineSelect select[multiple]{padding:0 40px 0 12px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+
+.xjBaseSingleLineSelect select[size].select-unset{padding:0 32px 0 8px;background-position:right 8px center;}
+.xjBaseSingleLineSelect select[multiple].select-unset{padding:0 32px 0 8px;background-position:right 8px center;}
+
+select[size]{padding:4px 12px;min-height:40px;height:auto;background-image:none;}
+select[multiple]{padding:4px 12px;min-height:40px;height:auto;background-image:none;}
+
+select.select-unset[size]{padding:4px 8px;min-height:24px;}
+select.select-unset[multiple]{padding:4px 8px;min-height:24px;}
+
+/* Firefox 的 select 文本存在偏右的情况，没选择器能直接控制，只能用 text-indent:-2px 实现偏移 */
+/* Firefox 在聚焦时内部有个虚线边框，去不掉但可将 color 设为透明再用 text-shadow 复现文字出来 */
+_:-moz-locale-dir(ltr), select{text-indent:-2px;}
+_:-moz-locale-dir(ltr), select:-moz-focusring{color:transparent;}
+_:-moz-locale-dir(ltr), html:not([class*="xj-base"]) select:-moz-focusring{text-shadow:0 0 0 #666;}
+_:-moz-locale-dir(ltr), html[class~="xj-base-black"] select:-moz-focusring{text-shadow:0 0 0 #ccc;}
+
+/* IE 的 ::-ms-expand 用于设置三角形小按钮，但已经用 background-image 实现了，所以这里就 none */
+/* IE 的 ::-ms-value 可用于 input / select 标签，得去掉边距，否则文本无法左对齐，排版会很难看 */
+_:-ms-lang(x), select::-ms-expand{display:none;}
+_:-ms-lang(x), select::-ms-value{margin:0;padding:0;}
+
+/* ------------------------------------------ */
+
+/* .select 和 select 有许多相同属性，之所以不使用分组选择器合并，是因为 select 模拟实在太复杂 */
+/* word-wrap:normal; - word-wrap:break-word; 的存在会导致 IE10 中的换行，所以这里要特别的恢复 */
+.select{position:relative;z-index:4;overflow:hidden;display:-ms-inline-flexbox;display:inline-flex;-ms-flex-direction:column-reverse;flex-direction:column-reverse;margin:0;padding:0 40px 0 12px;height:40px;border-radius:0;vertical-align:middle;font-weight:normal;
+	text-decoration:none;text-transform:none;white-space:nowrap;word-wrap:normal;font-style:normal;font-size:16px;font-family:inherit;line-height:38px;background-repeat:no-repeat;background-position:right 12px center;
+	background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 2h12L8 14z'/%3E%3C/svg%3E");}
+.select.select-unset{padding:0 32px 0 8px;height:24px;background-position:right 8px center;vertical-align:bottom;font-size:14px;line-height:22px;}
+
+html:not([class*="xj-base"]) .select{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] .select{border:1px solid #666;background-color:#333;color:#ccc;}
+
+.select:not([disabled]):focus{z-index:16;}
+
+/* .optgroup 跟 .select 同样的设置为伸缩盒布局，并且也是 column-reverse，也就是逆转排序的方向 */
+/* .option 默认不显示，但是当它显示的时候，也是伸缩盒的布局，这是为了方便能实现文本的垂直居中 */
+.select .optgroup{overflow:hidden;display:-ms-inline-flexbox;display:inline-flex;-ms-flex-direction:column-reverse;flex-direction:column-reverse;-ms-flex:0 0 auto;flex:0 0 auto;color:inherit;}
+.select .option{overflow:hidden;display:none;-ms-flex-align:center;align-items:center;-ms-flex:0 0 auto;flex:0 0 auto;color:inherit;}
+
+/* .optgroup 如果位于第一位，那就排序到最后面，没有 select 选项时才显示第一项的第一个 .option */
+/* .optgroup 如果是 .option 的同级元素，且位于 .option 后面，则排到最前面，因为它默认不占位置 */
+.select .optgroup:first-child{-ms-flex-order:1;order:1;}
+.select .option ~ .optgroup{-ms-flex-order:-1;order:-1;}
+
+/* 展示首位的 .option，但它的优先级低于 .option[selected]，起冲突时优先展示 .option[selected] */
+/* 展示首位的 .optgroup 中的第一个 .option，这个 .optgroup 会被排到后面，不会抢在 selected 前 */
+.select > .option:first-child{display:-ms-flexbox;display:flex;}
+.select .optgroup:first-child .option:first-child{display:-ms-flexbox;display:flex;}
+
+/* .option 如果没有 textContent，但是有 value 属性，那就用 ::before 伪元素显示 value 属性文本 */
+/* .option 默认都是 display:none 隐藏的，但如果 selected 选中就会显示，并且还会排序到最前面去 */
+.select .option[value]:empty::before{display:block;content:attr(value);}
+.select .option[selected]{display:-ms-flexbox;display:flex;-ms-flex-order:-1;order:-1;}
+
+/* 为了审查元素时选择器的简洁性，所以 disabled 就不合并了，:disabled 选择器的写法会有继承现象 */
+/* 例如 optgroup 被禁用时 option 也会被禁用，opacity:0.5 就会覆盖，所以改用 [disabled] 的写法 */
+.select[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .select[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .select[disabled]{background-color:#292929;}
+
+.select .optgroup[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .select .optgroup[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .select .optgroup[disabled]{background-color:#292929;}
+.select[disabled] .optgroup{cursor:not-allowed;}
+
+.select .option[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .select .option[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .select .option[disabled]{background-color:#292929;}
+.select .optgroup[disabled] .option{cursor:not-allowed;}
+.select[disabled] .option{cursor:not-allowed;}
+
+
+
+/* form - textarea -------------------------------------------------------------------------- */
+
+
+
+/* textarea 就只有一个 ::-webkit-resizer 伪元素类名，用于设置右下角拉伸小图标，但保持默认就行 */
+/* margin:0; - 在 Firefox 和 Safari 中默认存在 margin，所以将其去掉，但 FF49 和 SF12 都没有了 */
+/* height:88px; - 减去垂直方向的 border 和 padding 尺寸之后，还可以容纳三行文本而不出现滚动条 */
+/* resize:vertical; - 默认是 both，改为只能调整垂直尺寸，垂直方向尺寸变化无所谓，不会破坏布局 */
+textarea{position:relative;z-index:4;overflow:auto;display:inline-block;margin:0;padding:7px 12px;height:88px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1.5;resize:vertical;-webkit-appearance:none;}
+html:not([class*="xj-base"]) textarea{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] textarea{border:1px solid #666;background-color:#333;color:#ccc;}
+
+textarea[readOnly]{cursor:default;}
+html:not([class*="xj-base"]) textarea[readOnly]{background-color:#fafafa;}
+html[class~="xj-base-black"] textarea[readOnly]{background-color:#2e2e2e;}
+
+textarea[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) textarea[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] textarea[disabled]{background-color:#292929;}
+
+textarea:not([disabled]):focus{z-index:16;}
+
+.textarea{position:relative;z-index:4;overflow:auto;display:inline-block;margin:0;padding:7px 12px;height:88px;border-radius:0;vertical-align:middle;
+	text-decoration:none;text-transform:none;font-size:16px;font-family:inherit;line-height:1.5;resize:vertical;-webkit-appearance:none;}
+html:not([class*="xj-base"]) .textarea{border:1px solid #ccc;background-color:#fff;color:#666;}
+html[class~="xj-base-black"] .textarea{border:1px solid #666;background-color:#333;color:#ccc;}
+
+.textarea[readOnly]{cursor:default;}
+html:not([class*="xj-base"]) .textarea[readOnly]{background-color:#fafafa;}
+html[class~="xj-base-black"] .textarea[readOnly]{background-color:#2e2e2e;}
+
+.textarea[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .textarea[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .textarea[disabled]{background-color:#292929;}
+
+.textarea:not([disabled]):focus{z-index:16;}
+
+/* Safari(IOS) 的 textarea 文本无法左对齐，没有伪元素可调整，只能筛选出来，将文本往左移动 3px */
+@supports (-webkit-overflow-scrolling:touch){
+	textarea{text-indent:-3px;-webkit-overflow-scrolling:touch;}
+	textarea::-webkit-input-placeholder{text-indent:0px;}
+	.textarea{-webkit-overflow-scrolling:touch;}
+}
+
+/* 单行高度 24px，加上两个新行 20px*2，height 就是 64px，还是保持能容纳三行而不产生竖向滚动条 */
+.textarea-unset{padding:1px 8px;height:64px;vertical-align:bottom;font-size:14px;line-height:20px;}
+
+
+
+/* form - progress -------------------------------------------------------------------------- */
+
+
+
+/* progress 默认是无法聚焦的，如果不设置 overflow:hidden 则 webkit 的 progress-bar 背景会溢出 */
+progress{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0px;padding:0px;width:160px;
+	height:16px;border-radius:0;color:transparent;vertical-align:middle;font-size:0;line-height:0;}
+html:not([class*="xj-base"]) progress{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] progress{border:1px solid #666;background-color:#333;}
+
+.progress{position:relative;z-index:4;overflow:hidden;display:inline-block;margin:0px;padding:0px;width:160px;
+	height:16px;border-radius:0;color:transparent;vertical-align:middle;font-size:0;line-height:0;}
+html:not([class*="xj-base"]) .progress{border:1px solid #ccc;background-color:#fff;}
+html[class~="xj-base-black"] .progress{border:1px solid #666;background-color:#333;}
+
+/* .progress 嵌套 .progress-value 可以实现标签模拟，但只能用内联 width 控制尺寸，value 不生效 */
+.progress-value{display:inline-block;width:50%;height:100%;vertical-align:top;}
+html:not([class*="xj-base"]) .progress-value{background-color:#f0f0f0;}
+html[class~="xj-base-black"] .progress-value{background-color:#242424;}
+
+/* 由于高度还是小于 24px，所以 vertical-align 继续保持为 middle，否则与文本混排，太靠下不好看 */
+.progress-unset{height:12px;}
+
+/* IE 的 value 右侧存在着边框，为了统一视觉效果就去掉了，最终还是去掉了所有的 transition 动画 */
+progress::-ms-fill{border:0;}
+html:not([class*="xj-base"]) progress::-ms-fill{background-color:#f0f0f0;}
+html[class~="xj-base-black"] progress::-ms-fill{background-color:#242424;}
+
+/* Firefox 的 progress 控件中只有 ::-moz-progress-bar 元素，用于设置 value 尺寸，重设颜色即可 */
+progress::-moz-progress-bar{border:0;}
+html:not([class*="xj-base"]) progress::-moz-progress-bar{background-color:#f0f0f0;}
+html[class~="xj-base-black"] progress::-moz-progress-bar{background-color:#242424;}
+
+/* Chrome 的 progress 的 shadow-dom 中，最外层是 ::-webkit-progress-inner-element，但无需设置 */
+html:not([class*="xj-base"]) progress::-webkit-progress-bar{background-color:#ffffff;}
+html:not([class*="xj-base"]) progress::-webkit-progress-value{background-color:#f0f0f0;}
+html[class~="xj-base-black"] progress::-webkit-progress-bar{background-color:#333333;}
+html[class~="xj-base-black"] progress::-webkit-progress-value{background-color:#242424;}
+
+
+
+/* form - output ---------------------------------------------------------------------------- */
+
+
+
+/* 与 label 标签一样设置为 inline-block，更方便设置尺寸边距，但不能设置 vertical-align:middle */
+/* 因为 output 和 label 一样是纯文本，那样可能导致文本混排无法垂直对齐，所以 unset 也就没必要 */
+
+output{display:inline-block;}
+output:not([disabled]):focus{z-index:16;}
+
+output[readOnly]{cursor:default;}
+html:not([class*="xj-base"]) output[readOnly]{background-color:#fafafa;}
+html[class~="xj-base-black"] output[readOnly]{background-color:#2e2e2e;}
+
+output[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) output[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] output[disabled]{background-color:#292929;}
+
+.output{display:inline-block;}
+.output:not([disabled]):focus{z-index:16;}
+
+.output[readOnly]{cursor:default;}
+html:not([class*="xj-base"]) .output[readOnly]{background-color:#fafafa;}
+html[class~="xj-base-black"] .output[readOnly]{background-color:#2e2e2e;}
+
+.output[disabled]{opacity:0.5;cursor:not-allowed;}
+html:not([class*="xj-base"]) .output[disabled]{background-color:#f5f5f5;}
+html[class~="xj-base-black"] .output[disabled]{background-color:#292929;}
+
+
+
+/* form - invalid --------------------------------------------------------------------------- */
+
+
+
+/* 浏览器自带的 :invalid 伪类样式可能会和 xj.focus 带的 box-shadow 样式起冲突，所以要特别设置 */
+/* Firefox 会将 invalid 状态所在 form 标签也匹配 :invalid 伪类选择器，所以这里还要排除掉 form */
+:invalid:not(form){z-index:16;outline:0;box-shadow:0 0 0 2px rgba(255,51,51,0.75);}
+
+
+
+/* scrollbar -------------------------------------------------------------------------------- */
+
+
+
+/* IE11- 可以用 IE 独有的属性来设置滚动条的颜色，但没法定义交互时 :hover & :active 状态的颜色 */
+/* track 是轨道，shadow 是手柄(既 thumb)的边框，face 用于设置手柄的背景色，arrow 是按钮的箭头 */
+_:-ms-lang(x), html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar){scrollbar-track-color:#f0f0f0;scrollbar-shadow-color:#f0f0f0;scrollbar-face-color:#ccc;scrollbar-arrow-color:#999;}
+_:-ms-lang(x), html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar){scrollbar-track-color:#242424;scrollbar-shadow-color:#242424;scrollbar-face-color:#666;scrollbar-arrow-color:#999;}
+
+
+
+/* Firefox64 开始支持 scrollbar-color，跟 IE 一样的只要 html 标签被设置了，那么全局的都会生效 */
+/* 在 MacOS 上得先将 "系统偏好设置" > "常规" > "显示滚动条" 设置为 "始终"，这个属性才能够生效 */
+/* 不过 Firefox 其实会根据背景色自动调整滚动条颜色，所以即使在 MacOS 上这些设置不生效也没关系 */
+/* Firefox 还支持 scrollbar-width，但这个样式并不支持具体的像素值，所以没法精准定义滚动条尺寸 */
+_:-moz-locale-dir(ltr), html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar){scrollbar-color:#ccc #f0f0f0;}
+_:-moz-locale-dir(ltr), html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar){scrollbar-color:#666 #242424;}
+
+
+
+/* 在 Chrome 和 Safari 中，滚动条相关的伪元素选择器不能前缀明确的目标选择器，否则无法全局生效 */
+/* ::-webkit-scrollbar-button:single-button:disabled{} 选择器无效，滚动到边缘没法设置无效样式 */
+/* ::-webkit-resizer 一旦被设置边框或背景色，默认的斜杠图标就会消失，所以不得不使用 icon 定义 */
+/* 但是自定义 resize 的 icon，在排版 rtl 的时候无法自动适应到右侧的滚动条去，方向依然是左侧的 */
+/* Firefox 有 :dir() 选择器可判断方向，但 Chrome 只能用 [dir=rtl]，这个得有设置了属性才能生效 */
+/* 以后 Chrome 应该会支持 :dir() 选择器，现在就先不理了，反正即使按钮方向不对也不会影响到功能 */
+/* textarea 滚动条 cursor 会异常，指针会自动继承父元素的 text，为滚动条伪类设置 cursor 不生效 */
+/* 这个问题从 2013 年就已经被提出来了，至今尚未被解决 : https://stackoverflow.com/a/39269248/ */
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar{width:16px;height:16px;}
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button{width:16px;height:16px;background-repeat:no-repeat;background-position:center;background-size:10px;}
+html:not(.xjBaseVanillaScrollbar) ::-webkit-resizer{background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M14 10l-4 4H9l5-5zM14 5l-9 9H4L14 4z'/%3E%3C/svg%3E") no-repeat center;}
+
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:vertical:decrement{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M14 11H2l6-8z'/%3E%3C/svg%3E");}
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:horizontal:increment{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M5 14V2l8 6z'/%3E%3C/svg%3E");}
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:vertical:increment{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 5h12l-6 8z'/%3E%3C/svg%3E");}
+html:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:horizontal:decrement{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M11 2v12L3 8z'/%3E%3C/svg%3E");}
+
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-track{background-color:#f0f0f0;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-corner{background-color:#f0f0f0;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb{border:2px solid #f0f0f0;background-color:#cccccc;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb:hover{background-color:#999999;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb:active{background-color:#cccccc;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button{background-color:#f0f0f0;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:hover{background-color:#cccccc;}
+html:not([class*="xj-base"]):not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:active{background-color:#f0f0f0;}
+
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-track{background-color:#242424;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb{border:2px solid #242424;background-color:#666666;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb:hover{background-color:#999999;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-thumb:active{background-color:#666666;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-corner{background-color:#242424;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button{background-color:#242424;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:hover{background-color:#666666;}
+html[class~="xj-base-black"]:not(.xjBaseVanillaScrollbar) ::-webkit-scrollbar-button:single-button:active{background-color:#242424;}
+
+
+
+/* print - ---------------------------------------------------------------------------------- */
+
+
+
+/* 部分标签设置了 page-break-*，但实测发现只有 IE18 在预览时做到这点，Chrome 和 Safari 都无效 */
+@media print{
+
+/* 纸张可容纳多少内容，这取决于 body 所设置的尺寸，它会根据纸张和像素的比来进行缩放以达到目的 */
+@page{margin:16px;padding:0;size:A4;}
+body{padding:0!important;min-width:992px!important;}
+
+/* 为超级链接加上下划线，以便能认出这就是个链接，取消目标节点的 box-shadow & text-shadow 设置 */
+a[href]:not([href="javascript:void(0)"]):not([href="javascript:void 0"]){text-decoration:underline;}
+.print-hidden-shadow, .print-hidden-shadow::before, .print-hidden-shadow::after{box-shadow:none!important;text-shadow:none!important;}
+
+/* widows 控制元素内部发生分页时必须在页面顶部保留的最少行数，而 orphans 控制页面底部保留行数 */
+h2, h3, p{orphans:3;widows:3;}
+h2, h3{page-break-after: avoid;}
+tr, img{page-break-inside: avoid;}
+
+/* pre 得变成可自动换行，并且也要取消掉有可能存在的滚动条，否则打印时无法完整的把内容显示出来 */
+pre, .pre{white-space:pre-wrap!important;page-break-inside:avoid;}
+.pre-scrollable > pre, .pre-scrollable > .pre{overflow:visible!important;max-height:none!important;}
+
+/* 使用类名的形式来决定是否要显示某个属性的文本内容，而不是自动总是显示，这样一来可控性会更强 */
+[href].print-show-href::after, .print-show-href [href]::after{content:" (" attr(href) ")";}
+[title].print-show-title::after, .print-show-title [title]::after{content:" (" attr(title) ")";}
+[cite].print-show-cite::after, .print-show-cite [cite]::after{content:" (" attr(cite) ")";}
+
+/* 当为打印状态时可用这些类名来控制某些元素的显示或隐藏，这样就不需要为打印页面进行单独设置了 */
+.print-display-none{display:none!important;}
+
+.print-display-block{display:block!important;}
+.print-display-inline{display:inline!important;}
+.print-display-inline-block{display:inline-block!important;}
+
+.print-display-table{display:table!important;}
+.print-display-table-caption{display:table-caption!important;}
+.print-display-table-header-group{display:table-header-group!important;}
+.print-display-table-row{display:table-row!important;}
+.print-display-table-footer-group{display:table-footer-group!important;}
+.print-display-table-cell{display:table-cell!important;}
+
+.print-display-flex{display:-ms-flexbox!important;display:flex!important;}
+.print-display-inline-flex{display:-ms-inline-flexbox!important;display:inline-flex!important;}
+
+}
+
+
