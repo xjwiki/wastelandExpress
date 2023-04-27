@@ -155,7 +155,7 @@ try{ if(hashValue !== ''){
 
 // 阻止 jqi_xjDir01_ul01 中 a 默认事件，改为定位
 // id 中可能存在非法符号，得使用属性选择器来选择
-jqi_xjDir01_ul01.find('li > a').on('click', function(e){
+jqi_xjDir01_ul01.find('li > a:first-child').on('click', function(e){
 	e.preventDefault();
 	var id = this.getAttribute('href').slice(1);
 	$('[id="'+ id +'"]').xjArrive([0,-80], 250);
