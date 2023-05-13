@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="renderer" content="webkit" />
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 <script src="../static/cj/xj.plugins.setting.js?ver=2022-12-16T05:16:20UTC+8"></script>
 
 <meta name="viewport" xj-viewport="{minWidth:400, }" content="width=device-width,initial-scale=1" />
@@ -88,7 +89,6 @@
 
 <style>
 body{font-family:Iosevka,Menlo,Consolas,"Hiragino Sans GB","Microsoft YaHei",Monospace;}
-
 main{margin:0 auto;padding:16px;width:1280px;}
 
 /* IE11- 和 Edge15- 完全不支持 sticky 属性 */
@@ -393,7 +393,7 @@ jqi_powerTable_thead.html(powerTable_thead_node); */
 // 生成 tbody 内容
 var powerTable_tbody_node = '';
 roleBodyData.forEach(function(item){
-	powerTable_tbody_node += '<tr><td style="padding:0;"><img alt="'+ item[0] +'" src="../static/image/avatar/'+ item[1] +'.png" /></td>'
+	powerTable_tbody_node += '<tr><td style="padding:0;"><img alt="'+ item[0] +'" src="../static/image/avatar/'+ item[1] +'.png" style="width:64px;height:64px;" /></td>'
 	item.forEach(function(date){ powerTable_tbody_node += '<td>'+ date +'</td>' });
 	powerTable_tbody_node += '</tr>';
 });

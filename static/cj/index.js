@@ -147,11 +147,25 @@ xjDir01Return.reinit();
 
 // 有 hash 值则定位并选中 xjDir 中对应的 li 节点
 // hash 做 id 可能引发 BUG，所以放 try…catch 中
+setTimeout(function(){
+
 try{ if(hashValue !== ''){
 	$('[id="'+ hashValue +'"]').xjArrive([0, -80], 250, 'swing');
 	jqi_xjDir01_ul01.find('a[href="#'+ hashValue +'"]')
 	.parent('li').addClass('xjDir-active');
 }; }catch(error){};
+
+// 导航滚动定位到 最后那个 xjDir-active 的位置去
+// xjScroll 的定位目前还有 BUG，只能用原生的方法
+// if($('.xjDir-active').length !== 0){
+// 	xj.Scroll.return[$('#xjScroll01').attr('xjScrollId')].
+// scrollIn({target:$('.xjDir-active').last(), axis:'y'});
+// };
+if($('.xjDir-active').length !== 0 && Element.prototype.scrollIntoViewIfNeeded !== undefined){
+	$('.xjDir-active').last().get(0).scrollIntoViewIfNeeded();
+};
+
+}, 100);
 
 // 阻止 jqi_xjDir01_ul01 中 a 默认事件，改为定位
 // id 中可能存在非法符号，得使用属性选择器来选择
@@ -189,7 +203,9 @@ var headsScrollTopArrayGet = function(){
 	});
 };
 headsScrollTopArrayGet();
-jqi_win.on('resize', function(e){ headsScrollTopArrayGet() });
+// 延迟执行避免渲染迟缓导致获取 heading 位置出错
+setTimeout(function(){ headsScrollTopArrayGet() }, 1000);
+jqi_win.on('resize', function(event){ headsScrollTopArrayGet() });
 
 // 监听全局的滚动和重置，以同步导航列表的 active
 // 这里也需要防抖，用倒循环判断是否到达了目标 li

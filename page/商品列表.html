@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-cmn-hans">
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+<script src="../static/cj/xj.plugins.setting.js?ver=2022-12-16T05:16:20UTC+8"></script>
+
+<meta name="viewport" xj-viewport="{minWidth:400, }" content="width=device-width,initial-scale=1" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.viewport@0.3.2/dist/xj.viewport.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.storage@0.2.2/dist/xj.storage.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.operate@0.6.0/dist/xj.operate.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.ripple@0.5.0/dist/xj.ripple.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/xjZone/xj.focus@0.4.0/dist/xj.focus.min.js"></script>
+
+<link rel="stylesheet" href="../static/plugin/xj.base/0.4.0/dist/xj.base.min.css" />
+<script src="../static/plugin/xj.base/0.4.0/dist/xj.base.min.js"></script>
+
+<script>document.addEventListener('DOMContentLoaded', function( ){ FastClick.attach(document.body) }, false);</script>
+<script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+<title>商品列表</title>
+</head>
+<body>
+
+
+
+<main>
+	
+	<h1><a href="../index.html"><i class="fas fa-truck-arrow-right fa-flip-horizontal" style="position:relative;top:2px;"></i><span> 返回首页</span></a> > 商品列表</h1>
+	
+	<p>
+		01、据点中的商品数量是每周刷新一次<br />
+		02、核心实际上并不能在商店买卖，一般来路只有任务奖励或自己合成。<br />
+		03、下表商品的数量和价格都只是一个参考数值，实际上还会受到一些其他因素的影响，所以带有一些随机性。<br />
+		04、稀缺的数量，普通的数量，盛产的数量，这三项其实都是范围值，如 <code>500.2000</code> 就是 <code>500 ~ 2000</code> 的意思，但使用其他符号不好进行数字排序，所以使用 . 进行分割。<br />
+	</p>
+	
+	<hr />
+	
+	<table id="powerTable" class="powerTable table-hover table-striped">
+		<thead>
+			<tr>
+				<th sorttype="string"><span><i class="far fa-solid fa-image"></i></span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span><i class="far fa-solid fa-hashtag"></i></span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="string"><span>名称</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>重量</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>稀缺的数量</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>普通的数量</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>盛产的数量</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>稀缺城市最高价</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>最高价</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>参考价</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>最低价</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+				<th sorttype="number"><span>盛产城市最低价</span> <i class="icon far fa-solid fa-sort" style="position:relative;top:2px;"></i></th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	
+</main>
+
+
+
+<style>
+body{font-family:Iosevka,Menlo,Consolas,"Hiragino Sans GB","Microsoft YaHei",Monospace;}
+main{margin:0 auto;padding:16px;width:1280px;}
+
+/* IE11- 和 Edge15- 完全不支持 sticky 属性 */
+/* Safari V12.1- 的 sticky 属性值需要添加 -webkit- 前缀 */
+/* Chrome V56~90 和 Edge V16~18，只支持 th 标签实现 sticky 属性值定位 */
+.powerTable{width:1248px;}
+.powerTable thead th{position:-webkit-sticky;position:sticky;top:0;padding-bottom:10px;background-color:#fff;cursor:pointer;}
+.powerTable thead th:before{position:absolute;bottom:-1px;left:0;width:100%;height:3px;background-color:#ccc;content:"";}
+.powerTable thead th:after{position:absolute;top:-1px;left:0;width:100%;height:1px;background-color:#ccc;content:"";}
+.powerTable thead th .icon{margin-left:2px;color:#ccc;}
+.powerTable thead th span{display:inline-block;vertical-align:middle;}
+.powerTable thead th .fa-sort-down, .powerTable thead th .fa-sort-up{color:#39f;}
+.powerTable tbody td{vertical-align:middle;}
+
+/* Firefox 的 table 使用 sticky 会导致边框失踪，可借助 box-shadow 解决 */
+/* 更多信息可参考 : https://bugzilla.mozilla.org/show_bug.cgi?id=1658119 */
+/* 但是最后发现 box-shadow 并不工整，所以使用了伪元素生成边框来解决这个问题 */
+@supports (-moz-appearance:none){
+	.powerTable thead th span:after{position:absolute;
+	top:0;right:-1px;width:1px;height:calc(100% + 1px);background-color:#ccc;content:"";}
+}
+
+/* Edge15- & IE11- 并不支持 sticky 布局，而且伪元素还会制造多余的错误边框，所以这里直接隐藏掉 */
+@supports (-ms-ime-align:auto) and (not (position:sticky)){ 
+	.powerTable thead th:before, .powerTable thead th:after{display:none;} }
+_:-ms-input-placeholder, .powerTable thead th:before, .powerTable thead th:after{display:none;}
+</style>
+
+
+
+<script>
+// 表格排序功能的函数
+var buildPowerTable = function(tableID){
+	
+	// 获取相关的节点元素
+	var ele_table = document.getElementById(tableID);
+	var ele_thead = ele_table.querySelector('thead');
+	var ele_tbody = ele_table.querySelector('tbody');
+	var ele_thead_th = Array.prototype.slice.apply(ele_thead.querySelectorAll('th'));
+	var ele_tbody_tr = Array.prototype.slice.apply(ele_tbody.querySelectorAll('tr'));
+	
+	// 定义排序方法
+	function sortMethod(type, a, b){
+		switch(type){
+			case 'number' : { return a - b }; break;
+			case 'string' : { return a.localeCompare(b) }; break;
+			// 日期排序，IE 无法处理 '2012-12-12' 这种格式的时间，所以得将 '-' 替换成 '/'
+			case 'date' : { return new Date(a.split('-').join('/')).getTime() - 
+			new Date(b.split('-').join('/')).getTime(); }; break;
+		};
+	};
+	
+	// 定义排序操作
+	function sortHandle(type, flag, cellIndex){
+		ele_tbody_tr.sort(function(a, b){return sortMethod(type
+		, a.cells[cellIndex].innerHTML, b.cells[cellIndex].innerHTML) * flag }); // 排序
+		ele_tbody_tr.forEach(function(ele_tr){ ele_tbody.appendChild(ele_tr) }); // 添加
+	};
+	
+	// 实行排序操作
+	ele_thead_th.forEach(function(ele_th){
+		ele_th.addEventListener('click', function(){
+			
+			var sortType = (ele_th.hasAttribute('sortType') ? ele_th.getAttribute('sortType') : 'string');
+			if(ele_th.sortFlag === undefined){ ele_th.sortFlag = 1 };
+			sortHandle(sortType, ele_th.sortFlag, ele_th.cellIndex );
+			ele_th.sortFlag = -ele_th.sortFlag;
+			
+			var ele_upIcon = ele_thead.querySelector('.fa-sort-up');
+			if(ele_upIcon){ ele_upIcon.classList.remove('fa-sort-up') };
+			var ele_downIcon = ele_thead.querySelector('.fa-sort-down');
+			if(ele_downIcon){ ele_downIcon.classList.remove('fa-sort-down') };
+			
+			ele_th.querySelector('.icon').classList.add(
+			ele_th.sortFlag === 1 ? 'fa-sort-up' : 'fa-sort-down');
+			
+		}, false);
+	});
+	
+};
+
+// ————
+
+// 常规商品数据
+var normalObjectBodyData = [
+	// 图像		序号	名称			重量		稀缺城市的数量	普通的数量		盛产城市的数量		稀缺城市最高价	最高价 			参考价			最低价			盛产城市最低价
+	[1006,		1,		'零件',			1,			'500.2000',		'2000.4000',	'4000.5000',		1,				1,				1,				1,				1,			],
+	[1002,		2,		'汽油',			1,			'300.800',		'800.2000',		'2400.3000',		2,				1.5,			1,				0.75,			0.5,		],
+	[1000,		3,		'水',			5,			'20.40',		'40.60',		'60.120',			15,				12,				10,				8,				5,			],
+	[1007,		4,		'食物',			2,			'15.45',		'45.75',		'90.150',			65,				55,				50,				45,				35,			],
+	[1003,		5,		'弹药',			2,			'20.40',		'50.80',		'80.100',			15,				10,				8,				6,				1,			],
+	[1008,		6,		'书籍',			2,			'20.50',		'80.200',		'120.300',			15,				12,				10,				8,				5,			],
+	[1009,		7,		'建材',			500,		'3.8',			'10.22',		'20.30',			400,			300,			250,			200,			150,		],
+	[1001,		8,		'轮胎',			100,		'3.7',			'8.30',			'30.50',			65,				55,				50,				45,				35,			],
+	[1012,		9,		'医疗箱',		10,			'1.3',			'2.9',			'8.16',				550,			525,			500,			475,			450,		],
+	[1010,		10,		'蒸馏酒',		5,			'3.9',			'10.22',		'20.30',			375,			325,			300,			275,			225,		],
+	[1011,		11,		'咖啡',			5,			'1.4',			'3.12',			'12.20',			180,			150,			125,			100,			70,			],
+	[1014,		12,		'小麦',			4,			'15.40',		'50.70',		'70.120',			36,				28,				25,				22,				18,			],
+	[1015,		13,		'甘蔗',			4,			'15.40',		'50.70',		'70.120',			36,				28,				25,				22,				18,			],
+	[1016,		14,		'水果',			4,			'15.40',		'50.70',		'70.120',			36,				28,				25,				22,				18,			],
+	[1017,		15,		'蔬菜',			4,			'15.40',		'50.70',		'70.120',			36,				28,				25,				22,				18,			],
+	[1018,		16,		'木材',			4,			'15.40',		'50.70',		'80.160',			36,				28,				25,				22,				18,			],
+	[1019,		17,		'茶鲜叶',		4,			'6.18',			'25.50',		'120.200',			75,				55,				50,				45,				35,			],
+	[1020,		18,		'香料',			4,			'6.18',			'25.50',		'70.90',			63,				55,				50,				45,				38,			],
+	[1021,		19,		'咖啡豆',		4,			'6.18',			'25.50',		'70.120',			63,				55,				50,				45,				38,			],
+	[1022,		20,		'药材',			4,			'6.18',			'25.50',		'70.120',			63,				55,				50,				45,				38,			],
+	[1023,		21,		'棉线',			4,			'6.18',			'25.50',		'70.120',			63,				55,				50,				45,				38,			],
+	[1024,		22,		'橡胶',			4,			'15.40',		'50.80',		'100.160',			36,				28,				25,				22,				18,			],
+	[1025,		23,		'蜂蜜',			4,			'1.2',			'3.12',			'15.22',			150,			136,			125,			112,			100,		],
+	[1026,		24,		'鸡肉',			6,			'5.25',			'30.50',		'70.120',			77,				70,				64,				57,				50,			],
+	[1027,		25,		'鸡蛋',			6,			'5.25',			'30.50',		'70.120',			77,				70,				64,				57,				50,			],
+	[1028,		26,		'牛奶',			6,			'5.25',			'30.50',		'60.120',			77,				70,				64,				57,				50,			],
+	[1029,		27,		'生皮',			6,			'1.4',			'3.12',			'15.22',			150,			136,			125,			112,			100,		],
+	[1030,		28,		'猪肉',			6,			'6.18',			'30.50',		'50.70',			77,				70,				64,				57,				50,			],
+	[1031,		29,		'矿粉',			5,			'50.75',		'100.300',		'400.750',			8,				6,				5,				4,				2,			],
+	[1032,		30,		'木炭',			4,			'5.40',			'40.70',		'70.120',			45,				35,				30,				25,				18,			],
+	[1033,		31,		'面粉',			6,			'0.30',			'40.90',		'90.115',			42,				30,				25,				20,				15,			],
+	[1034,		32,		'糖',			6,			'0.30',			'40.100',		'150.200',			42,				30,				25,				20,				15,			],
+	[1035,		33,		'食盐',			6,			'0.30',			'40.90',		'90.115',			40,				35,				28,				21,				18,			],
+	[1036,		34,		'脱水菜',		8,			'0.18',			'20.40',		'40.55',			90,				80,				75,				70,				60,			],
+	[1037,		35,		'鸡肉干',		8,			'0.18',			'20.40',		'40.55',			70,				55,				50,				45,				30,			],
+	[1038,		36,		'腌肉',			8,			'0.18',			'20.40',		'40.55',			70,				55,				50,				45,				30,			],
+	[1039,		37,		'水果罐头',		8,			'0.18',			'20.40',		'40.55',			90,				80,				75,				70,				60,			],
+	[1040,		38,		'小麦啤',		8,			'1.3',			'10.20',		'20.70',			216,			190,			164,			128,			115,		],
+	[1041,		39,		'茶',			4,			'1.3',			'5.40',			'60.100',			50,				36,				32,				28,				14,			],
+	[1042,		40,		'成药',			6,			'1.3',			'2.9',			'8.16',				250,			200,			175,			150,			100,		],
+	[1043,		41,		'织物',			7,			'3.6',			'12.35',		'40.60',			95,				80,				70,				60,				45,			],
+	[1044,		42,		'外伤膏',		4,			'1.3',			'2.9',			'8.16',				200,			165,			145,			125,			90,			],
+	[1045,		43,		'首饰',			20,			'0.1',			'1.5',			'4.20',				900,			800,			500,			200,			100,		],
+	[1046,		44,		'面包',			5,			'15.45',		'45.75',		'90.150',			70,				55,				50,				45,				30,			],
+	[1047,		45,		'果酒',			6,			'3.8',			'10.22',		'20.50',			216,			190,			164,			128,			115,		],
+	[1048,		46,		'净水器', 		20,			'0.2',			'2.9',			'8.16',				180,			150,			126,			105,			96,			],
+	[1049,		47,		'调味料',		1,			'1.3',			'5.12',			'12.20',			120,			100,			90,				80,				60,			],
+	[1050,		48,		'衣服',			7,			'1.3',			'4.12',			'12.20',			520,			350,			310,			270,			90,			],
+	[1051,		49,		'能量棒',		4,			'5.15',			'15.25',		'30.50',			100,			90,				85,				80,				70,			],
+	[1052,		50,		'皮革',			9,			'0.2',			'2.9',			'12.20',			240,			205,			190,			175,			140,		],
+	[1053,		51,		'奶酪',			3,			'0.20',			'25.50',		'60.100',			135,			115,			105,			95,				75,			],
+	[1054,		52,		'火腿',			3,			'0.20',			'25.50',		'60.85',			135,			115,			105,			95,				75,			],
+	[1055,		53,		'螃蟹',			3,			'5.15',			'15.30',		'25.40',			36,				33,				30,				27,				24,			],
+	[1056,		54,		'大虾',			3,			'5.15',			'15.30',		'25.40',			36,				33,				30,				27,				24,			],
+	[1057,		55,		'鱼',			3,			'5.15',			'15.30',		'25.40',			36,				33,				30,				27,				24,			],
+	[1058,		56,		'兔肉',			3,			'5.15',			'15.30',		'25.40',			32,				30,				25,				22,				18,			],
+	[1059,		57,		'狍子肉',		3,			'5.15',			'15.30',		'25.40',			32,				30,				25,				22,				18,			],
+	[1060,		58,		'鹌鹑肉',		3,			'5.15',			'15.30',		'25.40',			32,				30,				25,				22,				18,			],
+	[1061,		59,		'鸡枞',			3,			'5.15',			'15.30',		'25.40',			24,				21,				18,				15,				12,			],
+	[1062,		60,		'羊肚菌',		3,			'5.15',			'15.30',		'25.40',			24,				21,				18,				15,				12,			],
+	[1063,		61,		'松茸',			3,			'5.15',			'15.30',		'25.40',			24,				21,				18,				15,				12,			],
+	[1064,		62,		'扇贝',			3,			'5.15',			'15.30',		'25.40',			25,				23,				20,				18,				15,			],
+	[1065,		63,		'小河虾',		3,			'5.15',			'15.30',		'25.40',			25,				23,				20,				18,				15,			],
+	[1066,		64,		'杂雀肉',		3,			'5.15',			'15.30',		'25.40',			22,				20,				16,				14,				13,			],
+	[1067,		65,		'雉鸡肉',		3,			'5.15',			'15.30',		'25.40',			22,				20,				16,				14,				13,			],
+	[1068,		66,		'草菇',			3,			'5.15',			'15.30',		'25.40',			16,				14,				12,				10,				9,			],
+	[1069,		67,		'平菇',			3,			'5.15',			'15.30',		'25.40',			16,				14,				12,				10,				9,			],
+	[1072,		68,		'文物',			200,		'0.2',			'2.5',			'5.10',				1000,			800,			700,			600,			400,		],
+	[1073,		69,		'旧时代电路',	100,		'0.1',			'2.3',			'4.8',				1700,			1600,			1500,			1400,			1300,		],
+	
+	[1013,		70,		'核心',			200,		'0.0', 			'0.0', 			'0.0', 				3000,			3000,			3000,			3000,			3000,		],
+];
+
+// ————
+
+// 获取相关节点
+var jqi_powerTable = $('#powerTable');
+var jqi_powerTable_thead = jqi_powerTable.find('thead');
+var jqi_powerTable_tbody = jqi_powerTable.find('tbody');
+
+// 生成 tbody 内容
+var powerTable_tbody_node = '';
+normalObjectBodyData.forEach(function(item){
+	powerTable_tbody_node += '<tr>';
+	item.forEach(function(date, index){
+		if(index !== 0){ powerTable_tbody_node += '<td>'+ date +'</td>' }
+		else{ powerTable_tbody_node += '<td style="padding:0 4px;"><img alt="'+ item[2] +'" src="\../static/image/object/'+ item[0] +'.png" style="width:40px;height:40px;" /></td>' };
+	});
+	powerTable_tbody_node += '</tr>';
+});
+jqi_powerTable_tbody.html(powerTable_tbody_node);
+
+// 传入需要排序功能的表格 #ID
+buildPowerTable('powerTable');
+</script>
+
+
+
+</body>
+</html>
+
+
