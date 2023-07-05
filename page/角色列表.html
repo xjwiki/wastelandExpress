@@ -394,7 +394,7 @@ jqi_powerTable_thead.html(powerTable_thead_node); */
 var powerTable_tbody_node = '';
 roleBodyData.forEach(function(item){
 	powerTable_tbody_node += '<tr><td style="padding:0;"><img alt="'+ item[0] +'" src="../static/image/avatar/'+ item[1] +'.png" style="width:64px;height:64px;" /></td>'
-	item.forEach(function(date){ powerTable_tbody_node += '<td>'+ date +'</td>' });
+	item.forEach(function(data){ powerTable_tbody_node += '<td>'+ data +'</td>' });
 	powerTable_tbody_node += '</tr>';
 });
 jqi_powerTable_tbody.html(powerTable_tbody_node);

@@ -296,7 +296,7 @@ var jqi_powerTable_tbody = jqi_powerTable.find('tbody');
 var powerTable_tbody_node = '';
 specialityBodyData.forEach(function(item){
 	powerTable_tbody_node += '<tr>';
-	item.forEach(function(date){ powerTable_tbody_node += '<td>'+ date +'</td>' });
+	item.forEach(function(data){ powerTable_tbody_node += '<td>'+ data +'</td>' });
 	powerTable_tbody_node += '</tr>';
 });
 jqi_powerTable_tbody.html(powerTable_tbody_node);

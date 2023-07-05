@@ -82,10 +82,10 @@
 								<i class="xjDir-sign"></i>
 							</a>
 							<ul id="xjDir01_ul02">
+								<li><a target="_blank" href="./page/烹饪指南.html"><i class="xjDir-icon fas fa-utensils"></i><i class="xjDir-text"><span>烹饪指南</span></i></a></li>
 								<li><a target="_blank" href="./page/角色列表.html"><i class="xjDir-icon fas fa-circle-user"></i><i class="xjDir-text"><span>角色列表</span></i></a></li>
 								<li><a target="_blank" href="./page/特质列表.html"><i class="xjDir-icon fas fa-table-list"></i><i class="xjDir-text"><span>特质列表</span></i></a></li>
 								<li><a target="_blank" href="./page/商品列表.html"><i class="xjDir-icon fas fa-cubes"></i><i class="xjDir-text"><span>商品列表</span></i></a></li>
-								<li><a target="_blank" href="./page/烹饪指南.html"><i class="xjDir-icon fas fa-utensils"></i><i class="xjDir-text"><span>烹饪指南</span></i></a></li>
 								<li><a target="_blank" href="./page/问题合集.html"><i class="xjDir-icon fas fa-circle-question"></i><i class="xjDir-text"><span>问题合集</span></i></a></li>
 								<li><a target="_blank" href="./page/通过存档自定义角色与卡车.html"><i class="xjDir-icon fas fa-pencil"></i><i class="xjDir-text"><span>通过存档自定<br />义角色与卡车</span></i></a></li>
 								<li><a target="_blank" href="./page/图02没落平原地图查找工具.html"><i class="xjDir-icon fas fa-location-dot"></i><i class="xjDir-text"><span>图02没落平原<br />地图查找工具</span></i></a></li>
@@ -127,25 +127,47 @@
 <h2>00、项目概述</h2>
 
 <style>
-.mainPoster{margin-bottom:16px;}
+.mainPoster{position:relative;margin-bottom:16px;}
+
 .mainPosterImg{cursor:pointer;}
 .mainPosterBgm{background-color:rgba(0,0,0,1.0);}
-.mainPosterBgmAudio{opacity:0.5;transition:opacity 500ms;border:2px solid #000;}
+.mainPosterBgmAudio{border:2px solid #000;opacity:0.5;transition:opacity 500ms;}
+.mainPosterBgmShift{position:absolute;top:8px;right:8px;border-radius:2px;opacity:0.5;transition:opacity 500ms;cursor:default;}
+
 .mainPoster:hover .mainPosterBgmAudio{opacity:1;}
+.mainPoster:hover .mainPosterBgmShift{opacity:1;}
 </style>
+
 <div class="mainPoster">
 	<img id="mainPosterImg" class="mainPosterImg img-responsive" src="./static/image/poster01.jpg" />
 	<div class="mainPosterBgm">
-		<audio id="mainPosterBgmAudio" class="mainPosterBgmAudio audio-responsive" preload="metadata" 
-		loop="loop" controls="controls" type="audio/mpeg" src="./static/media/wasteland.mp3"></audio>
+		<audio id="mainPosterBgmAudio" class="mainPosterBgmAudio audio-responsive" 
+		preload="metadata" loop="loop" controls="controls" type="audio/mpeg" src="./static/media/01.wasteLand.mp3"></audio>
 	</div>
+	<select class="mainPosterBgmShift select-unset" id="mainPosterBgmShift" autocomplete="off">
+		<option value="01.wasteLand.mp3" selected="selected">01.wasteLand.mp3</option>
+		<option value="02.selfCity.mp3">02.selfCity.mp3</option>
+		<option value="03.comfBar.mp3">03.comfBar.mp3</option>
+		<option value="04.mainTheme.mp3">04.mainTheme.mp3</option>
+	</select>
 </div>
+
 <script>
+// 点击图片播放或暂停音乐
 document.getElementById('mainPosterImg').addEventListener('click', function( ){
 	var ele_mainPosterBgmAudio = document.getElementById('mainPosterBgmAudio');
 	if(ele_mainPosterBgmAudio.paused){ ele_mainPosterBgmAudio.play() }
 	else{ ele_mainPosterBgmAudio.pause() };
 }, false);
+
+// 点击按钮切换到下首音乐
+(function(){
+var canplay = false;
+$('#mainPosterBgmShift').on('change', function(){
+	$('#mainPosterBgmAudio').attr('src', './static/media/'+ this.value);
+	if(canplay === false){ canplay = true; $('#mainPosterBgmAudio').on('canplay', function(){ this.play() }); };
+});
+})();
 </script>
 
 <p><a target="_blank" href="https://store.steampowered.com/app/1831250/"><i class="fa-brands fa-steam"></i> 废土快递</a> 是一款国产的，集"末日废土丧尸贸易探险战斗建设<code>鱼水之欢</code>和<code>114514</code>"等元素于一身的好游戏，虽然目前尚有诸多不完善的点，但玩法独特，未来可期，价格实惠(<code>18 RMB</code>)，因此给玩家带来了诸多欢乐，由于目前相关百科尚未建设完善，因此 XJ 特意写下本攻略，作为对新手玩家的一个小指引，也算是对游戏做个小总结，由于涉及面宽泛且个人认知有限，若有疏忽错漏之处，还请海涵。</p>
@@ -597,7 +619,7 @@ document.getElementById('mainPosterImg').addEventListener('click', function( ){
 
 <p>自建城能生产各种商品，但由于岗位和生产线是有限的，你不可能面面俱到，所以需要选择具体生产些什么，目前来讲有三种生产模式：</p>
 
-<p>第一种是根据自建城所能签订的贸易协定来组织生产，也就是贸易协定需要什么就生产什么，完全以供应贸易协定的需求为目标，这种模式的好处是供销平衡，买卖自动化，每七天结算一次，不会有太多的库存堆积，但难点在于需要根据需求微调生产线，这是十分繁琐且耗时的事情，如果打算采取这种模式，那么得记下贸易协定需求的商品种类和总数，然后计算生产线每周所能生产的商品数量，由于基础工业品需要以农产品为原材料，高级工业品需要以基础工业品为原材料，所以还得考虑因生产造成的消耗问题，可借助玩家"底特律"所著的 <a target="_blank" download="自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx" href=".static/other/自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx">自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx</a> 计算供求组织生产（但真的颇为复杂，不熟悉 Excel 话请不必勉强）。</p>
+<p>第一种是根据自建城所能签订的贸易协定来组织生产，也就是贸易协定需要什么就生产什么，完全以供应贸易协定的需求为目标，这种模式的好处是供销平衡，买卖自动化，每七天结算一次，不会有太多的库存堆积，但难点在于需要根据需求微调生产线，这是十分繁琐且耗时的事情，如果打算采取这种模式，那么得记下贸易协定需求的商品种类和总数，然后计算生产线每周所能生产的商品数量，由于基础工业品需要以农产品为原材料，高级工业品需要以基础工业品为原材料，所以还得考虑因生产造成的消耗问题，可借助玩家"底特律"所著的 <a target="_blank" download="自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx" href=".static/other/自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx">自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx</a> 计算供求组织生产（但真的颇为复杂，不熟悉 Excel 话请不必勉强）。</p>
 
 <p>第二种生产模式，是不理会自建城的贸易需求，按照自己的喜好安排生产，例如说你每个自建城就只固定生产两三项高价值的产品，如衣服和果酒啤酒等，然后每过一段时间，就让自己的车队回一趟自建城，把生产出来的产品搬上车，然后到处售卖，这种模式的好处是生产安排特别方便，也不用什么计算，造就完事了，但需要你自己充当销售员四处贩卖，由于没有固定的需求，所以很容易会出现商品堆积的情况，既商品供过于求，而且不签贸易协定，也就意味着无法稳定的跟其他派系提升友好度并获得政治点数，毫无疑问这也是一种浪费。</p>
 
@@ -669,8 +691,6 @@ document.getElementById('mainPosterImg').addEventListener('click', function( ){
 
 <p>在岗位上的角色也可以得到经验，所以也能逐渐提升等级，只是速度非常缓慢，此时可考虑用获得随机负面特质的方法来得到技能点（数量取决于所获得的负面特质的权重），有些负面特质是十分要不得的，对旅途有重大的负面影响，但是这种方法，对于驻守自建城的角色却非常好用，因为岗位上的角色有无负面特质都无所谓，所以如果你的自建城岗位工人缺乏某方面的能力，不妨用这种手段来提升一下。</p>
 
-
-
 <p>————</p>
 
 <h3>05.03、城防安保</h3>
@@ -689,69 +709,85 @@ document.getElementById('mainPosterImg').addEventListener('click', function( ){
 
 
 <section>
-<h2>06、废土社会学（剧情推进和建议选项）</h2>
+<h2>06、废土社会学（派系斗争和剧情推进）</h2>
 
-<p>在酒吧招募本来就在找工作的角色，也可以提升该角色所在派系的好感(好感度 +5，如果不想要这个角色，之后在人物界面再让对方下车就行了)，但如果尝试招募并非正在找工作的角色，那就算挖墙角行为，该角色所在派系好感 -10，但由于招募了该派系的角色好汉会 +5，所以最终结果是 -5 好感，但如果你招募失败，那么好感就真的是 -10 了。</p>
+<p>————</p>
 
-<p>派系
-每一个有人驻扎的自建城市，每4点繁荣度提供+1周政治点数增长。
-委托和赏金任务均会提供政治点。
-此外，部分派系特性也提供额外政治点。
-</p>
+<h3>06.01、派系概念</h3>
 
-<p>与其他派系的友好度超过 40 点后，每周都会下降，除非你跟这个派系的好感度到达 75 点并加入该派系中，好感度才会停止下降</p>
-<p>与派系的好感度达到 75 点才可加入该派系，提升派系好感度有多种方法，例如在酒馆中请派系角色喝酒，接受并完成派系委托的任务，使用政治影响力提升派系在城市中的占有度，修建道路到派系管理的城市。</p>
+<p>旧日政权在大灾变中已经崩溃，但有人的地方，就会有纷争，在这种权利真空的环境下，这片废土又重新形成了一些新的派系势力，他们有的是军方残党，有的是地方黑帮，有的是资本联盟，在这个混乱的末世中又重新构筑起来新的秩序，盘剥幸存的百姓，抢占各种关键设施，争夺着日益稀少的资源，而人们为了生存，往往也不得不违心的依附于某个派系，派系之间现在似乎又到达了某种奇怪的平衡之中…</p>
 
-<p>剧情</p>
+<p>目前派系对于游戏的影响，主要表现在以下几个方面，首先是安全的据点有所属的派系，如果你跟据点所属派系交好，那么你进入据点或进行交易等活动都会更方便，例如摆摊不用额外缴费了，其次是大部分 NPC 也有所属的派系，如果你跟他们所在的派系关系不好，你跟这些 NPC 也会难以交流，最后是如果你能加入到某个派系之中，那么这个派系便能提供一定的好处，以下是加入不同派系带来的效果：</p>
 
-<p>小女孩任务会提供大量经验 +1 身体素质（在过去是 +5 战斗力，不知这种区别是版本导致的还是不同选项导致的），所以最好加座位，找齐主力再做</p>
+<table class="table-hover table-striped" style="width:100%;font-size:14px;">
+	<thead><tr><th>势力名称</th><th>加入效果 | 加入对话</th></tr></thead>
+	<tbody>
+		<tr><td>雷雨城联盟	</td><td>每一个雷雨联盟控制的城市，每周增加 +3 政治点数 | 已颁发雷雨联盟证书，为这个秩序崩溃的世界重建民主吧</td></tr>
+		<tr><td>联合都市	</td><td>可在联合都市控制的城市酒馆里对别人收取保护费(取决于目标的招募费用) | 已颁发私掠许可证，去扩大我们的势力地区吧</td></tr>
+		<tr><td>商会		</td><td>目标是商会控制城市的限时委托报酬额外 +20%，并能获得政治点数 | 已颁发商会会员证，去扩大我们的势力吧，无尽的财富在等着我们</td></tr>
+		<tr><td>军事区		</td><td>远程伤害 +2，在城市会被恶狼帮追杀，恶狼帮势力越大则敌人越强 | 授权你们使用军用标准武器，成为秩序维护者，一起打倒恶狼帮吧</td></tr>
+		<tr><td>首都圈		</td><td>每一个首都控制的城市，每周增加 +3 政治点数(跟雷雨城联盟的效果完全相同) | 已颁发首都圈证书，向这个秩序崩溃的世界重建强权吧</td></tr>
+		<tr><td>恶狼帮		</td><td>敌方远程伤害 -3，会被其他派系的城市厌恶 | 我们授权你们使用我们的名号，敌人都会对你们有所忌惮的。但这也会导致你成为众矢之的</td></tr>
+	</tbody>
+	<tfoot><tr><td colspan="2">备注：据点的派系势力百分比是会动态变化，在没有玩家干扰的情况下，也有可能自动演变成其他派系的据点，既据点对于派系的支持度会出现随机变化</td></tr></tfoot>
+</table>
 
-<p>农场主剧情</p>
+<p>加入派系需要跟目标派系的好感达到 <code>75</code>，提升好感的常用手段有：在酒馆中请派系角色喝酒或招募正在找工作的派系角色、完成派系委托的任务、买卖时允许派系势力插队、自建城市生产商品并签署贸易协定、修建道路到派系管理的城市(需要 DLC)、使用政治影响力提升派系在城市中的占有度(政治影响力来自完成委托或赏金任务和自建城市(每个有人驻扎的自建城市，4 点繁荣度每周政治点数 +1))。</p>
+
+<p>XJ 对于派系的个人评价是鸡肋，尽管派系为游戏增加了不少乐趣，但因为与派系的好感度在达到 <code>40</code> 点后每周都会自动下降(加入派系后就不会下降了)，导致高达 75 点的好感度在初期其实很难实现，而到了中后期你终于有能力达标了，派系所能提供的好处也变得没什么用了，而且你只能选择加入一个派系，并不能左右逢源，只希望未来派系机制能被优化吧，例如说降低加入的门槛，让我们拭目以待。</p>
+
+<p>————</p>
+
+<h3>06.02、角色故事</h3>
 
 <p>未完待续…</p>
 
+<!--◇
+<p>游戏中大部分的 NPC 都可以在酒馆遭遇到并进行雇佣操作，但也有少部分特殊角色是在特殊剧情中才能获取到的，接下来我们聊聊这些特殊角色和相关剧情，注意，这可能涉及剧透，不过我相信如果你有耐心看到这里，大概也是资深老玩家了，所以无所谓啦，但值得一提的是，当你去触发相关事件的时候，最好在车上最少保留一个空车位，否则该 NPC 角色将无法上车，你可以立刻到最近的城市酒馆中找回他们，但由于系统刷新，你也有可能永远都找不回他们了。</p>
+
+<p>小女孩任务会提供大量经验 +1 身体素质（在过去是 +5 战斗力，不知这种区别是版本导致的还是不同选项导致的），所以最好加座位，找齐主力再做</p>
+
+<p></p>
+◇-->
+
+<p>————</p>
+
+<h3>06.03、剧情选项</h3>
+
+<p>我相信你肯定对游戏的一些事件剧情有所疑惑，例如图02没落平原的演员应该去哪里找，图03暮色谷地的歌声和特殊武器究竟在哪里，XJ 也曾想过做一份剧情指南，但目前游戏的剧情代码部分较为凌乱，并没有什么好的整理方式，所以这计划只能暂时搁置，如果你想了解没落平原的任务，可前往 BiliBili 参考 <a target="_blank" href="https://www.bilibili.com/read/cv20852857" class="">没落平原任务攻略</a>，但暮色谷地的任务暂时没得参考，你只能自己尝试或在群中发问或百度了。</p>
+
 <hr />
 </section>
 
 
 
 <section>
-<h2>07、结语和感谢（老子肄业，谁都不谢）</h2>
+<h2>07、项目备注</h2>
 
-<p>还是要感谢废土快递的开发团队，给我们带来了这个廉价但是又充满欢乐的游戏，独立团队开发游戏并不容易，希望这项目能走得更远…</p>
+<p>
+01. 源码地址：<a href="https://github.com/xjArea/wastelandExpress">https://github.com/xjArea/wastelandExpress</a>；<br />
+02. 游戏相关图像和音乐版权，均属于废土快递游戏开发团队既中子星游戏研究所；<br />
+03. 本文允许转载，但请注明出处，不贴原地址的偷盗，丧尸将从你的 PY 开始啃噬你噢！ﾟдﾟ)_6；<br />
+04. XJ 只是个普通玩家，跟游戏开发团队没有任何关系，本人并不代表游戏开发团队，做这个页面只是出自热爱；<br />
+05. 对游戏有疑问或发现本文有什么不对，可到 GitHub 提 <a target="_blank" href="https://github.com/xjArea/wastelandExpress/issues">Issue</a>，也可在 Q 群中反馈（但 Q 群 XJ 未必会看到你的信息）；<br />
+06. 感谢废土快递的游戏开发团队，给我们带来了这个廉价但又充满欢乐的游戏，独立团队开发游戏并不容易，希望这项目能走得更远…<br />
+</p>
 
-<hr />
-</section>
-
-
-
-<section>
-<h2>08、来源和引用（…）</h2>
+<p>————</p>
 
 <p>
 百度贴吧 - 小小河豚不会水 : <a target="_blank" href="https://tieba.baidu.com/p/8207887752">废土快递食谱大全</a><br />
 BiliBili - 一般通行路人甲 : <a target="_blank" href="https://www.bilibili.com/read/cv20852857">没落平原任务攻略</a><br />
 BiliBili - ljz131 : <a target="_blank" href="https://www.bilibili.com/read/cv23144914">V1.17 角色特质及个人评价</a><br />
+
+游戏Ｑ群 - 底特律 : <a target="_blank" download="自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx" href=".static/other/自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx" class="">自建城收益计算及产业设计通用模板 V2（作者：底特律）.xlsx</a><br />
 </p>
 
-<p>
-游戏Ｑ群 - 底特律 : <a target="_blank" download="自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx" href=".static/other/自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx" class="">自建城收益计算及产业设计通用模板V2（作者：底特律）.xlsx</a><br />
-</p>
-
-<hr />
-</section>
-
-
-
-<section>
-<h2>09、项目备注</h2>
+<p>————</p>
 
 <p>
-01. 源码地址：<a href="https://github.com/xjArea/wastelandExpress">https://github.com/xjArea/wastelandExpress</a>；<br />
-02. 游戏相关图像音乐的版权，均属于废土快递游戏开发团队既中子星游戏研究所；<br />
-03. 本文允许转载，但请注明出处，不贴原地址的偷盗，丧尸将从你的 PY 开始啃噬你噢！ﾟдﾟ)_6；<br />
-04. XJ 只是个普通玩家，跟游戏开发团队没有任何关系，本人并不代表游戏开发团队，做这个页面只是出自热爱；<br />
-05. 对游戏有疑问或发现本文有什么不对的地方，可到 GitHub 提 <a target="_blank" href="https://github.com/xjArea/wastelandExpress/issues">Issue</a>，也可以在 Q 群中反馈（但 Q 群 XJ 未必会看到你的信息）；<br />
+感谢你耐心的看到这里，但废土世界的故事尚未完结。<br />
+友谊和爱情，冒险跟欢乐，死亡与救赎，期待我们能有机会再次相遇，完结撒花 ಠ‿ಠ<br />
 </p>
 
 <hr />
