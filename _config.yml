@@ -1,0 +1,1 @@
+include: ["_*.html", "_*.css", "_*.js"]
