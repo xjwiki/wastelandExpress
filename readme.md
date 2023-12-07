@@ -9,6 +9,4 @@
 
 **文档** : <https://xjwiki.github.io/wastelandExpress/>  
 
-**协议** : [Apache License 2.0](https://github.com/xjwiki/wastelandExpress/blob/master/LICENSE)  
-
 
