@@ -123,6 +123,45 @@ background-color:#fff;color:#999;text-align:center;line-height:38px;cursor:text;
 
 /*--------------------------------------------------------------------------------------------*/
 
+/* 只有当 summary 的 display:list-item 才会有 ::marker 伪元素, 它仅支持字体属性, white-space, */
+/* color, text-combine-upright, unicode-bidi, direction, content 这些样式, 并不支持背景的设置 */
+/* summary 里有 block 标签如 h2, 文本过长会导致小三角和文本换行, 所以改用伪元素背景实现小三角 */
+/* summary 使用 flex 布局, 以便换行时小三角能够垂直居中, summary 此时就只能有单个直接子元素了 */
+/* 如果没有明文设置 summary, 浏览器也会自动帮忙补上, 但样式可能就不生效了, 所以千万不要这样做 */
+/* 内容复杂时在 summary 后面用 div 包裹内容, 因为使用了通配符 * 所以用单个 p 标签放内容也可以 */
+
+details{display:block;margin:0px 0px 16px 0px;}
+
+details > summary{display:flex;list-style:none;counter-increment:none;padding:7px;cursor:pointer;border:1px solid #ccc;}
+details[open] > summary{background-color:#f0f0f0;}
+details > summary > *{margin-bottom:0;}
+
+details > summary::marker{display:none;}
+details > summary::before{flex:0 0 24px;content:" ";background-position:left center;background-repeat:no-repeat;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M4 14V2l8 6z'/%3E%3C/svg%3E");}
+details[open] > summary::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 4h12l-6 8-6-8z'/%3E%3C/svg%3E");}
+
+details > summary + *{margin-top:-1px;padding:16px 12px;border:1px solid #ccc;}
+details > summary + * > *:last-child{margin-bottom:0;}
+
+/* 紧凑模式, 用 div 容器包裹, 就无须每个标签都添加类名了, xj.theme 其他标签包裹也改用 pack 吧 */
+.details-pack{padding-top:1px;margin-bottom:16px;}
+.details-pack > details{margin-top:-1px;margin-bottom:0;}
+
+/* 也许全部改成 revert, 具体等 xj.theme 重构再决定吧 */
+.details-unset{margin-bottom:0;}
+.details-unset > summary{padding:0;border:none;}
+.details-unset > summary + *{margin-top:0;padding:0;border:0;}
+.details-unset > summary + * > *:last-child{margin-bottom:revert;}
+
+.summary-unset{padding:0;border:none;}
+.summary-unset + *{margin-top:0;padding:0;border:0;}
+.summary-unset + * > *:last-child{margin-bottom:revert;}
+
+
+
+/*--------------------------------------------------------------------------------------------*/
+
 /* 在 xj.theme 的基础上为 table 增加 sm 和 xs 尺寸 */
 .table-sm{font-size:14px;}
 .table-sm th{padding:6px;} .table-sm td{padding:6px;}
