@@ -45,15 +45,15 @@ function(){ FastClick.attach(document.body) }, false);</script>
 <link rel="stylesheet" href="./static/plugin/xjDir/0.2.0/dist/xjDir.min.css" />
 <script src="./static/plugin/xjDir/0.2.0/dist/xjDir.min.js"></script>
 
-<link rel="stylesheet" href="./static/cjs/_global.css?time=2024-01-20T21:34:15UTC+8" />
-<script src="./static/cjs/_global.js?time=2024-01-20T21:34:15UTC+8"></script>
+<link rel="stylesheet" href="./static/cjs/_global.css?time=2024-04-02T20:04:03UTC+8" />
+<script src="./static/cjs/_global.js?time=2024-04-02T20:04:03UTC+8"></script>
 <!-- <script>document.write('<link rel="stylesheet" href="./static/cjs/_global.css?timeStamp='+ Date.now() +'" />')</script> -->
 <!-- <script>document.write('<script src="./static/cjs/_global.js?timeStamp='+ Date.now() +'"><\/script>')</script> -->
 
 <!-- ↑ Public | Private ↓ -->
 
-<link rel="stylesheet" href="./static/cjs/index.css?time=2024-01-20T21:34:15UTC+8" />
-<script src="./static/cjs/index.js?time=2024-01-20T21:34:15UTC+8"></script>
+<link rel="stylesheet" href="./static/cjs/index.css?time=2024-04-02T20:04:03UTC+8" />
+<script src="./static/cjs/index.js?time=2024-04-02T20:04:03UTC+8"></script>
 <!-- <script>document.write('<link rel="stylesheet" href="./static/cjs/index.css?timeStamp='+ Date.now() +'" />')</script> -->
 <!-- <script>document.write('<script src="./static/cjs/index.js?timeStamp='+ Date.now() +'"><\/script>')</script> -->
 
@@ -70,11 +70,11 @@ function(){ FastClick.attach(document.body) }, false);</script>
 		<div id="pub_sideMask"></div>
 		<div id="pub_sideWrap">
 			
-			<div class="xjScroll" id="xjScroll01" xjScroll="{native:true, resizeCallbackType:'none', }" style="width:100%;height:100%;">
+			<div class="xjScroll" id="xjScroll01" xjScroll="{native:true, resizeCallbackType:'none', operateAfter:setDirPositionY, scrollCallback:getDirPositionY, }" style="width:100%;height:100%;">
 				<div class="xjDir" id="xjDir01" xjDir="{createRipple:false, }" style="padding:8px;width:100%;border-right:none;font-family:inherit;">
 					<ul>
 						
-						<li><a href="index.html"><i class="xjDir-icon"><img style="display:inline-block;vertical-align:top;padding:4px;height:52px;border:0;" src="./static/icon/logo.png"></i></a></li>
+						<li><a href="index.html"><i class="xjDir-icon"><img style="display:inline-block;vertical-align:top;height:52px;border:0;" src="./static/icon/logo.png"></i></a></li>
 						
 						<li class="xjDir-divide"></li>
 						<li class="xjDir-spread xjDir-active">
@@ -127,6 +127,10 @@ function(){ FastClick.attach(document.body) }, false);</script>
 							<ul>
 								<li><a href="./page/事件剧情.01.工具事件.html"><i class="xjDir-icon fa fa-toolbox"></i>					<i class="xjDir-text"><span>工具事件</span></i></a></li>
 								<li><a href="./page/事件剧情.02.行驶事件.html"><i class="xjDir-icon fa fa-truck-fast"></i>				<i class="xjDir-text"><span>行驶事件</span></i></a></li>
+								<li><a href="./page/事件剧情.03.风尘丘陵.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>风尘丘陵</span></i></a></li>
+								<li><a href="./page/事件剧情.04.没落平原.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>没落平原</span></i></a></li>
+								<li class="xjDir-disabled"><a href="./page/事件剧情.05.暮色山谷.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>暮色山谷(未完成)</span></i></a></li>
+								<li class="xjDir-disabled"><a href="./page/事件剧情.06.死者国度.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>死者国度(未完成)</span></i></a></li>
 							</ul>
 						</li>
 						
@@ -134,8 +138,9 @@ function(){ FastClick.attach(document.body) }, false);</script>
 						<li class="xjDir-spread">
 							<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-link"></i><i class="xjDir-text">外部链接</i><i class="xjDir-sign"></i></a>
 							<ul>
+								<li><a target="_blank" href="https://store.steampowered.com/app/1831250/WasteLand_Express/">			<i class="xjDir-icon fa-brands fa-steam"></i>			<i class="xjDir-text"><span>蒸汽官方页面</span></i></a></li>
+								<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/blob/master/upgrade.md">		<i class="xjDir-icon fa fa-clock-rotate-left"></i>		<i class="xjDir-text"><span>本站更新记录</span></i></a></li>
 								<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/releases">						<i class="xjDir-icon fa fa-download"></i>				<i class="xjDir-text"><span>离线攻略下载</span></i></a></li>
-								<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/blob/master/upgrade.md">		<i class="xjDir-icon fa fa-clock-rotate-left"></i>		<i class="xjDir-text"><span>站点更新记录</span></i></a></li>
 							</ul>
 						</li>
 						
@@ -196,12 +201,14 @@ function(){ FastClick.attach(document.body) }, false);</script>
 	</select>
 </div>
 
-<p><a target="_blank" href="https://store.steampowered.com/app/1831250/"><i class="fa-brands fa-steam"></i> 废土快递</a> 是一款国产的, 集"末日/废土/丧尸/战斗/生存/探险/贸易/建设和<code>鱼水之欢</code>以及<code>114514?!</code>"等元素于一身的好游戏, 虽然是有一些不完善的点, 但玩法独特而价格实惠(<code>18 RMB</code>), 因而给玩家带来了诸多欢乐, XJ 出于对该游戏的热爱和支持, 于是创建了本项目, 作为对新手玩家的一个小指引, 也算是对游戏做一个小总结, 由于涉及面宽泛且个人认知有限, 若有疏忽错漏之处, 还请海涵. </p>
+<p><a target="_blank" href="https://store.steampowered.com/app/1831250/"><i class="fa-brands fa-steam" style="width:16px;"></i> 废土快递</a> 是一款国产的, 集"末日/废土/丧尸/战斗/生存/探险/贸易/建设和<code>鱼水之欢</code>以及<code>114514?!</code>"等元素于一身的好游戏, 虽然是有一些不完善的点, 但玩法独特而价格实惠(18 RMB), 因而给玩家带来了诸多欢乐, XJ 出于对该游戏的热爱和支持, 于是创建了本项目, 作为对新手玩家的一个小指引, 也算是对游戏做了一个小总结, 由于涉及面宽泛且个人认知有限, 若有疏忽错漏之处, 还请海涵. </p>
+
+<p><a target="_blank" href="https://www.bilibili.com/video/BV1x6421g7kT/"><i class="fa-brands fa-bilibili" style="width:16px;"></i> 国产独游太过良心! 游戏作者如期破产?</a> 此链接是 BiliBili 视频网站一位名为<code>单机肥肥王日君</code>的 UP 主为本游戏做的专题, 他使用视频的形式, 通过游戏实机画面介绍了废土快递的玩法和细节, 还提及了游戏开发团队所遭遇的一些境况, 并对游戏做出了简单评价, 如果你尚未购买该游戏, 也不知道这款游戏是否合适你, 或者是你想知道游戏开发背后的故事, 那么可通过该视频进一步了解这款游戏. </p>
 
 <p>
-	本文基于废土快递 <code>V1.19</code>, 对游戏有意见或看法, 可加群讨论或者去官方文档反馈. <br />
+	本站内容基于游戏<code>V1.19X</code>, 对游戏有意见或看法, 可加群讨论或者去官方文档反馈. <br />
 	一群: 1079735615 (已满)<br />
-	二群: 529978331 (已满)<br />
+	二群: <del>529978331</del> (该群已被废弃)<br />
 	三群: 757891326 (目前尚有车位, 君可速速上车)<br />
 	四群: 306261973 (本群主要讨论模组等技术问题)<br />
 	官方建议文档的地址: <a target="_blank" href="https://docs.qq.com/sheet/DUGVBV25mRGNrYWdj?tab=BB08J2/">https://docs.qq.com/sheet/DUGVBV25mRGNrYWdj?tab=BB08J2/</a><br />
@@ -216,17 +223,17 @@ function(){ FastClick.attach(document.body) }, false);</script>
 <h2 id="heading02">02. 备注信息</h2>
 
 <p>
-	01. 项目源码地址: <a href="https://github.com/xjwiki/wastelandExpress">https://github.com/xjwiki/wastelandExpress</a>; <br />
+	01. 网站源码地址: <a target="_blank" href="https://github.com/xjwiki/wastelandExpress">https://github.com/xjwiki/wastelandExpress</a>; <br />
 	02. 游戏相关的图像和音乐版权, 均属于废土快递游戏开发团队既中子星游戏研究所; <br />
 </p>
 
 <p>
-	03. 内容允许转载, 但请注明出处, 不贴原地址的偷盗, 丧尸将从你的 PY 开始啃噬你噢! ﾟдﾟ)_6; <br />
+	03. 本站使用 <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">创意共享 4.0 协议</a>, 不贴原地址的偷盗, 丧尸将从你的 PY 开始啃噬你噢! ﾟдﾟ)_6; <br />
 	04. XJ 只是个普通玩家, 跟游戏开发团队没有任何关系, 本人并不代表游戏开发团队, 做这项目只是出自热爱; <br />
 </p>
 
 <p>
-	05. 对游戏有疑问或发现本文有什么不对, 可到 <a target="_blank" href="https://github.com/xjwiki/wastelandExpress/">GitHub</a> 提 <a target="_blank" href="https://github.com/xjwiki/wastelandExpress/issues">Issue</a>, 也可在 Q 群中反馈(但 Q 群 XJ 未必会看到你的信息); <br />
+	05. 可到 <a target="_blank" href="https://github.com/xjwiki/wastelandExpress/">GitHub</a> 提 <a target="_blank" href="https://github.com/xjwiki/wastelandExpress/issues">Issue</a>, 对游戏有疑问或发现内容有什么不对, 也可在 Q 群中反馈(但 Q 群 XJ 未必会看到你的信息); <br />
 	06. 感谢废土快递的游戏开发团队, 给我们带来了这个廉价但又充满欢乐的游戏, 独立团队开发游戏并不容易, 希望他们能够走得更远; <br />
 </p>
 
@@ -244,20 +251,23 @@ function(){ FastClick.attach(document.body) }, false);</script>
 <h2 id="heading03">03. 参考引用</h2>
 
 <p>
-	Mod 开发 API 参考 : <a target="_blank" href="https://bindale324.gitee.io/wastelandexpress-mod-docs/">https://bindale324.gitee.io/wastelandexpress-mod-docs/</a><br />
+	GitHub > bindale324 : <a target="_blank" href="https://bindale324.github.io/WastelandExpress-Mod-Docs/">Mod 开发 API 参考</a><br />
 </p>
 
 <p>
 	百度贴吧 > 小小河豚不会水 : <a target="_blank" href="https://tieba.baidu.com/p/8207887752">废土快递食谱大全</a><br />
-</p>
-
-<p>
 	BiliBili > 一般通行路人甲 : <a target="_blank" href="https://www.bilibili.com/read/cv20852857">没落平原任务攻略</a><br />
 	BiliBili > ljz131 : <a target="_blank" href="https://www.bilibili.com/read/cv23144914">V1.17 角色特质及个人评价</a><br />
 </p>
 
 <p>
+	BiliBili > 单机肥肥王日君 : <a target="_blank" href="https://www.bilibili.com/video/BV1x6421g7kT/">国产独游太过良心, 游戏作者如期破产</a><br />
+	BiliBili > 小白游戏指南 : <a target="_blank" href="https://www.bilibili.com/video/BV19n4y1R7wY/">废土快递：位于破产边缘的良心国产游戏</a><br />
+</p>
+
+<p>
 	游戏Ｑ群 > 咪依瑶 : <a target="_blank" download="废土快递-没落平原任务大全 V0.2.0（作者-咪依瑶）.docx" href="./static/others/废土快递-没落平原任务大全 V0.2.0（作者-咪依瑶）.docx" class="">废土快递-没落平原任务大全 V0.2.0（作者-咪依瑶）.docx</a><br />
+	游戏Ｑ群 > 咪依瑶 : <a target="_blank" download="废土快递-死者国度任务大全 V0.2.0（作者-咪依瑶）.docx" href="./static/others/废土快递-死者国度任务大全 V0.2.0（作者-咪依瑶）.docx" class="">废土快递-死者国度任务大全 V0.2.0（作者-咪依瑶）.docx</a><br />
 	游戏Ｑ群 > 底特律 : <a target="_blank" download="自建城收益计算及产业设计通用模板 V2（作者-底特律）.xlsx" href="./static/others/自建城收益计算及产业设计通用模板 V2（作者-底特律）.xlsx" class="">自建城收益计算及产业设计通用模板 V2（作者-底特律）.xlsx</a><br />
 </p>
 
@@ -273,7 +283,8 @@ function(){ FastClick.attach(document.body) }, false);</script>
 
 <div id="pub_foot">
 	<div id="pub_footPack">
-		<div>Copyright © 2015-<script>document.write(new Date().getFullYear())</script> <br /> XJ.Chen All Rights Reserved</div>
+		<div>Licence: <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 DEED</a></div>
+		<div>Copyright © 2015-<script>document.write(new Date().getFullYear())</script> XJ.Chen</div>
 	</div>
 </div>
 
@@ -286,6 +297,11 @@ function(){ FastClick.attach(document.body) }, false);</script>
 
 
 
+<script>
+// 访问统计
+if(location.hostname === 'xjwiki.github.io'){ document.write(`<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "68c7eaad2e3e490ea9c529cf2911756a"}'><\/script>`) }
+else if(location.hostname.includes('192.168.') === false){ document.write(`<script>!function(a,b,c,d,e,f,g){a[e]=a[e]||function(){(a[e].a=a[e].a||[]).push(arguments)},a[e].l=1*new Date;for(var h=0;h<document.scripts.length;h++)if(document.scripts[h].src===d)return;f=b.createElement(c),g=b.getElementsByTagName(c)[0],f.async=1,f.src=d,g.parentNode.insertBefore(f,g)}(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(97393697,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0});<\/script><noscript><div><img src="https://mc.yandex.ru/watch/97393697" style="position:absolute;left:-9999px;" /></div></noscript>`) };
+</script>
 </body>
 </html>
 
