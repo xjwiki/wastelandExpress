@@ -7,6 +7,6 @@
 
 **兼容**: ~~MSIE~~ / Edge79+ / Firefox / Chrome / Safari / Opera / IOS Webkit / Android Platform  
 
-**简介**: 废土快递(wastelandExpress)攻略百科, 游戏官方 Steam 商店地址: <https://store.steampowered.com/app/1831250/>  
+**简介**: 废土快递(wastelandExpress)攻略百科, 游戏官方 Steam 商店: <https://store.steampowered.com/app/1831250/>  
 
 
