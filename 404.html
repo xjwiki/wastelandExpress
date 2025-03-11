@@ -7,22 +7,30 @@
 </head>
 <body>
 
-<div style="box-sizing:border-box;width:320px;
-position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
-text-align:center;padding:8px 16px;border:1px solid #ccc;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,0.25);">
-	<p><img style="width:216px;height:54px;" src="./static/icon/logo01.png" /></p>
-	<p>没有对应页面 / 404 Not Found</p>
-	<p><a href="./index.html">点击返回首页 / Click Back To Index</a></p>
-	<p id="time">- 4 -</p>
-</div>
+<a href="https://xjwiki.github.io/wastelandExpress/index.html" style="position:absolute;opacity:0;pointer-events:none;">index.html</a>
 
 <script>
-(function(number, timeNode){
+(function(prevPath, countNum){
+
+document.body.insertAdjacentHTML('beforeend', /*html*/`
+	<div style="box-sizing:border-box;width:320px;
+	position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
+	text-align:center;padding:8px 16px;border:1px solid #ccc;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,0.25);">
+	
+		<p><img style="width:216px;height:54px; " src="${prevPath}static/icon/logo01.png" /></p>
+		<p>没有对应页面 / 404 Not Found</p>
+		<p><a href="${prevPath}index.html">点击返回首页 / Click Back To Index</a></p>
+		<p id="time">- 4 -</p>
+		
+	</div>
+`);
+
 setInterval(function(){
-	if(number > 0){ timeNode.textContent = '- '+ (number--) +' -' }
-	else{ location.assign('./index.html') };
+	if(countNum > 0){ document.getElementById('time').textContent = '- ' + (countNum--) + ' -' }
+	else{ location.assign(`${prevPath}index.html`) };
 }, 1000);
-})(4, document.getElementById('time'));
+
+})((/xjwiki\.github\.io\/wastelandExpress/i.test(location.href)? '/wastelandExpress/':'./'), 4);
 </script>
 
 </body>
