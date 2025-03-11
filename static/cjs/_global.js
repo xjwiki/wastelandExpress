@@ -1,91 +1,46 @@
+// ---------------------------------------------------------------------------------------------
+// Ready 后的节点操作
 $(function(){
 
 
 
-// ---------------------------------------------------------------------------------------------
+// 获取顶层四个对象, 以及它们的 jQuery 实例对象;
+// 获取 xj.storage 对象和 dir & scroll 实例对象;
+let pub_win = window, pub_doc = document;
+let pub_html = document.documentElement, pub_body = document.body;
+let jqi_win = $(pub_win), jqi_doc = $(pub_doc), jqi_html = $(pub_html), jqi_body = $(pub_body);
 
-var pub_win = window, pub_doc = document;
-var pub_html = document.documentElement, pub_body = document.body;
-var jqi_win = $(pub_win), jqi_doc = $(pub_doc), jqi_html = $(pub_html), jqi_body = $(pub_body);
+let xjls = xj.storage.localStorage;
+let xjss = xj.storage.sessionStorage;
 
-// var xjls = xj.storage.localStorage;
-// var xjss = xj.storage.sessionStorage;
+let jqi_xjDir01 = $('#xjDir01');
+let xjDir01Return = xj.Dir.return[jqi_xjDir01.attr('xjDirId')];
 
-// var jqi_xjDir01 = $('#xjDir01');
-// var xjDir01Return = xj.Dir.return[jqi_xjDir01.attr('xjDirId')];
-
-// var jqi_xjScroll01 = $('#xjScroll01');
-// var xjScroll01Return = xj.Scroll.return[jqi_xjScroll01.attr('xjScrollId')];
+let jqi_xjScroll01 = $('#xjScroll01');
+let xjScroll01Return = xj.Scroll.return[jqi_xjScroll01.attr('xjScrollId')];
 
 
 
-// ---------------------------------------------------------------------------------------------
-
-// 窗口宽度尺寸小于 1284 就取消 body 的渐变背景.
-// 避免阴影出现在 head 和 main 和 foot 的间隙里.
-let hiddenShadow = function(){ pub_body.style.backgroundImage = (pub_html.clientWidth <= 1284) ? 'none' : '' };
+// 窗口宽度尺寸小于 1284 就取消 body 的渐变背景;
+// 避免阴影出现在 head 和 main 和 foot 的间隙里;
+let hiddenShadow = function(){ jqi_body.css('backgroundImage', (pub_html.clientWidth <= 1284 ? 'none' : '')) };
 jqi_win.on('resize', function(){ hiddenShadow() });
 hiddenShadow();
 
 
 
-// ---------------------------------------------------------------------------------------------
-
-// 导航滚动定位到最后那个 .xjDir-active 的位置去
-// xjScroll 的定位目前还有 BUG, 只能用原生的方法
-// if($('.xjDir-active').length !== 0 && Element.prototype.scrollIntoViewIfNeeded !== undefined){
-// 	$('.xjDir-active').last().get(0).scrollIntoViewIfNeeded();
-// };
-
-// 有 hash 值则定位并选中 xjDir 中对应的 li 节点
-// hash 做 id 可能引发 BUG, 所以放 try…catch 中
-var hashValue = decodeURIComponent(location.hash).slice(1);
-try{ if(hashValue !== ''){
-	$('[id="'+ hashValue +'"]').xjArrive([0, -80], 250, 'swing');
-	$('#xjDir01').find('a[href="#'+ hashValue +'"]')
-	.parent('li').addClass('xjDir-active');
-} }catch(error){};
-
-// 阻止 jqi_xjDir01 导航中, a 默认事件, 改为定位
-// id 中可能存在非法符号, 得使用属性选择器来选择
-$('#xjDir01_ul01>li>a').on('click', function(e){
-	e.preventDefault();
-	var id = this.getAttribute('href').slice(1);
-	$('[id="'+ id +'"]').xjArrive([0,-80], 250);
-	location.hash = id;
-});
-
-// 用 window.matchMedia() 判断窗口宽度以控制侧边
-// 点击按钮展开 xjDir 而点击遮罩或者 li 则是关闭
-
-var jqi_pub_side = $('#pub_side');
-jqi_win.on('resize', function(){ if(window.matchMedia(
-'(min-width:1024px)').matches){ jqi_pub_side.removeClass('pub_sideShow') } });
-
-$('#pub_toolSwitchDir').on('click', function(){ jqi_pub_side.addClass('pub_sideShow') });
-$('#pub_sideMask').on('click', function(){ jqi_pub_side.removeClass('pub_sideShow') });
-
-$('#xjDir01').on('click', function(event){
-	if($(event.target).closest('a[href="javascript:void(0)"]')
-	.length === 0){ jqi_pub_side.removeClass('pub_sideShow') };
-});
-
-
-
-// ---------------------------------------------------------------------------------------------
-
-// 阻止 #pub_main 中锚点的默认事件, 改为滚动定位
-// id 中可能存在非法符号, 得使用属性选择器来选择
-$('#pub_main').on('click', 'a', function(e){
+// 阻止 main 和 tool 锚点默认事件, 改为滚动定位;
+// 在 id 中可能存在非法符号, 用属性选择器来选择;
+$('#pub_main, #pub_tool').on('click', 'a', function(e){
 	
-	var id = e.currentTarget.getAttribute('href');
+	let id = e.currentTarget.getAttribute('href');
 	if(/^#/.test(id) === false){ return }
 	else{ id = id.slice(1) };
 	
-	var jqi_idNode = $('[id="'+ id +'"]');
+	let jqi_idNode = $('[id="'+ id +'"]');
 	if(jqi_idNode.length !== 0){
 		e.preventDefault();
-		jqi_idNode.xjArrive([0,-80], 250);
+		jqi_idNode.xjArrive([0, 0,], 250);
 		location.hash = id;
 	};
 	
@@ -93,12 +48,28 @@ $('#pub_main').on('click', 'a', function(e){
 
 
 
-// ---------------------------------------------------------------------------------------------
-
-// 点击右下角的按钮返回顶部, 这里不能用 xjArrive
-// 因为顶部的 head 可能是 position:fixed; 定位的
+// 点击右下角按钮返回顶部, 这不能用 xjArrive 了;
+// 因为顶部的 head 可能是 position:fixed 定位的;
 $('#pub_toolBackToTop').on('click', function(e){
 $(document.scrollingElement).stop().animate({scrollTop:0}, 250) });
+
+// 点击右下角的按钮, 来切换当前页面的导航小菜单;
+// 这里用 sessionStorage 来实现跨页面的历史记录;
+let jqi_pub_toolAnchorTip = $('#pub_toolAnchorTip');
+
+if(xjss.get('toolAnchorTip') 
+=== null){ xjss.set('toolAnchorTip', true) };
+if(xjss.get('toolAnchorTip') !== true){ jqi_pub_toolAnchorTip.hide() };
+
+$('#pub_toolNavigated').on('click', function(){
+	if(xjss.get('toolAnchorTip') === true){
+		xjss.set('toolAnchorTip', false);
+		jqi_pub_toolAnchorTip.hide();
+	}else{
+		xjss.set('toolAnchorTip', true);
+		jqi_pub_toolAnchorTip.show();
+	};
+});
 
 
 
@@ -107,62 +78,29 @@ $(document.scrollingElement).stop().animate({scrollTop:0}, 250) });
 
 
 // ---------------------------------------------------------------------------------------------
-// 设置导航的滚动位置
-let setDirPositionY = function(returnObject){
-// 	let ss = xj.storage.sessionStorage, dirBottomPositionY = ss.get('dirBottomPositionY');
-// 	// if(document.title === '废土快递攻略百科' || document.title === 'Dustland Delivery Guide Encyclopedia'){ return };
-// 	if(dirBottomPositionY !== null){ returnObject.scrollY(returnObject.scrollHeight() - returnObject.clientHeight() - parseInt(dirBottomPositionY)) };
-};
-
-// 记住导航的底线位置
-let getDirPositionY = function(returnObject){
-// 	xj.storage.sessionStorage.set('dirBottomPositionY', (
-// 	returnObject.scrollHeight() - returnObject.clientHeight() - returnObject.scrollY()));
-};
-
-// 现在导航的做法是固定底线, 但最终感觉还是不好, 因为看不到当前页的导航
-// 所以还是把这个定位功能给取消掉了, 下面是实现底线定位的思路, 就留着吧
-// 
-// temp1.scrollHeight() // 1550
-// temp1.clientHeight() // 1359
-// temp1.maxScrollY() // 191
-// 1550-1359=191
-// 
-// scrollHeight() = 总高
-// clientHeight() = 内高
-// 内高 - 80 = 视口高度
-// 总高-内高=可滚动尺寸
-// 
-// temp1.scrollHeight() - temp1.clientHeight() - temp1.scrollY() // 135
-// temp1.scrollHeight() - temp1.clientHeight() - 135 // 56
-// temp1.scrollY() = 56
-
-
-
-// ---------------------------------------------------------------------------------------------
 // 表格排序功能的函数
-var buildPowerTable = function(tableID){
+let buildPowerTable = function(tableID){
 	
 	// 获取相关的节点元素
-	var ele_table = document.getElementById(tableID);
-	var ele_thead = ele_table.querySelector('thead');
-	var ele_tbody = ele_table.querySelector('tbody');
-	var ele_thead_th = Array.prototype.slice.apply(ele_thead.querySelectorAll('th'));
-	var ele_tbody_tr = Array.prototype.slice.apply(ele_tbody.querySelectorAll('tr'));
+	let ele_table = document.getElementById(tableID);
+	let ele_thead = ele_table.querySelector('thead');
+	let ele_tbody = ele_table.querySelector('tbody');
+	let ele_thead_th = Array.prototype.slice.apply(ele_thead.querySelectorAll('th'));
+	let ele_tbody_tr = Array.prototype.slice.apply(ele_tbody.querySelectorAll('tr'));
 	
-	var ele_thead_th_icon = ele_thead_th.map(
+	let ele_thead_th_icon = ele_thead_th.map(
 	function(ele_th){ return ele_th.querySelector('i.icon.fa') });
-	var ele_originalSort_th = ele_thead_th[ ele_table.getAttribute('originalSort') ];
+	let ele_originalSort_th = ele_thead_th[ ele_table.getAttribute('originalSort') ];
 	
 	// 定义排序方法
 	function sortMethod(type, a, b){
 		switch(type){
 			
-			// 面对字符串直接本地化比对后排序即可
+			// 字符串直接本地化比对后排序即可
 			// case 'number' : { return a - b }; break;
 			case 'string' : { return a.localeCompare(b) }; break;
 			
-			// 当遭遇 a 或 b 不为数值, 则将其视为大于所有的数值
+			// 当遭遇 a 或 b 不为 Number 的时候, 则直接将其视为大于所有的数值
 			case 'number' : { if(isNaN(Number(a))){ return 1 }else 
 				if(isNaN(Number(b))){ return -1 }
 				else{ return a - b };
@@ -193,12 +131,12 @@ var buildPowerTable = function(tableID){
 		ele_th.addEventListener('click', function(){
 			
 			// 获取排序类型
-			var sortType = ele_th.getAttribute('sortType');
+			let sortType = ele_th.getAttribute('sortType');
 			if(Boolean(sortType) === false){ sortType = 'string' };
 			
 			// 获取设置了图标的 th > i 节点
-			var ele_upIcon = ele_thead.querySelector('.fa-sort-up');
-			var ele_downIcon = ele_thead.querySelector('.fa-sort-down');
+			let ele_upIcon = ele_thead.querySelector('.fa-sort-up');
+			let ele_downIcon = ele_thead.querySelector('.fa-sort-down');
 			if(ele_upIcon){ ele_upIcon.classList.remove('fa-sort-up') };
 			if(ele_downIcon){ ele_downIcon.classList.remove('fa-sort-down') };
 			ele_thead_th_icon.forEach(function(i){ i.classList.add('fa-sort') });
@@ -230,25 +168,21 @@ var buildPowerTable = function(tableID){
 
 
 // ---------------------------------------------------------------------------------------------
-// 表格排序功能的函数
-var dirRepeatAnchor = $(/*html*/`
+// 子页面左侧导航数据
+// let isIndex = (document.title === '废土快递攻略百科' || document.title === 'Dustland Delivery Encyclopedia');
+let istIndex = /\/page\//i.test(location.pathname) === false;
+let dirRepeatAnchor = $(/*html*/`
 	
 	<li class="xjDir-divide"></li>
 	<li class="xjDir-spread">
-		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-scroll"></i><i class="xjDir-text" style="line-height:18px;"><span style="letter-spacing:2px;">废土世界指南</span><small style="font-size:12px;">(废土大学肄业论文)</small></i><i class="xjDir-sign"></i></a>
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fas fa-compass"></i><i class="xjDir-text">新手指南</i><i class="xjDir-sign"></i></a>
 		<ul>
-			<li><a href="./废土人力学.html"><i class="xjDir-icon fa fa-people-group"></i>			<i class="xjDir-text"><span>废土人力学</span></i></a></li>
-			<li><a href="./废土生存学.html"><i class="xjDir-icon fa fa-person-rifle"></i>			<i class="xjDir-text"><span>废土生存学</span></i></a></li>
-			<li><a href="./废土经贸学.html"><i class="xjDir-icon fa fa-money-bill-trend-up"></i>	<i class="xjDir-text"><span>废土经贸学</span></i></a></li>
-			<li><a href="./废土制造学.html"><i class="xjDir-icon fa fa-screwdriver-wrench"></i>		<i class="xjDir-text"><span>废土制造学</span></i></a></li>
-			<li><a href="./废土土木学.html"><i class="xjDir-icon fa fa-building"></i>				<i class="xjDir-text"><span>废土土木学</span></i></a></li>
-			<li><a href="./废土社会学.html"><i class="xjDir-icon fa fa-handshake-simple"></i>		<i class="xjDir-text"><span>废土社会学</span></i></a></li>
-			<li><a href="./废土信息学.html"><i class="xjDir-icon fa fa-laptop-code"></i>			<i class="xjDir-text"><span>废土信息学</span></i></a></li>
-			<!--◇
-			<li><a href="./存档的修改.html"><i class="xjDir-icon fa fa-laptop-code"></i>			<i class="xjDir-text"><span>存档的修改</span></i></a></li>
-			<li><a href="./模组的推介.html"><i class="xjDir-icon fa fa-laptop-code"></i>			<i class="xjDir-text"><span>模组的推介</span></i></a></li>
-			<li><a href="./角色的传记.html"><i class="xjDir-icon fa fa-laptop-code"></i>			<i class="xjDir-text"><span>角色的传记</span></i></a></li>
-			◇-->
+			<li><a href="./${istIndex?'page/':''}guide_recruitment.html">						<i class="xjDir-icon fa fa-people-group"></i>			<i class="xjDir-text"><span>人力学说</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}guide_survivalism.html">						<i class="xjDir-icon fa fa-person-rifle"></i>			<i class="xjDir-text"><span>生存学说</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}guide_economics.html">							<i class="xjDir-icon fa fa-money-bill-trend-up"></i>	<i class="xjDir-text"><span>经贸学说</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}guide_handicraft.html">						<i class="xjDir-icon fa fa-screwdriver-wrench"></i>		<i class="xjDir-text"><span>制造学说</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}guide_urbanism.html">							<i class="xjDir-icon fa fa-building"></i>				<i class="xjDir-text"><span>土木学说</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}guide_sociology.html">							<i class="xjDir-icon fa fa-handshake-simple"></i>		<i class="xjDir-text"><span>社会学说</span></i></a></li>
 		</ul>
 	</li>
 	
@@ -256,61 +190,80 @@ var dirRepeatAnchor = $(/*html*/`
 	<li class="xjDir-spread">
 		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-circle-info"></i><i class="xjDir-text">游戏数据</i><i class="xjDir-sign"></i></a>
 		<ul>
-			<li><a href="./角色列表.html"><i class="xjDir-icon fa fa-circle-user"></i>				<i class="xjDir-text"><span>角色列表</span></i></a></li>
-			<li><a href="./人物特质.html"><i class="xjDir-icon fa fa-table-list"></i>				<i class="xjDir-text"><span>人物特质</span></i></a></li>
-			<li><a href="./探险技能.html"><i class="xjDir-icon fa fa-star"></i>						<i class="xjDir-text"><span>探险技能</span></i></a></li>
-			<li><a href="./随机姓名.html"><i class="xjDir-icon fa fa-tags"></i>						<i class="xjDir-text"><span>随机姓名</span></i></a></li>
-			
-			<li><a href="./物品信息.html"><i class="xjDir-icon fa fa-box"></i>						<i class="xjDir-text"><span>物品信息</span></i></a></li>
-			<li><a href="./合成材料.html"><i class="xjDir-icon fa fa-recycle"></i>					<i class="xjDir-text"><span>合成材料</span></i></a></li>
-			<li><a href="./卡车配件.html"><i class="xjDir-icon fa fa-gear"></i>						<i class="xjDir-text"><span>卡车配件</span></i></a></li>
-			<li><a href="./武器装备.html"><i class="xjDir-icon fa fa-cubes"></i>					<i class="xjDir-text"><span>武器装备</span></i></a></li>
-			
-			<li><a href="./敌军情报.html"><i class="xjDir-icon fa fa-skull-crossbones"></i>			<i class="xjDir-text"><span>敌军情报</span></i></a></li>
-			<li><a href="./遗迹详情.html"><i class="xjDir-icon fa fa-dungeon"></i>					<i class="xjDir-text"><span>遗迹详情</span></i></a></li>
-			<li><a href="./地牢作战.html"><i class="xjDir-icon fa fa-explosion"></i>				<i class="xjDir-text"><span>地牢作战</span></i></a></li>
-			<li><a href="./对话指引.html"><i class="xjDir-icon fa fa-comments"></i>					<i class="xjDir-text"><span>对话指引</span></i></a></li>
-			
-			<!--◇
-			<li><a href="./成就系统.html"><i class="xjDir-icon fa fa-trophy"></i>					<i class="xjDir-text"><span>成就系统</span></i></a></li>
-			◇-->
-			
-			<li><a href="./烹饪指南.html"><i class="xjDir-icon fa fa-kitchen-set"></i>				<i class="xjDir-text"><span>烹饪指南</span></i></a></li>
-			<li><a href="./问题合集.html"><i class="xjDir-icon fa fa-circle-question"></i>			<i class="xjDir-text"><span>问题合集</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_role_list.html">							<i class="xjDir-icon fa fa-circle-user"></i>			<i class="xjDir-text"><span>角色列表</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_role_trait.html">							<i class="xjDir-icon fa fa-table-list"></i>				<i class="xjDir-text"><span>人物特质</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_role_skills.html">						<i class="xjDir-icon fa fa-star"></i>					<i class="xjDir-text"><span>探险技能</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_role_name.html">							<i class="xjDir-icon fa fa-tags"></i>					<i class="xjDir-text"><span>随机姓名</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_item_detail.html">						<i class="xjDir-icon fa fa-box"></i>					<i class="xjDir-text"><span>物品信息</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_item_material.html">						<i class="xjDir-icon fa fa-recycle"></i>				<i class="xjDir-text"><span>合成材料</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_truck_part.html">							<i class="xjDir-icon fa fa-gear"></i>					<i class="xjDir-text"><span>卡车配件</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_equip_info.html">							<i class="xjDir-icon fa fa-cubes"></i>					<i class="xjDir-text"><span>武器装备</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_enemy_list.html">							<i class="xjDir-icon fa fa-skull-crossbones"></i>		<i class="xjDir-text"><span>敌军情报</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_dungeon_detail.html">						<i class="xjDir-icon fa fa-dungeon"></i>				<i class="xjDir-text"><span>遗迹详情</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_dungeon_fight.html">						<i class="xjDir-icon fa fa-explosion"></i>				<i class="xjDir-text"><span>地牢作战</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_dialog_hints.html">						<i class="xjDir-icon fa fa-comments"></i>				<i class="xjDir-text"><span>对话指引</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_cooking_recipe.html">						<i class="xjDir-icon fa fa-kitchen-set"></i>			<i class="xjDir-text"><span>烹饪指南</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}data_question_collect.html">					<i class="xjDir-icon fa fa-circle-question"></i>		<i class="xjDir-text"><span>问题合集</span></i></a></li>
 		</ul>
 	</li>
 	
 	<li class="xjDir-divide"></li>
 	<li class="xjDir-spread">
-		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-book"></i><i class="xjDir-text">事件剧情</i><i class="xjDir-sign"></i></a>
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fas fa-square-pen"></i><i class="xjDir-text">事件剧情</i><i class="xjDir-sign"></i></a>
 		<ul>
-			<li><a href="./事件剧情.01.工具事件.html"><i class="xjDir-icon fa fa-toolbox"></i>					<i class="xjDir-text"><span>工具事件</span></i></a></li>
-			<li><a href="./事件剧情.02.行驶事件.html"><i class="xjDir-icon fa fa-truck-fast"></i>				<i class="xjDir-text"><span>行驶事件</span></i></a></li>
-			<li><a href="./事件剧情.03.风尘丘陵.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>风尘丘陵</span></i></a></li>
-			<li><a href="./事件剧情.04.没落平原.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>没落平原</span></i></a></li>
-			<li class="xjDir-disabled"><a href="./事件剧情.05.暮色山谷.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>暮色山谷(未完成)</span></i></a></li>
-			<li class="xjDir-disabled"><a href="./事件剧情.06.死者国度.html"><i class="xjDir-icon fa fa-file-lines"></i>				<i class="xjDir-text"><span>死者国度(未完成)</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_tool_event.html">						<i class="xjDir-icon fa fa-toolbox"></i>				<i class="xjDir-text"><span>工具事件</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_trip_event.html">						<i class="xjDir-icon fa fa-truck-fast"></i>				<i class="xjDir-text"><span>行驶事件</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_map00.html">								<i class="xjDir-icon fas fa-book"></i>					<i class="xjDir-text"><span>风尘丘陵</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_map01.html">								<i class="xjDir-icon fas fa-book"></i>					<i class="xjDir-text"><span>没落平原</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_map02.html">								<i class="xjDir-icon fas fa-book"></i>					<i class="xjDir-text"><span>暮色山谷</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}story_map03.html">								<i class="xjDir-icon fas fa-book"></i>					<i class="xjDir-text"><span>死者国度</span></i></a></li>
 		</ul>
 	</li>
 	
 	<li class="xjDir-divide"></li>
 	<li class="xjDir-spread">
-		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-link"></i><i class="xjDir-text">外部链接</i><i class="xjDir-sign"></i></a>
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fas fa-square-plus"></i><i class="xjDir-text">衍生内容</i><i class="xjDir-sign"></i></a>
 		<ul>
-			<li><a target="_blank" href="https://store.steampowered.com/app/1831250/WasteLand_Express/">		<i class="xjDir-icon fa-brands fa-steam"></i>			<i class="xjDir-text"><span>蒸汽官方页面</span></i></a></li>
-			<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/blob/master/upgrade.md">	<i class="xjDir-icon fa fa-clock-rotate-left"></i>		<i class="xjDir-text"><span>本站更新记录</span></i></a></li>
-			<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/releases">					<i class="xjDir-icon fa fa-download"></i>				<i class="xjDir-text"><span>离线攻略下载</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}ertra_wiki_update.html">						<i class="xjDir-icon fas fa-rotate"></i>				<i class="xjDir-text"><span>网站更新</span></i></a></li>
+			<li><a target="_blank" href="https://steamcommunity.com/app/1831250/images/">		<i class="xjDir-icon fas fa-paintbrush"></i>			<i class="xjDir-text"><span>艺术作品</span></i></a></li>
+			<li><a target="_blank" href="https://steamcommunity.com/app/1831250/workshop/">		<i class="xjDir-icon fas fa-puzzle-piece"></i>			<i class="xjDir-text"><span>创意工坊</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}extra_modify_save.html">						<i class="xjDir-icon fas fa-code"></i>					<i class="xjDir-text"><span>修改存档</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}ertra_good_mod.html">							<i class="xjDir-icon fas fa-thumbs-up"></i>				<i class="xjDir-text"><span>模组推荐</span></i></a></li>
+			<li><a href="./${istIndex?'page/':''}ertra_role_story.html">						<i class="xjDir-icon fas fa-scroll"></i>				<i class="xjDir-text"><span>角色传记</span></i></a></li>
 		</ul>
 	</li>
 	
 	<li class="xjDir-divide"></li>
 	<li class="xjDir-spread">
-		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fa fa-wrench"></i><i class="xjDir-text">在线工具</i><i class="xjDir-sign"></i></a>
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fas fa-link"></i><i class="xjDir-text">相关地址</i><i class="xjDir-sign"></i></a>
 		<ul>
-			<li><a target="_blank" href="./图01没落平原地图查找工具.html">										<i class="xjDir-icon fa fa-location-dot"></i>			<i class="xjDir-text"><span>没落平原查找工具</span></i></a></li>
-			<li><a target="_blank" href="./图02暮色山谷地图查找工具.html">										<i class="xjDir-icon fa fa-location-dot"></i>			<i class="xjDir-text"><span>暮色山谷查找工具</span></i></a></li>
+			<li><a target="_blank" href="https://steamcommunity.com/app/1831250/eventcomments/"><i class="xjDir-icon fas fa-clock-rotate-left"></i>		<i class="xjDir-text"><span>游戏更新</span></i></a></li>
+			<li><a target="_blank" href="https://steamcommunity.com/app/1831250/discussions/">	<i class="xjDir-icon fab fa-steam"></i>					<i class="xjDir-text"><span>蒸汽社区</span></i></a></li>
+			<li><a target="_blank" href="https://search.bilibili.com/all?keyword=废土快递">		<i class="xjDir-icon fab fa-bilibili"></i>				<i class="xjDir-text"><span>哔哩哔哩</span></i></a></li>
+			<li><a target="_blank" href="https://tieba.baidu.com/f?kw=废土快递">				<i class="xjDir-icon fas fa-paw"></i>					<i class="xjDir-text"><span>百度贴吧</span></i></a></li>
+			<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/issues">	<i class="xjDir-icon fas fa-bug"></i>					<i class="xjDir-text"><span>百科反馈</span></i></a></li>
+			<li><a target="_blank" href="https://github.com/xjwiki/wastelandExpress/releases">	<i class="xjDir-icon fas fa-download"></i>				<i class="xjDir-text"><span>百科下载</span></i></a></li>
 		</ul>
 	</li>
+	
+	<li class="xjDir-spread">
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon far fa-handshake" style="transform:rotate(-30deg);"></i><i class="xjDir-text">友情链接</i><i class="xjDir-sign"></i></a>
+		<ul>
+			<li><a target="_blank" href="https://xjwiki.github.io/wastelandExpress/">			<i class="xjDir-icon fas fa-hand-point-right"></i>		<i class="xjDir-text"><span>废土快递</span></i></a></li>
+			<li><a target="_blank" href="https://xjwiki.github.io/cavalryGirls/">				<i class="xjDir-icon fas fa-hand-point-right"></i>		<i class="xjDir-text"><span>铁骑少女</span></i></a></li>
+		</ul>
+	</li>
+	
+	<!--◇
+	<li class="xjDir-divide"></li>
+	<li class="xjDir-spread">
+		<a class="xj-ripple" href="javascript:void(0)"><i class="xjDir-icon fas fa-wrench"></i><i class="xjDir-text">在线工具</i><i class="xjDir-sign"></i></a>
+		<ul>
+			<li><a target="_blank" href="./${istIndex?'page/':''}tool_map01_search_tool.html">						<i class="xjDir-icon fas fa-location-dot"></i>			<i class="xjDir-text"><span>没落平原查找工具</span></i></a></li>
+			<li><a target="_blank" href="./${istIndex?'page/':''}tool_map02_search_tool.html">						<i class="xjDir-icon fas fa-location-dot"></i>			<i class="xjDir-text"><span>暮色山谷查找工具</span></i></a></li>
+		</ul>
+	</li>
+	◇-->
 	
 `);
 

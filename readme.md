@@ -1,12 +1,10 @@
 <!-- --------------------------------------------------------------------------------------- -->
-# 废土快递攻略百科(废土大学肄业论文)  
+# 废土快递攻略百科  
 
-**网站**: <https://xjwiki.github.io/wastelandExpress/>  
+**简介**: 废土快递(wastelandExpress)攻略百科, 游戏官方 Steam 商店: <https://store.steampowered.com/app/1831250/>  
 
-**更新**: <https://github.com/xjwiki/wastelandExpress/blob/master/upgrade.md>  
+**网站**: <https://xjwiki.github.io/wastelandExpress/index.html>  
 
-**兼容**: ~~MSIE~~ / Edge79+ / Firefox / Chrome / Safari / Opera / IOS Webkit / Android Platform  
-
-**简介**: 废土快递(wastelandExpress)攻略百科, 游戏官方 Steam 商店地址: <https://store.steampowered.com/app/1831250/>  
+**更新**: [wiki_update](https://xjwiki.github.io/wastelandExpress/page/ertra_wiki_update.html)  
 
 

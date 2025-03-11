@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-cmn-hans">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>404.html</title>
+</head>
+<body>
+
+<div style="box-sizing:border-box;width:320px;
+position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
+text-align:center;padding:8px 16px;border:1px solid #ccc;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,0.25);">
+	<p><img style="width:216px;height:54px;" src="./static/icon/logo01.png" /></p>
+	<p>没有对应页面 / 404 Not Found</p>
+	<p><a href="./index.html">点击返回首页 / Click Back To Index</a></p>
+	<p id="time">- 4 -</p>
+</div>
+
+<script>
+(function(number, timeNode){
+setInterval(function(){
+	if(number > 0){ timeNode.textContent = '- '+ (number--) +' -' }
+	else{ location.assign('./index.html') };
+}, 1000);
+})(4, document.getElementById('time'));
+</script>
+
+</body>
+</html>
+
+

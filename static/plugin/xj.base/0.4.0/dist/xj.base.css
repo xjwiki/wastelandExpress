@@ -65,7 +65,7 @@ html{
 	word-wrap:break-word;
 	-moz-tab-size:4;
 	tab-size:4;
-	-webkit-text-size-adjust:100%;
+	-webkit-text-size-adjust:none;
 	-webkit-tap-highlight-color:transparent;
 	font:16px/1.5 "-apple-system", "Segoe UI", "Roboto",
 		"Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", 

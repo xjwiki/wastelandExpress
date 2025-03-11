@@ -4,120 +4,112 @@
 /* xj.base 默认字体并不是等间距的，但做文档还是等间距字体更好，所以在这里重新设置一次 Iosevka */
 /* 黑白主题的内容还不完善，不少插件有待改进就暂不启用了，把文本打散换行在移动端小屏幕会好看些 */
 
-@font-face{font-family:Iosevka;src:url("../font/iosevka/6.1.2/iosevka-fixed-regular.woff2") format("woff2"), url("../font/iosevka/6.1.2/iosevka-fixed-regular.woff") format("woff");}
-html{font-family:Iosevka, Menlo, Consolas, "Hiragino Sans GB", "Microsoft YaHei", Monospace;overflow-y:scroll;}
+@font-face{font-family:Iosevka;font-weight:normal;font-style:normal; src:url("../font/iosevka/30.2.0/IosevkaFixed-Regular.woff2") format('woff2');}
+@font-face{font-family:Iosevka;font-weight:bold;  font-style:normal; src:url("../font/iosevka/30.2.0/IosevkaFixed-Bold.woff2") format('woff2');}
+@font-face{font-family:Iosevka;font-weight:normal;font-style:oblique;src:url("../font/iosevka/30.2.0/IosevkaFixed-Oblique.woff2") format('woff2');}
+@font-face{font-family:Iosevka;font-weight:bold;  font-style:oblique;src:url("../font/iosevka/30.2.0/IosevkaFixed-BoldOblique.woff2") format('woff2');}
 
+html{overflow-x:auto;overflow-y:scroll;}
+body{background-repeat:no-repeat;background-position:center left, center right;background-size:4px 100%, 4px 100%;}
 html:not([class*="xj-base"]) body{background-color:#f0f0f0;background-image:linear-gradient(90deg, rgba(204,204,204,0.5) 0%, transparent 100%), linear-gradient(90deg, transparent 0%, rgba(204,204,204,0.5) 100%);}
-body{background-repeat:no-repeat;background-position:center left, center right;background-size:4px 100%, 4px 100%;word-break:break-all;line-break:anywhere;}
+
+html[lang="zh-cmn-hans"]{font-family:Iosevka,"Microsoft YaHei","Hiragino Sans GB",Monospace;}
+html[lang="zh-cmn-hans"] body{word-break:break-all;
+line-break:anywhere;}
+
+/* 适配 Edge 翻译后的字体 */
+[_msthash]{font-family:"-apple-system", "Segoe UI", "Roboto", 
+"Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;}
 
 
+
+/* ------------------------------------------------------------------------------------------ */
 
 /* 左边的侧边栏 */
-/* #pub_side - height:4px; 其实可为 0，但完全没高度在审查元素的时候不好定位，所以就稍微给个值 */
-/* #pub_sideWrap - height:100vh; 父容器高度为 4px，所以只能用 vh 单位了，没横向滚动条就没问题 */
+#pub_pack{display:flex;margin:0 auto;width:1280px;}
 
-#pub_side{position:fixed;top:0;left:0;z-index:40;width:100%;height:4px;background-color:transparent;}
-#pub_sidePack{position:relative;margin:0 auto 0;max-width:1280px;height:4px;background-color:transparent;}
-#pub_sideMask{position:fixed;top:-64px;right:-64px;bottom:-64px;left:-64px;background-color:#000;opacity:0.50;}
-#pub_sideWrap{position:absolute;top:0;left:0;width:240px;height:100vh;background-color:#fff;}
-
-@media(min-width:1024px){
-	#pub_sideMask{display:none;}
-}
-@media(max-width:1023px){
-	#pub_sideMask{display:none;}
-	#pub_sideWrap{display:none;}
-	.pub_sideShow #pub_sideMask{display:block;}
-	.pub_sideShow #pub_sideWrap{display:block;}
-}
-
-@media(min-width: 768px){}
-@media(max-width: 767px){}
-
-@media(min-width: 512px){}
-@media(max-width: 511px){}
+#pub_side{flex:0 0 auto;position:sticky;
+top:0px;align-self:flex-start;width:240px;background-color:#fff;}
+#pub_wrap{display:flex;flex-direction:column;flex:0 0 auto;margin-left:16px;width:1024px;}
 
 
 
 /* 顶部的导航栏 */
-/* #pub_headForm 设置 height:4px;，这样在审查元素时能被看清，又不会占位导致 h1 文本无法被选择 */
-/* pub_headFormIcon 得设置 z-index:20 避免 input 聚焦时被覆盖，设置背景色则是为了覆盖底部文字 */
+#pub_head{display:flex;align-items:center;flex:0 0 auto;padding:0 32px;height:64px;background-color:#fff;}
 
-#pub_head{top:0;left:0;z-index:36;width:100%;height:4px;background-color:transparent;}
-@media(min-width:1024px){ #pub_head{position:absolute;padding-left:256px;} }
-@media(max-width:1023px){ #pub_head{position:fixed;padding-left:0;} }
+#pub_headText{flex:1 1 auto;margin-bottom:0;font-weight:normal;line-height:1;}
+#pub_headText a{display:inline-block;}
+#pub_headText span{display:inline-block;font-size:32px;line-height:40px;}
+#pub_headText small{position:relative;top:2px;display:inline-block;margin-left:8px;font-size:16px;line-height:16px;}
 
-#pub_headPack{position:relative;margin:0 auto 0;max-width:1024px;height:64px;background-color:#fff;}
-@media(min-width:1024px){ #pub_headPack{box-shadow:0 4px 8px rgba(255, 255, 255, 0.00);} }
-@media(max-width:1023px){ #pub_headPack{box-shadow:0 4px 8px rgba(0,0,0,0.25);} }
+#pub_headForm{position:relative;flex:0 0 auto;margin-left:8px;width:200px;height:40px;}
+#pub_headFormText{width:200px;}
+#pub_headFormIcon{position:absolute;top:0;right:0;z-index:40;width:40px;
+padding:0;color:#999;}
 
-#pub_headText{padding-top:12px;padding-bottom:12px;height:64px;font-weight:normal;line-height:40px;}
-@media(min-width: 768px){ #pub_headText{padding-right:32px;padding-left:32px;} }
-@media(max-width: 767px){ #pub_headText{padding-right:16px;padding-left:16px;} }
-@media(min-width: 768px){ #pub_headText small{font-size:16px;} }
-@media(max-width: 767px){ #pub_headText small{font-size:00px;} }
+#pub_headCode{flex:0 0 auto;margin-left:8px;padding:0;width:40px;color:#999;}
 
-#pub_headForm{position:absolute;top:12px;width:auto;height:4px;}
-@media(min-width: 768px){ #pub_headForm{right:80px;left:32px;} }
-@media(max-width: 767px){ #pub_headForm{right:64px;left:16px;} }
-
-#pub_headFormText{position:absolute;top:0;right:0;}
-@media(min-width: 768px){ #pub_headFormText{width:240px;} }
-@media(min-width: 512px) and (max-width: 767px){ #pub_headFormText{width:140px;} }
-@media(max-width: 511px){ #pub_headFormText{width:40px;} #pub_headFormText:focus{width:100%;} }
-
-#pub_headFormIcon{position:absolute;top:0;right:0;z-index:20;margin:1px;width:38px;height:38px;
-background-color:#fff;color:#999;text-align:center;line-height:38px;cursor:text;}
-#pub_headCode{position:absolute;top:12px;padding:0;width:40px;}
-@media(min-width: 768px){ #pub_headCode{right:32px;} }
-@media(max-width: 767px){ #pub_headCode{right:16px;} }
+#pub_headLang{position:relative;flex:0 0 auto;margin-left:8px;}
+#pub_headLangIcon{padding:0;width:40px;color:#999;}
+#pub_headLangMenu{position:absolute;top:48px;right:0;z-index:40;visibility:hidden;padding:4px;width:88px;border:1px solid #ccc;border-radius:4px;background-color:#fff;box-shadow:0 4px 8px rgba(0,0,0,0.5);font-size:14px;line-height:24px;opacity:0;transition:all 250ms;}
+#pub_headLangMenu:before{position:absolute;top:-8px;right:10px;width:0;height:0;border:8px solid transparent;border-top:0;border-bottom-color:#ccc;content:"";}
+#pub_headLangMenu:after{position:absolute;top:-6px;right:12px;width:0;height:0;border:6px solid transparent;border-top:0;border-bottom-color:#fff;content:"";}
+#pub_headLangMenu a{display:block;padding:8px 0;text-align:center;}
+#pub_headLangMenu a:hover{background-color:#f0f0f0;}
+#pub_headLang:hover #pub_headLangMenu, 
+#pub_headLangIcon:focus ~ #pub_headLangMenu{visibility:visible;opacity:1;}
 
 
 
 /* 中间主体部分 */
+#pub_main{flex:1 1 auto;margin:16px 0;background-color:#fff;padding:32px;}
 
-#pub_main{margin:80px auto 16px;max-width:1280px;}
-@media(min-width:1024px){ #pub_main{padding-left:256px;} }
+#pub_main > section:not(:last-of-type) > hr:last-of-type{margin:32px 0;}
+#pub_main > section:last-of-type > hr:last-of-type{margin:32px 0 0;}
 
-#pub_mainPack{min-height:calc(100vh - 160px);background-color:#ffffff;}
-@media(min-width: 768px){ #pub_mainPack{padding:32px 32px 32px;} }
-@media(max-width: 767px){ #pub_mainPack{padding:32px 16px;} }
-
-#pub_mainPack > section:not(:last-of-type) > hr:last-of-type{margin:32px 0;}
-#pub_mainPack > section:last-of-type > hr:last-of-type{margin:32px 0 0;}
-
-#pub_mainPack h2{font-weight:normal;}
-#pub_mainPack h3{font-weight:normal;}
-#pub_mainPack h4{font-weight:normal;}
-#pub_mainPack h5{font-weight:normal;}
-#pub_mainPack h6{font-weight:normal;}
+#pub_main h2{font-weight:normal;}
+#pub_main h3{font-weight:normal;}
+#pub_main h4{font-weight:normal;}
+#pub_main h5{font-weight:normal;}
+#pub_main h6{font-weight:normal;}
 
 
 
 /* 最后面的注脚 */
-
-#pub_foot{position:relative;width:100%;line-height:20px;}
-@media(min-width:1024px){ #pub_foot{padding-left:256px;} }
-
-#pub_footPack{margin:0 auto;max-width:1024px;background-color:#ffffff;}
-@media(min-width: 768px){ #pub_footPack{padding:12px 32px 12px;} }
-@media(max-width: 767px){ #pub_footPack{padding:12px 16px 12px;} }
+#pub_foot{flex:0 0 auto;height:64px;background-color:#fff;line-height:20px;padding:12px 32px;}
 
 
 
 /* 左侧的工具栏 */
-
-#pub_tool{position:fixed;bottom:0;left:0;z-index:32;width:100%;height:4px;background-color:transparent;}
+#pub_tool{position:fixed;bottom:0;left:0;z-index:40;width:100%;height:4px;background-color:transparent;}
 #pub_toolPack{position:relative;margin:0 auto;max-width:1280px;height:4px;background-color:transparent;}
 
-#pub_toolSwitchDir{position:absolute;bottom:64px;padding:0;width:40px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
-#pub_toolBackToTop{position:absolute;bottom:12px;padding:0;width:40px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
+#pub_toolBackToTop{position:absolute;bottom:12px;padding:0;width:40px;right:80px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
+#pub_toolNavigated{position:absolute;bottom:12px;padding:0;width:40px;right:32px;box-shadow:0 4px 8px rgba(0,0,0,0.5);color:#999;}
 
-@media(min-width:1024px){ #pub_toolSwitchDir{display: none;} }
-@media(max-width:1023px){ #pub_toolSwitchDir{display:block;} }
+#pub_toolAnchorTip{position:absolute;right:32px;bottom:60px;padding:4px;min-width:88px;border:1px solid #ccc;border-radius:4px;background-color:#fff;box-shadow:0 4px 8px rgba(0,0,0,0.5);font-size:12px;line-height:16px;transition:all 250ms;opacity:0.5;}
+#pub_toolAnchorTip:before{position:absolute;right:10px;bottom:-8px;width:0;height:0;border:8px solid transparent;border-top-color:#ccc;border-bottom:0;content:"";}
+#pub_toolAnchorTip:after{position:absolute;right:12px;bottom:-6px;width:0;height:0;border:6px solid transparent;border-top-color:#fff;border-bottom:0;content:"";}
+#pub_toolAnchorTip:hover{opacity:1;}
 
-@media(min-width: 768px){ #pub_toolPack button{right: 12px;} }
-@media(max-width: 767px){ #pub_toolPack button{right: 16px;} }
+#pub_toolAnchorTip a{display:block;padding:4px 2px;text-align:right;transition:all 250ms;}
+#pub_toolAnchorTip a:hover{background-color:#f0f0f0;}
+
+
+
+/* 全局宽高尺寸 */
+#pub_size{position:fixed;top:0;right:0;bottom:0;left:0;
+z-index:-1;box-shadow:0 0 0 10px #f00 inset;background-color:#ccc;opacity:0;pointer-events:none;}
+
+
+
+/*--------------------------------------------------------------------------------------------*/
+
+/* 在 xj.theme 的基础上为 table 增加 sm 和 xs 尺寸 */
+.table-sm{font-size:14px;}
+.table-sm th{padding:6px;} .table-sm td{padding:6px;}
+.table-xs{font-size:12px;}
+.table-xs th{padding:4px;} .table-xs td{padding:4px;}
 
 
 
@@ -136,8 +128,8 @@ details[open] > summary{background-color:#f0f0f0;}
 details > summary > *{margin-bottom:0;}
 
 details > summary::marker{display:none;}
-details > summary::before{flex:0 0 24px;content:" ";background-position:left center;background-repeat:no-repeat;
-background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M4 14V2l8 6z'/%3E%3C/svg%3E");}
+details > summary::before{flex:0 0 24px;content:" ";background-position:left center;background-repeat:no-repeat;background-image:
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M4 14V2l8 6z'/%3E%3C/svg%3E");}
 details[open] > summary::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23999' d='M2 4h12l-6 8-6-8z'/%3E%3C/svg%3E");}
 
 details > content{display:block;margin-top:-1px;padding:16px;box-shadow:0 0 0 1px #ccc inset;}
@@ -161,23 +153,15 @@ details > content > *:last-child{margin-bottom:0;}
 
 /*--------------------------------------------------------------------------------------------*/
 
-/* 在 xj.theme 的基础上为 table 增加 sm 和 xs 尺寸 */
-.table-sm{font-size:14px;}
-.table-sm th{padding:6px;} .table-sm td{padding:6px;}
-.table-xs{font-size:12px;}
-.table-xs th{padding:4px;} .table-xs td{padding:4px;}
-
-
-
-/*--------------------------------------------------------------------------------------------*/
-
 /* IE11- 和 Edge15- 完全不支持 sticky 属性 */
 /* Safari V12.1- 的 sticky 属性值需要添加 -webkit- 前缀 */
 /* Chrome V56~90 和 Edge V16~18, 只支持 th 标签实现 sticky 属性值定位 */
+/* 但是 th 只有内容会实现跟随滚动, 边框是不会跟着动的, 所以往下滚的时候显示的边框是 td 的边框 */
+/* 这也就导致当 td 中有什么内容是悬浮的时候, 会通过间隙边框漏出来, 还是得用 JS 写个表格插件啊 */
 /* .powerTable{width:1248px;} */
-.powerTable thead th{position:-webkit-sticky;position:sticky;top:0;padding-bottom:10px;background-color:#fff;cursor:pointer;}
 .powerTable thead th:before{position:absolute;bottom:-1px;left:0;width:100%;height:3px;background-color:#ccc;content:"";}
 .powerTable thead th:after{position:absolute;top:-1px;left:0;width:100%;height:1px;background-color:#ccc;content:"";}
+.powerTable thead th{position:sticky;top:0;padding-bottom:10px;background-color:#fff;cursor:pointer;z-index:32;}
 .powerTable thead th .icon{margin-left:2px;color:#ccc;}
 .powerTable thead th span{display:inline-block;vertical-align:middle;}
 .powerTable thead th .fa-sort-down, .powerTable thead th .fa-sort-up{color:#39f;}
@@ -191,11 +175,13 @@ details > content > *:last-child{margin-bottom:0;}
 /* 更多信息可参考 : https://bugzilla.mozilla.org/show_bug.cgi?id=1658119 */
 /* 但是最后发现 box-shadow 并不工整, 所以使用了伪元素生成边框来解决这个问题 */
 /* 得清掉在 .table-scrollable 中的表格的最后那个 th 的边框, 否则有横向滚动条 */
+/*
 @supports (-moz-appearance:none){
 	.powerTable thead th span:after{position:absolute;
 	top:0;right:-1px;width:1px;height:calc(100% + 1px);background-color:#ccc;content:"";}
 	.table-scrollable .powerTable thead th:last-of-type span:after{right:0;opacity:0.00;}
 }
+*/
 
 /* Edge15- & IE11- 并不支持 sticky 布局, 而且伪元素还会制造多余的错误边框, 所以这里直接隐藏掉 */
 @supports (-ms-ime-align:auto) and (not (position:sticky)){ 
